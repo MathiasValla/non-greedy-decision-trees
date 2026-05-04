@@ -32,6 +32,7 @@ endforeach
 python_sources = [
   '__init__.py',
   '_classes.py',
+  '_lookahead.py',
   '_multiview.py',
   '_neighbors.py',
   '_honest_tree.py',

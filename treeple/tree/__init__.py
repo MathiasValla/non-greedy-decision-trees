@@ -15,6 +15,7 @@ from ._classes import (
     UnsupervisedObliqueDecisionTree,
 )
 from ._honest_tree import HonestTreeClassifier
+from ._lookahead import LookaheadDecisionTreeClassifier, LookaheadDecisionTreeRegressor
 from ._multiview import MultiViewDecisionTreeClassifier
 from ._neighbors import compute_forest_similarity_matrix
 
@@ -29,6 +30,8 @@ __all__ = [
     "PatchObliqueDecisionTreeClassifier",
     "PatchObliqueDecisionTreeRegressor",
     "HonestTreeClassifier",
+    "LookaheadDecisionTreeClassifier",
+    "LookaheadDecisionTreeRegressor",
     "DecisionTreeClassifier",
     "DecisionTreeRegressor",
     "ExtraTreeClassifier",
