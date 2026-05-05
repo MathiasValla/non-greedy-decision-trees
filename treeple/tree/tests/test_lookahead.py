@@ -1,6 +1,8 @@
 import numpy as np
+import pytest
 from numpy.testing import assert_allclose
 
+import treeple.tree._lookahead as lookahead_module
 from treeple.ensemble import LookaheadRandomForestClassifier, LookaheadRandomForestRegressor
 from treeple.tree import LookaheadDecisionTreeClassifier, LookaheadDecisionTreeRegressor
 
@@ -36,6 +38,30 @@ def test_lookahead_classifier_predict_proba_is_normalized():
     proba = clf.predict_proba(X[:4])
     assert proba.shape == (4, 2)
     assert_allclose(proba.sum(axis=1), 1.0)
+
+
+def test_cython_lookahead_matches_python_fallback():
+    if lookahead_module._lookahead_fast is None:
+        pytest.skip("Compiled lookahead helper is not available")
+
+    X, y = _xor_data()
+
+    fast = LookaheadDecisionTreeClassifier(
+        lookahead_depth=2, max_depth=2, max_features=None, random_state=0
+    ).fit(X, y)
+
+    old_fast = lookahead_module._lookahead_fast
+    lookahead_module._lookahead_fast = None
+    try:
+        fallback = LookaheadDecisionTreeClassifier(
+            lookahead_depth=2, max_depth=2, max_features=None, random_state=0
+        ).fit(X, y)
+    finally:
+        lookahead_module._lookahead_fast = old_fast
+
+    assert fast.get_depth() == fallback.get_depth()
+    assert_allclose(fast.predict_proba(X), fallback.predict_proba(X))
+    assert np.array_equal(fast.predict(X), fallback.predict(X))
 
 
 def test_lookahead_regressor_fits_simple_step_function():

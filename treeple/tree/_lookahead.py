@@ -13,6 +13,11 @@ from sklearn.utils.class_weight import compute_sample_weight
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.validation import _check_sample_weight, check_is_fitted, validate_data
 
+try:
+    from . import _lookahead_fast
+except ImportError:
+    _lookahead_fast = None
+
 
 @dataclass
 class _LookaheadNode:
@@ -109,9 +114,9 @@ class _BaseLookaheadDecisionTree(BaseEstimator):
         self._rng = check_random_state(self.random_state)
         self._base_seed = int(self._rng.randint(np.iinfo(np.int32).max))
         self.n_features_in_ = X.shape[1]
-        self._X = X
-        self._y = y
-        self._sample_weight = sample_weight
+        self._X = np.ascontiguousarray(X, dtype=np.float64)
+        self._y = np.ascontiguousarray(y)
+        self._sample_weight = np.ascontiguousarray(sample_weight, dtype=np.float64)
         self._weighted_n_samples = float(sample_weight.sum())
         self._min_samples_leaf = self._resolve_min_samples_leaf(X.shape[0])
         self._min_samples_split = max(
@@ -192,6 +197,10 @@ class _BaseLookaheadDecisionTree(BaseEstimator):
         return node
 
     def _best_lookahead_split(self, indices, depth, lookahead_depth):
+        fast_result = self._best_lookahead_split_fast(indices, depth, lookahead_depth)
+        if fast_result is not None:
+            return fast_result
+
         node_score = self._weight_sum(indices) * self._impurity(indices)
         if self._is_terminal(indices, depth):
             return None, node_score
@@ -216,6 +225,9 @@ class _BaseLookaheadDecisionTree(BaseEstimator):
                 best_split = split
 
         return best_split, best_score
+
+    def _best_lookahead_split_fast(self, indices, depth, lookahead_depth):
+        return None
 
     def _is_terminal(self, indices, depth):
         if self.max_depth is not None and depth >= self.max_depth:
@@ -444,6 +456,46 @@ class LookaheadDecisionTreeClassifier(ClassifierMixin, _BaseLookaheadDecisionTre
         if total <= 0.0:
             return np.full(self.n_classes_, 1.0 / self.n_classes_)
         return counts / total
+
+    def _best_lookahead_split_fast(self, indices, depth, lookahead_depth):
+        if _lookahead_fast is None:
+            return None
+        if self.max_features_ != self.n_features_in_:
+            return None
+
+        criterion = 0 if self.criterion == "gini" else 1
+        max_depth = -1 if self.max_depth is None else int(self.max_depth)
+        max_split_candidates = (
+            -1 if self.max_split_candidates is None else int(self.max_split_candidates)
+        )
+        feature, threshold, left_indices, right_indices, terminal_score = (
+            _lookahead_fast.best_lookahead_split_classification(
+                self._X,
+                self._y.astype(np.intp, copy=False),
+                self._sample_weight,
+                np.ascontiguousarray(indices, dtype=np.intp),
+                int(lookahead_depth),
+                int(depth),
+                max_depth,
+                int(self._min_samples_split),
+                int(self._min_samples_leaf),
+                float(self._min_weight_leaf),
+                max_split_candidates,
+                criterion,
+                int(self.n_classes_),
+            )
+        )
+        if feature < 0:
+            return None, terminal_score
+        return (
+            _SplitCandidate(
+                feature=int(feature),
+                threshold=float(threshold),
+                left_indices=left_indices,
+                right_indices=right_indices,
+            ),
+            float(terminal_score),
+        )
 
 
 class LookaheadDecisionTreeRegressor(RegressorMixin, _BaseLookaheadDecisionTree):

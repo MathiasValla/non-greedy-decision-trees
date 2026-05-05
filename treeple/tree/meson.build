@@ -14,6 +14,9 @@ tree_extension_metadata = {
   '_marginal':
     {'sources': ['_marginal.pyx'],
      'override_options': ['cython_language=cpp', 'optimization=3']},
+  '_lookahead_fast':
+    {'sources': ['_lookahead_fast.pyx'],
+     'override_options': ['cython_language=cpp', 'optimization=3']},
 }
 
 foreach ext_name, ext_dict : tree_extension_metadata
