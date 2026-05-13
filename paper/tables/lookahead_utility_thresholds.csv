@@ -1,5 +1,5 @@
 estimator,comparison,delta_accuracy,log_fit_time_ratio,break_even_lambda
-Decision tree,lookahead 2 vs 1,0.016943,3.899,0.004346
-Decision tree,lookahead 3 vs 1,0.021492,9.147,0.00235
-Random forest,lookahead 2 vs 1,0.005687,3.608,0.001576
-Random forest,lookahead 3 vs 1,0.019208,8.54,0.002249
+Decision tree,k=2 vs k=1,0.016943,3.899,0.004346
+Decision tree,k=3 vs k=1,0.021492,9.147,0.00235
+Random forest,k=2 vs k=1,0.005687,3.608,0.001576
+Random forest,k=3 vs k=1,0.019208,8.54,0.002249

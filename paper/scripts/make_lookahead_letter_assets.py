@@ -1,4 +1,4 @@
-"""Generate tables and figures for the lookahead decision-tree letter.
+"""Generate tables and figures for the k-sighted decision-tree letter.
 
 The raw PMLB result CSVs were temporary benchmark artifacts. This script
 therefore regenerates the manuscript assets from the retained aggregate run
@@ -21,6 +21,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = ROOT / "figures"
 TABLE_DIR = ROOT / "tables"
+MIXED_FOREST_RESULTS = TABLE_DIR / "mixed_sighted_forest_results.csv"
 
 COMPLETED_DATASETS = 67
 RESULT_ROWS = 402
@@ -122,7 +123,11 @@ FOREST_SIZE_SMALL_DATASETS = [
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
     with path.open("w", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=list(rows[0].keys()),
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
 
@@ -139,7 +144,7 @@ def _delta_rows() -> list[dict[str, object]]:
             rows.append(
                 {
                     "estimator": estimator,
-                    "comparison": f"lookahead {depth} vs 1",
+                    "comparison": f"k={depth} vs k=1",
                     "mean_accuracy_delta": round(
                         current["mean_accuracy"] - baseline["mean_accuracy"], 6
                     ),
@@ -157,7 +162,7 @@ def _delta_rows() -> list[dict[str, object]]:
         rows.append(
             {
                 "estimator": estimator,
-                "comparison": "lookahead 3 vs 2",
+                "comparison": "k=3 vs k=2",
                 "mean_accuracy_delta": round(
                     depth3["mean_accuracy"] - depth2["mean_accuracy"], 6
                 ),
@@ -188,7 +193,7 @@ def _utility_rows() -> list[dict[str, object]]:
             rows.append(
                 {
                     "estimator": estimator,
-                    "comparison": f"lookahead {depth} vs 1",
+                    "comparison": f"k={depth} vs k=1",
                     "delta_accuracy": round(delta_accuracy, 6),
                     "log_fit_time_ratio": round(log_time_ratio, 3),
                     "break_even_lambda": round(delta_accuracy / log_time_ratio, 6),
@@ -228,14 +233,14 @@ def make_accuracy_cost_figure() -> None:
             axes[1].text(xi, yi * 1.25, f"{yi:.3g}s", ha="center", va="bottom", fontsize=8)
 
     axes[0].set_title("Mean test accuracy")
-    axes[0].set_xlabel("Lookahead depth")
+    axes[0].set_xlabel("Sight depth k")
     axes[0].set_ylabel("Accuracy")
     axes[0].set_xticks(depths)
     axes[0].set_ylim(0.66, 0.745)
     axes[0].grid(axis="y", color="#dddddd", linewidth=0.8)
 
     axes[1].set_title("Mean fit time")
-    axes[1].set_xlabel("Lookahead depth")
+    axes[1].set_xlabel("Sight depth k")
     axes[1].set_ylabel("Seconds, log scale")
     axes[1].set_xticks(depths)
     axes[1].set_yscale("log")
@@ -278,13 +283,13 @@ def make_accuracy_time_tradeoff_figure() -> None:
             label=estimator,
         )
 
-    axes[0].set_xlabel("Lookahead depth")
-    axes[0].set_ylabel("Accuracy gain vs. depth 1 (p.p.)")
+    axes[0].set_xlabel("Sight depth k")
+    axes[0].set_ylabel("Accuracy gain vs. k=1 (p.p.)")
     axes[0].set_xticks(depths)
     axes[0].grid(axis="y", color="#dddddd", linewidth=0.8)
     axes[0].legend(frameon=False)
 
-    axes[1].set_xlabel("Lookahead depth")
+    axes[1].set_xlabel("Sight depth k")
     axes[1].set_ylabel("Mean fit time (s, log scale)")
     axes[1].set_xticks(depths)
     axes[1].set_yscale("log")
@@ -342,7 +347,169 @@ def _forest_size_summary(rows: list[dict[str, object]]) -> list[dict[str, object
     return summary
 
 
+def _read_mixed_forest_results() -> list[dict[str, object]]:
+    if not MIXED_FOREST_RESULTS.exists():
+        return []
+    rows: list[dict[str, object]] = []
+    with MIXED_FOREST_RESULTS.open(newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            row["n_samples"] = int(row["n_samples"])
+            row["n_features"] = int(row["n_features"])
+            row["effective_k"] = float(row["effective_k"])
+            row["depth_1_trees"] = int(row["depth_1_trees"])
+            row["depth_2_trees"] = int(row["depth_2_trees"])
+            row["depth_3_trees"] = int(row["depth_3_trees"])
+            row["n_estimators"] = int(row["n_estimators"])
+            row["fit_time_s"] = float(row["fit_time_s"])
+            row["accuracy"] = float(row["accuracy"])
+            rows.append(row)
+    return rows
+
+
+def _mixed_forest_summary(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    grouped: dict[str, list[dict[str, object]]] = {}
+    for row in rows:
+        grouped.setdefault(row["schedule_id"], []).append(row)
+
+    summary = []
+    for schedule_id, items in sorted(grouped.items(), key=lambda kv: kv[0]):
+        first = items[0]
+        accuracies = np.array([row["accuracy"] for row in items])
+        times = np.array([row["fit_time_s"] for row in items])
+        summary.append(
+            {
+                "schedule_id": schedule_id,
+                "label": first["label"],
+                "kind": first["kind"],
+                "effective_k": first["effective_k"],
+                "depth_1_trees": first["depth_1_trees"],
+                "depth_2_trees": first["depth_2_trees"],
+                "depth_3_trees": first["depth_3_trees"],
+                "n_estimators": first["n_estimators"],
+                "datasets": len(items),
+                "mean_accuracy": round(float(accuracies.mean()), 6),
+                "median_accuracy": round(float(np.median(accuracies)), 6),
+                "mean_fit_time_s": round(float(times.mean()), 6),
+                "median_fit_time_s": round(float(np.median(times)), 6),
+            }
+        )
+
+    baseline = next(
+        (
+            row
+            for row in summary
+            if row["schedule_id"] == "pure_k1_100"
+        ),
+        None,
+    )
+    if baseline is not None:
+        for row in summary:
+            row["accuracy_gain_vs_k1_100_pp"] = round(
+                100 * (row["mean_accuracy"] - baseline["mean_accuracy"]), 3
+            )
+            row["time_ratio_vs_k1_100"] = round(
+                row["mean_fit_time_s"] / baseline["mean_fit_time_s"], 3
+            )
+    return summary
+
+
+def _mixture_annotation(row: dict[str, object]) -> str:
+    d1 = row["depth_1_trees"]
+    d2 = row["depth_2_trees"]
+    d3 = row["depth_3_trees"]
+    if d1 and d2:
+        return f"{row['effective_k']:.2f}"
+    if d1 and d3:
+        return "1.10*"
+    if d2 and d3:
+        return "2.05"
+    return f"{row['effective_k']:.2f}"
+
+
+def _make_mixed_forest_tradeoff_figure(rows: list[dict[str, object]]) -> None:
+    summary = _mixed_forest_summary(rows)
+    _write_csv(TABLE_DIR / "mixed_sighted_forest_summary.csv", summary)
+
+    completed_datasets = len({row["dataset"] for row in rows})
+    colors = {1: "#2f6f73", 2: "#b07f2f", 3: "#a04e44"}
+    markers = {1: "o", 2: "s", 3: "^"}
+
+    fig, ax = plt.subplots(figsize=(7.1, 4.8), constrained_layout=True)
+    for depth in [1, 2, 3]:
+        subset = [
+            row
+            for row in summary
+            if row["kind"] == "pure_size"
+            and row[f"depth_{depth}_trees"] == row["n_estimators"]
+        ]
+        subset = sorted(subset, key=lambda row: row["n_estimators"])
+        if not subset:
+            continue
+        x = [row["mean_fit_time_s"] for row in subset]
+        y = [row["mean_accuracy"] for row in subset]
+        labels = [row["n_estimators"] for row in subset]
+        ax.plot(
+            x,
+            y,
+            marker=markers[depth],
+            linewidth=2,
+            color=colors[depth],
+            label=f"integer k={depth}",
+        )
+        for xi, yi, label in zip(x, y, labels):
+            ax.annotate(
+                str(label),
+                (xi, yi),
+                textcoords="offset points",
+                xytext=(4, 4),
+                fontsize=8,
+                color=colors[depth],
+            )
+
+    mixtures = sorted(
+        [row for row in summary if row["kind"] == "mixture"],
+        key=lambda row: (row["effective_k"], row["depth_3_trees"], row["depth_2_trees"]),
+    )
+    if mixtures:
+        ax.scatter(
+            [row["mean_fit_time_s"] for row in mixtures],
+            [row["mean_accuracy"] for row in mixtures],
+            marker="D",
+            s=48,
+            color="#374151",
+            label="100-tree mixtures",
+            zorder=4,
+        )
+        for row in mixtures:
+            ax.annotate(
+                _mixture_annotation(row),
+                (row["mean_fit_time_s"], row["mean_accuracy"]),
+                textcoords="offset points",
+                xytext=(5, -11),
+                fontsize=8,
+                color="#374151",
+            )
+
+    ax.set_xscale("log")
+    ax.set_xlabel("Mean fit time (s, log scale)")
+    ax.set_ylabel("Mean accuracy")
+    ax.set_title(f"Forest size, sight depth, and mixed forests (n={completed_datasets})")
+    ax.grid(axis="both", color="#dddddd", linewidth=0.8, which="both")
+    ax.legend(frameon=False, fontsize=9)
+    for suffix in ["png", "pdf"]:
+        fig.savefig(FIG_DIR / f"sighted_forest_tradeoff.{suffix}", dpi=220)
+    for suffix in ["pdf", "png"]:
+        fig.savefig(ROOT / "amai_submission" / f"Fig2_forest_size.{suffix}", dpi=220)
+    plt.close(fig)
+
+
 def make_forest_size_tradeoff_figure() -> None:
+    mixed_rows = _read_mixed_forest_results()
+    if mixed_rows:
+        _make_mixed_forest_tradeoff_figure(mixed_rows)
+        return
+
     rows = _read_forest_size_small()
     if not rows:
         return
@@ -362,7 +529,7 @@ def make_forest_size_tradeoff_figure() -> None:
             marker=markers[depth],
             linewidth=2,
             color=colors[depth],
-            label=f"lookahead depth {depth}",
+            label=f"integer k={depth}",
         )
         for xi, yi, label in zip(x, y, labels):
             ax.annotate(
@@ -405,8 +572,8 @@ def make_scope_figure() -> None:
         axes[0].text(count + 1.5, yi, str(count), va="center", fontsize=10)
 
     axes[1].axis("off")
-    axes[1].set_title("Evaluated lookahead grid")
-    axes[1].text(0.55, 0.86, "lookahead depth", ha="center", fontsize=11, color="#555555")
+    axes[1].set_title("Evaluated sight-depth grid")
+    axes[1].text(0.55, 0.86, "sight depth k", ha="center", fontsize=11, color="#555555")
     for j, depth in enumerate([1, 2, 3]):
         axes[1].text(0.35 + 0.2 * j, 0.78, str(depth), ha="center", fontsize=11, color="#555555")
     for i, estimator in enumerate(["Decision tree", "Random forest"]):
@@ -423,7 +590,7 @@ def make_scope_figure() -> None:
     axes[1].set_xlim(-0.05, 1.0)
     axes[1].set_ylim(0.0, 1.0)
 
-    fig.suptitle("PMLB lookahead benchmark scope", fontsize=14)
+    fig.suptitle("PMLB k-sighted benchmark scope", fontsize=14)
     for suffix in ["png", "pdf"]:
         fig.savefig(FIG_DIR / f"lookahead_benchmark_scope.{suffix}", dpi=220)
     plt.close(fig)
@@ -431,7 +598,7 @@ def make_scope_figure() -> None:
 
 def write_summary() -> None:
     lines = [
-        "# Lookahead Letter Assets",
+        "# K-Sighted Tree Letter Assets",
         "",
         f"Completed datasets: {COMPLETED_DATASETS}",
         f"Result rows: {RESULT_ROWS}",
@@ -446,6 +613,8 @@ def write_summary() -> None:
         "Generated figures:",
         "- figures/lookahead_accuracy_cost.png",
         "- figures/lookahead_accuracy_cost.pdf",
+        "- figures/sighted_forest_tradeoff.png",
+        "- figures/sighted_forest_tradeoff.pdf",
         "- figures/lookahead_benchmark_scope.png",
         "- figures/lookahead_benchmark_scope.pdf",
     ]

@@ -1,0 +1,84 @@
+dataset,reason
+car,ValueError: Dataset not found in PMLB.
+mfeat_morphological,TimeoutError: dataset exceeded 300 seconds
+prnn_crabs,TimeoutError: dataset exceeded 300 seconds
+cleveland_nominal,ValueError: Dataset not found in PMLB.
+biomed,TimeoutError: dataset exceeded 300 seconds
+cars,TimeoutError: dataset exceeded 300 seconds
+diabetes,ValueError: Dataset not found in PMLB.
+pima,ValueError: Dataset not found in PMLB.
+yeast,TimeoutError: dataset exceeded 300 seconds
+glass2,TimeoutError: dataset exceeded 300 seconds
+glass,ValueError: Dataset not found in PMLB.
+prnn_fglass,ValueError: Dataset not found in PMLB.
+saheart,TimeoutError: dataset exceeded 120 seconds
+profb,TimeoutError: dataset exceeded 120 seconds
+breast_w,RuntimeError: ValueError: Dataset not found in PMLB.
+cmc,RuntimeError: ValueError: Dataset not found in PMLB.
+contraceptive,RuntimeError: ValueError: Dataset not found in PMLB.
+breast,RuntimeError: ValueError: Dataset not found in PMLB.
+flare,RuntimeError: ValueError: Dataset not found in PMLB.
+wine_quality_red,TimeoutError: dataset exceeded 120 seconds
+solar_flare_1,RuntimeError: ValueError: Dataset not found in PMLB.
+solar_flare_2,RuntimeError: ValueError: Dataset not found in PMLB.
+wine_recognition,TimeoutError: dataset exceeded 120 seconds
+heart_statlog,RuntimeError: ValueError: Dataset not found in PMLB.
+heart_h,RuntimeError: ValueError: Dataset not found in PMLB.
+hungarian,RuntimeError: ValueError: Dataset not found in PMLB.
+cleve,RuntimeError: ValueError: Dataset not found in PMLB.
+cleveland,RuntimeError: ValueError: Dataset not found in PMLB.
+heart_c,RuntimeError: ValueError: Dataset not found in PMLB.
+vowel,TimeoutError: dataset exceeded 120 seconds
+schizo,TimeoutError: dataset exceeded 120 seconds
+australian,RuntimeError: ValueError: Dataset not found in PMLB.
+buggyCrx,RuntimeError: ValueError: Dataset not found in PMLB.
+credit_a,RuntimeError: ValueError: Dataset not found in PMLB.
+crx,RuntimeError: ValueError: Dataset not found in PMLB.
+house_votes_84,RuntimeError: ValueError: Dataset not found in PMLB.
+vote,RuntimeError: ValueError: Dataset not found in PMLB.
+vehicle,TimeoutError: dataset exceeded 120 seconds
+hepatitis,TimeoutError: dataset exceeded 120 seconds
+credit_g,RuntimeError: ValueError: Dataset not found in PMLB.
+german,RuntimeError: ValueError: Dataset not found in PMLB.
+colic,RuntimeError: ValueError: Dataset not found in PMLB.
+horse_colic,RuntimeError: ValueError: Dataset not found in PMLB.
+collins,TimeoutError: dataset exceeded 120 seconds
+auto,RuntimeError: ValueError: Dataset not found in PMLB.
+breast_cancer_wisconsin,RuntimeError: ValueError: Dataset not found in PMLB.
+wdbc,RuntimeError: ValueError: Dataset not found in PMLB.
+backache,TimeoutError: dataset exceeded 120 seconds
+calendarDOW,TimeoutError: dataset exceeded 120 seconds
+ionosphere,TimeoutError: dataset exceeded 120 seconds
+spectf,TimeoutError: dataset exceeded 120 seconds
+molecular_biology_promoters,TimeoutError: dataset exceeded 120 seconds
+sonar,TimeoutError: dataset exceeded 120 seconds
+phoneme,TimeoutError: dataset exceeded 120 seconds
+page_blocks,TimeoutError: dataset exceeded 120 seconds
+wine_quality_white,TimeoutError: dataset exceeded 120 seconds
+segmentation,TimeoutError: dataset exceeded 120 seconds
+churn,TimeoutError: dataset exceeded 120 seconds
+hypothyroid,TimeoutError: dataset exceeded 120 seconds
+tokyo1,TimeoutError: dataset exceeded 120 seconds
+mfeat_zernike,TimeoutError: dataset exceeded 120 seconds
+analcatdata_authorship,TimeoutError: dataset exceeded 120 seconds
+movement_libras,TimeoutError: dataset exceeded 120 seconds
+clean1,TimeoutError: dataset exceeded 120 seconds
+krkopt,TimeoutError: dataset exceeded 120 seconds
+magic,TimeoutError: dataset exceeded 120 seconds
+pendigits,TimeoutError: dataset exceeded 120 seconds
+letter,TimeoutError: dataset exceeded 120 seconds
+ring,TimeoutError: dataset exceeded 120 seconds
+twonorm,TimeoutError: dataset exceeded 120 seconds
+waveform_21,TimeoutError: dataset exceeded 120 seconds
+ann_thyroid,TimeoutError: dataset exceeded 120 seconds
+mushroom,TimeoutError: dataset exceeded 120 seconds
+agaricus_lepiota,TimeoutError: dataset exceeded 120 seconds
+allhypo,TimeoutError: dataset exceeded 120 seconds
+allhyper,TimeoutError: dataset exceeded 120 seconds
+phoneme,TimeoutError: dataset exceeded 300 seconds
+shuttle,TimeoutError: dataset exceeded 120 seconds
+sleep,TimeoutError: dataset exceeded 120 seconds
+adult,TimeoutError: dataset exceeded 120 seconds
+allbp,TimeoutError: dataset exceeded 120 seconds
+allrep,TimeoutError: dataset exceeded 120 seconds
+dis,TimeoutError: dataset exceeded 120 seconds

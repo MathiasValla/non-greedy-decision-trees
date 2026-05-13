@@ -1,7 +1,7 @@
 estimator,comparison,mean_accuracy_delta,mean_accuracy_delta_percentage_points,mean_fit_time_ratio_for_comparison
-Decision tree,lookahead 2 vs 1,0.016943,1.694,49.3
-Decision tree,lookahead 3 vs 1,0.021492,2.149,9386.1
-Decision tree,lookahead 3 vs 2,0.004549,0.455,190.2
-Random forest,lookahead 2 vs 1,0.005687,0.569,36.9
-Random forest,lookahead 3 vs 1,0.019208,1.921,5113.3
-Random forest,lookahead 3 vs 2,0.013521,1.352,138.6
+Decision tree,k=2 vs k=1,0.016943,1.694,49.3
+Decision tree,k=3 vs k=1,0.021492,2.149,9386.1
+Decision tree,k=3 vs k=2,0.004549,0.455,190.2
+Random forest,k=2 vs k=1,0.005687,0.569,36.9
+Random forest,k=3 vs k=1,0.019208,1.921,5113.3
+Random forest,k=3 vs k=2,0.013521,1.352,138.6
