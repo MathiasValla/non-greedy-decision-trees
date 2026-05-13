@@ -1,0 +1,7 @@
+estimator,lookahead_depth,wins_or_ties
+Decision tree,1,30
+Decision tree,2,31
+Decision tree,3,37
+Random forest,1,36
+Random forest,2,29
+Random forest,3,29

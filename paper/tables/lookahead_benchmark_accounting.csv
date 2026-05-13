@@ -1,0 +1,5 @@
+outcome,count
+Completed datasets,67
+Dimension-filter skips,42
+Load/fetch skips,32
+Fit timeouts,21
