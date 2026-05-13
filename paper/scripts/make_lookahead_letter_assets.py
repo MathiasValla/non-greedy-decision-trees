@@ -111,6 +111,14 @@ WIN_ROWS = [
     {"estimator": "Random forest", "lookahead_depth": 3, "wins_or_ties": 29},
 ]
 
+FOREST_SIZE_SMALL_DATASETS = [
+    "iris",
+    "wine_recognition",
+    "ecoli",
+    "haberman",
+    "balance_scale",
+]
+
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
     with path.open("w", newline="") as handle:
@@ -164,6 +172,31 @@ def _delta_rows() -> list[dict[str, object]]:
     return rows
 
 
+def _utility_rows() -> list[dict[str, object]]:
+    by_key = {
+        (row["estimator"], row["lookahead_depth"]): row for row in AGGREGATE_ROWS
+    }
+    rows = []
+    for estimator in ["Decision tree", "Random forest"]:
+        baseline = by_key[(estimator, 1)]
+        for depth in [2, 3]:
+            current = by_key[(estimator, depth)]
+            delta_accuracy = current["mean_accuracy"] - baseline["mean_accuracy"]
+            log_time_ratio = float(
+                np.log(current["mean_fit_time_s"] / baseline["mean_fit_time_s"])
+            )
+            rows.append(
+                {
+                    "estimator": estimator,
+                    "comparison": f"lookahead {depth} vs 1",
+                    "delta_accuracy": round(delta_accuracy, 6),
+                    "log_fit_time_ratio": round(log_time_ratio, 3),
+                    "break_even_lambda": round(delta_accuracy / log_time_ratio, 6),
+                }
+            )
+    return rows
+
+
 def _rows_for(estimator: str) -> list[dict[str, object]]:
     return [row for row in AGGREGATE_ROWS if row["estimator"] == estimator]
 
@@ -213,6 +246,141 @@ def make_accuracy_cost_figure() -> None:
     fig.suptitle("Accuracy gains are small relative to fit-time growth", fontsize=14)
     for suffix in ["png", "pdf"]:
         fig.savefig(FIG_DIR / f"lookahead_accuracy_cost.{suffix}", dpi=220)
+    plt.close(fig)
+
+
+def make_accuracy_time_tradeoff_figure() -> None:
+    colors = {
+        "Decision tree": "#2f6f73",
+        "Random forest": "#b07f2f",
+    }
+    fig, axes = plt.subplots(1, 2, figsize=(10.6, 4.0), constrained_layout=True)
+    depths = np.array([1, 2, 3])
+    for estimator in ["Decision tree", "Random forest"]:
+        rows = _rows_for(estimator)
+        base_acc = rows[0]["mean_accuracy"]
+        gain = np.array([100 * (row["mean_accuracy"] - base_acc) for row in rows])
+        fit_time = np.array([row["mean_fit_time_s"] for row in rows])
+        axes[0].plot(
+            depths,
+            gain,
+            marker="o",
+            linewidth=2,
+            color=colors[estimator],
+            label=estimator,
+        )
+        axes[1].plot(
+            depths,
+            fit_time,
+            marker="o",
+            linewidth=2,
+            color=colors[estimator],
+            label=estimator,
+        )
+
+    axes[0].set_xlabel("Lookahead depth")
+    axes[0].set_ylabel("Accuracy gain vs. depth 1 (p.p.)")
+    axes[0].set_xticks(depths)
+    axes[0].grid(axis="y", color="#dddddd", linewidth=0.8)
+    axes[0].legend(frameon=False)
+
+    axes[1].set_xlabel("Lookahead depth")
+    axes[1].set_ylabel("Mean fit time (s, log scale)")
+    axes[1].set_xticks(depths)
+    axes[1].set_yscale("log")
+    axes[1].grid(axis="y", color="#dddddd", linewidth=0.8, which="both")
+    axes[1].legend(frameon=False)
+
+    for suffix in ["png", "pdf"]:
+        fig.savefig(FIG_DIR / f"lookahead_accuracy_time_tradeoff.{suffix}", dpi=220)
+    for suffix in ["pdf", "png"]:
+        fig.savefig(ROOT / "amai_submission" / f"Fig1_accuracy_time.{suffix}", dpi=220)
+    plt.close(fig)
+
+
+def _read_forest_size_small() -> list[dict[str, object]]:
+    path = TABLE_DIR / "forest_size_tradeoff.csv"
+    if not path.exists():
+        return []
+    rows: list[dict[str, object]] = []
+    with path.open(newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            if row["dataset"] not in FOREST_SIZE_SMALL_DATASETS:
+                continue
+            row["n_samples"] = int(row["n_samples"])
+            row["n_features"] = int(row["n_features"])
+            row["lookahead_depth"] = int(row["lookahead_depth"])
+            row["n_estimators"] = int(row["n_estimators"])
+            row["fit_time"] = float(row["fit_time"])
+            row["accuracy"] = float(row["accuracy"])
+            rows.append(row)
+    return rows
+
+
+def _forest_size_summary(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    grouped: dict[tuple[int, int], list[dict[str, object]]] = {}
+    for row in rows:
+        grouped.setdefault(
+            (row["lookahead_depth"], row["n_estimators"]), []
+        ).append(row)
+    summary = []
+    for (lookahead_depth, n_estimators), items in sorted(grouped.items()):
+        accuracies = np.array([row["accuracy"] for row in items])
+        times = np.array([row["fit_time"] for row in items])
+        summary.append(
+            {
+                "lookahead_depth": lookahead_depth,
+                "n_estimators": n_estimators,
+                "datasets": len(items),
+                "mean_accuracy": round(float(accuracies.mean()), 6),
+                "median_accuracy": round(float(np.median(accuracies)), 6),
+                "mean_fit_time_s": round(float(times.mean()), 6),
+                "median_fit_time_s": round(float(np.median(times)), 6),
+            }
+        )
+    return summary
+
+
+def make_forest_size_tradeoff_figure() -> None:
+    rows = _read_forest_size_small()
+    if not rows:
+        return
+    summary = _forest_size_summary(rows)
+    _write_csv(TABLE_DIR / "forest_size_tradeoff_small_summary.csv", summary)
+    colors = {1: "#2f6f73", 2: "#b07f2f"}
+    markers = {1: "o", 2: "s"}
+    fig, ax = plt.subplots(figsize=(6.2, 4.3), constrained_layout=True)
+    for depth in [1, 2]:
+        subset = [row for row in summary if row["lookahead_depth"] == depth]
+        x = [row["mean_fit_time_s"] for row in subset]
+        y = [row["mean_accuracy"] for row in subset]
+        labels = [row["n_estimators"] for row in subset]
+        ax.plot(
+            x,
+            y,
+            marker=markers[depth],
+            linewidth=2,
+            color=colors[depth],
+            label=f"lookahead depth {depth}",
+        )
+        for xi, yi, label in zip(x, y, labels):
+            ax.annotate(
+                str(label),
+                (xi, yi),
+                textcoords="offset points",
+                xytext=(4, 4),
+                fontsize=8,
+            )
+    ax.set_xscale("log")
+    ax.set_xlabel("Mean fit time (s, log scale)")
+    ax.set_ylabel("Mean accuracy")
+    ax.grid(axis="both", color="#dddddd", linewidth=0.8, which="both")
+    ax.legend(frameon=False)
+    for suffix in ["png", "pdf"]:
+        fig.savefig(FIG_DIR / f"forest_size_tradeoff_small.{suffix}", dpi=220)
+    for suffix in ["pdf", "png"]:
+        fig.savefig(ROOT / "amai_submission" / f"Fig2_forest_size.{suffix}", dpi=220)
     plt.close(fig)
 
 
@@ -289,9 +457,12 @@ def main() -> None:
     TABLE_DIR.mkdir(parents=True, exist_ok=True)
     _write_csv(TABLE_DIR / "lookahead_aggregate_results.csv", AGGREGATE_ROWS)
     _write_csv(TABLE_DIR / "lookahead_accuracy_cost_deltas.csv", _delta_rows())
+    _write_csv(TABLE_DIR / "lookahead_utility_thresholds.csv", _utility_rows())
     _write_csv(TABLE_DIR / "lookahead_benchmark_accounting.csv", ACCOUNTING_ROWS)
     _write_csv(TABLE_DIR / "lookahead_wins_or_ties.csv", WIN_ROWS)
     make_accuracy_cost_figure()
+    make_accuracy_time_tradeoff_figure()
+    make_forest_size_tradeoff_figure()
     make_scope_figure()
     write_summary()
 
