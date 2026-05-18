@@ -21,6 +21,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = ROOT / "figures"
 TABLE_DIR = ROOT / "tables"
+PRL_DIR = ROOT / "prl_submission"
 MIXED_FOREST_RESULTS = TABLE_DIR / "mixed_sighted_forest_results.csv"
 MIXED_FOREST_GRID_RESULTS = TABLE_DIR / "mixed_sighted_forest_grid_results.csv"
 TREE_COUNTS_FOR_FIGURE = (20, 40, 60, 100, 200)
@@ -302,6 +303,9 @@ def make_accuracy_time_tradeoff_figure() -> None:
         fig.savefig(FIG_DIR / f"lookahead_accuracy_time_tradeoff.{suffix}", dpi=220)
     for suffix in ["pdf", "png"]:
         fig.savefig(ROOT / "amai_submission" / f"Fig1_accuracy_time.{suffix}", dpi=220)
+    if PRL_DIR.exists():
+        for suffix in ["pdf", "png"]:
+            fig.savefig(PRL_DIR / f"Fig1_accuracy_time.{suffix}", dpi=220)
     plt.close(fig)
 
 
@@ -501,17 +505,86 @@ def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> No
             label=label,
         )
 
+    all_accuracies = [row["mean_accuracy"] for row in summary]
+    y_min = min(all_accuracies) - 0.004
+    y_max = max(all_accuracies) + 0.006
+
     axes[0].set_xlabel("Number of trees")
     axes[0].set_ylabel("Mean accuracy")
     axes[0].set_title("Accuracy as forests grow")
     axes[0].set_xticks(list(TREE_COUNTS_FOR_FIGURE))
+    axes[0].set_ylim(y_min, y_max)
     axes[0].grid(axis="both", color="#dddddd", linewidth=0.8)
 
     axes[1].set_xscale("log")
     axes[1].set_xlabel("Mean fit time (s, log scale)")
     axes[1].set_ylabel("Mean accuracy")
     axes[1].set_title("Accuracy-time frontier")
+    axes[1].set_ylim(y_min, y_max)
     axes[1].grid(axis="both", color="#dddddd", linewidth=0.8, which="both")
+
+    greedy_budget = next(
+        row
+        for row in summary
+        if row["curve_id"] == "pure_k1" and row["tree_count"] == 100
+    )
+    mixed_at_budget = next(
+        row
+        for row in summary
+        if row["curve_id"] == "mix_1_95_2_05" and row["tree_count"] == 40
+    )
+    axes[1].axvline(
+        greedy_budget["mean_fit_time_s"],
+        color="#111827",
+        linestyle="--",
+        linewidth=1.1,
+        alpha=0.75,
+        zorder=0,
+    )
+    axes[1].scatter(
+        [greedy_budget["mean_fit_time_s"]],
+        [greedy_budget["mean_accuracy"]],
+        s=70,
+        facecolors="none",
+        edgecolors="#111827",
+        linewidth=1.2,
+        zorder=5,
+    )
+    axes[1].scatter(
+        [mixed_at_budget["mean_fit_time_s"]],
+        [mixed_at_budget["mean_accuracy"]],
+        s=78,
+        facecolors="none",
+        edgecolors="#111827",
+        linewidth=1.4,
+        zorder=5,
+    )
+    axes[1].annotate(
+        "similar time,\nhigher accuracy",
+        xy=(mixed_at_budget["mean_fit_time_s"], mixed_at_budget["mean_accuracy"]),
+        xytext=(
+            greedy_budget["mean_fit_time_s"] * 1.9,
+            mixed_at_budget["mean_accuracy"] + 0.0055,
+        ),
+        arrowprops={
+            "arrowstyle": "->",
+            "color": "#111827",
+            "linewidth": 0.9,
+        },
+        fontsize=8,
+        ha="left",
+        va="bottom",
+    )
+    axes[1].text(
+        greedy_budget["mean_fit_time_s"] * 1.07,
+        y_min + 0.001,
+        "100-tree\nk=1 time",
+        fontsize=7.5,
+        rotation=90,
+        ha="left",
+        va="bottom",
+        color="#111827",
+    )
 
     handles, labels = axes[1].get_legend_handles_labels()
     fig.legend(
@@ -533,6 +606,9 @@ def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> No
         fig.savefig(FIG_DIR / f"sighted_forest_tradeoff.{suffix}", dpi=220)
     for suffix in ["pdf", "png"]:
         fig.savefig(ROOT / "amai_submission" / f"Fig2_forest_size.{suffix}", dpi=220)
+    if PRL_DIR.exists():
+        for suffix in ["pdf", "png"]:
+            fig.savefig(PRL_DIR / f"Fig2_forest_size.{suffix}", dpi=220)
     plt.close(fig)
 
 

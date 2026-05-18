@@ -1,13 +1,16 @@
-\documentclass[preprint,review,12pt]{elsarticle}
+\documentclass[final,5p,times]{elsarticle}
 
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{hyperref}
-\usepackage{lineno}
+\urlstyle{same}
+\renewcommand{\UrlFont}{\rmfamily}
+\DeclareUrlCommand\url{\def\UrlFont{\rmfamily}}
+\DeclareUrlCommand\path{\def\UrlFont{\rmfamily}}
+\hypersetup{hidelinks}
 
 \journal{Pattern Recognition Letters}
-\modulolinenumbers[5]
 
 \begin{document}
 
@@ -16,7 +19,6 @@
 \title{One split at a time is often enough: empirical limits of \texorpdfstring{$k$}{k}-sighted decision-tree induction}
 
 \author[1]{Mathias Valla\corref{cor1}}
-\ead{email.to.be.completed@example.com}
 \cortext[cor1]{Corresponding author.}
 \affiliation[1]{
   organization={Affiliation to be completed},
@@ -28,12 +30,10 @@ Decision trees are induced by a sequence of local split decisions, although the 
 \end{abstract}
 
 \begin{keyword}
-Decision trees \sep Random forests \sep Greedy algorithms \sep Lookahead induction \sep Optimal trees \sep PMLB
+Decision trees \sep Random forests \sep Greedy algorithms \sep $k$-sighted induction \sep Optimal trees \sep PMLB
 \end{keyword}
 
 \end{frontmatter}
-
-\linenumbers
 
 \section{Introduction}
 
@@ -110,12 +110,12 @@ Bootstrap forest & 3 & 0.7260 & 0.7612 & 96.1864\\
 
 Figure~\ref{fig:accuracy_time} shows the same pattern visually. Accuracy grows mildly as $k$ increases, while fitting time grows on a logarithmic scale. The break-even $\lambda^\star_k$ values are 0.00435 for tree $k=2$ versus $k=1$, 0.00235 for tree $k=3$ versus $k=1$, 0.00158 for forest $k=2$ versus $k=1$, and 0.00225 for forest $k=3$ versus $k=1$. Thus any time penalty larger than roughly 0.16--0.44 accuracy percentage points per natural-log unit of fitting time would favor greedy induction in these aggregate comparisons.
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\linewidth]{Fig1_accuracy_time.pdf}
+\includegraphics[width=0.86\textwidth]{Fig1_accuracy_time.pdf}
 \caption{Mean accuracy gain and mean fitting time as sight depth increases from $k=1$ to $k=3$. Accuracy gains are measured relative to the greedy $k=1$ baseline.}
 \label{fig:accuracy_time}
-\end{figure}
+\end{figure*}
 
 The gains are not uniform across datasets. Counting ties as wins, $k=1$ was tied for the best single-tree accuracy on 30 datasets, $k=2$ on 31 datasets, and $k=3$ on 37 datasets. For forests, the corresponding counts were 36, 29, and 29. These descriptive counts are not significance tests; they reinforce the central point that larger $k$ can alter the average, but it does not dominate greedy splitting.
 
@@ -126,9 +126,13 @@ Figure~\ref{fig:forest_size} shows the full forest-size grid: the left panel plo
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{Fig2_forest_size.pdf}
-\caption{Forest-size grid for pure and mixed $k$-sighted bootstrap forests on the 57-dataset mixed-forest benchmark. Left: mean accuracy versus number of trees. Right: the same curve points versus mean fitting time on a logarithmic scale. Each curve is evaluated at 20, 40, 60, 100, and 200 trees. Legend labels use effective sight $\bar{k}$, the average tree sight depth in the ensemble; the two $\bar{k}=1.10$ curves are distinct mixtures, one with 90\% $k=1$ and 10\% $k=2$ trees and one with 95\% $k=1$ and 5\% $k=3$ trees.}
+\caption{Forest-size grid for pure and mixed $k$-sighted bootstrap forests on the 57-dataset mixed-forest benchmark. Left: mean accuracy versus number of trees. Right: the same curve points versus mean fitting time on a logarithmic scale; the dashed vertical line marks the mean fitting time of the 100-tree greedy forest. Each curve is evaluated at 20, 40, 60, 100, and 200 trees. Legend labels use effective sight $\bar{k}$, the average tree sight depth in the ensemble; the two $\bar{k}=1.10$ curves are distinct mixtures, one with 90\% $k=1$ and 10\% $k=2$ trees and one with 95\% $k=1$ and 5\% $k=3$ trees.}
 \label{fig:forest_size}
 \end{figure*}
+
+\clearpage
+
+The right panel also shows why mixed forests can be beneficial. The dashed vertical line marks the fitting-time budget of the 100-tree greedy forest. Near that same budget, a 40-tree forest with 95\% $k=1$ trees and 5\% $k=2$ trees has higher mean accuracy (0.7306 versus 0.7241) while taking slightly less mean fitting time (0.409 s versus 0.453 s). Thus the practical question is not only whether every tree should be farther-sighted. A small number of $k=2$ trees can sometimes move an otherwise greedy ensemble to a better accuracy-time point.
 
 Adding $k=3$ trees is much more expensive. At 100 trees, a 95\% $k=1$ and 5\% $k=3$ forest reaches 0.7325 accuracy but costs 110 times the 100-tree greedy forest. A 95\% $k=2$ and 5\% $k=3$ forest reaches 0.7540 accuracy but costs 134 times the greedy forest. Within the evaluated grid, increasing the number of greedy trees alone does not close the gap on this sample: a 200-tree greedy forest has mean accuracy 0.7242, essentially unchanged from the 100-tree greedy forest, whereas a 20-tree $k=2$ forest reaches 0.7491 at 5.2 times the 100-tree greedy fitting time. The pure $k=3$ curve is still farther to the right and does not dominate the $k=2$ frontier. The lesson is not that greedy trees always suffice. It is that improvements from extra sight arrive through a visible and expensive accuracy-time frontier, not through a nearly free ensemble effect.
 
@@ -149,7 +153,7 @@ Mathias Valla: Conceptualization, Methodology, Software, Investigation, Writing-
 The author declares no competing interests.
 
 \section*{Data and code availability}
-The benchmark datasets are available from PMLB \cite{olson2017pmlb}. The open-source implementation, scripts, tables, and an experimental package for spherical tree and $k$-sighted tree experiments will be available at \url{https://github.com/MathiasValla/non-greedy-decision-trees}.
+The benchmark datasets are available from PMLB \cite{olson2017pmlb}. The open-source implementation, scripts, tables, and an experimental package for spherical tree and $k$-sighted tree experiments will be available in the \href{https://github.com/MathiasValla/non-greedy-decision-trees}{project GitHub repository}.
 
 \section*{Funding}
 Funding information is to be completed before submission.
