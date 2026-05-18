@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = ROOT / "figures"
 TABLE_DIR = ROOT / "tables"
 MIXED_FOREST_RESULTS = TABLE_DIR / "mixed_sighted_forest_results.csv"
+MIXED_FOREST_GRID_RESULTS = TABLE_DIR / "mixed_sighted_forest_grid_results.csv"
+TREE_COUNTS_FOR_FIGURE = (20, 40, 60, 100, 200)
 
 COMPLETED_DATASETS = 67
 RESULT_ROWS = 402
@@ -367,6 +369,173 @@ def _read_mixed_forest_results() -> list[dict[str, object]]:
     return rows
 
 
+def _read_mixed_forest_grid_results() -> list[dict[str, object]]:
+    if not MIXED_FOREST_GRID_RESULTS.exists():
+        return []
+    rows: list[dict[str, object]] = []
+    with MIXED_FOREST_GRID_RESULTS.open(newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            row["n_samples"] = int(row["n_samples"])
+            row["n_features"] = int(row["n_features"])
+            row["display_order"] = int(row["display_order"])
+            row["effective_k"] = float(row["effective_k"])
+            row["tree_count"] = int(row["tree_count"])
+            row["depth_1_trees"] = int(row["depth_1_trees"])
+            row["depth_2_trees"] = int(row["depth_2_trees"])
+            row["depth_3_trees"] = int(row["depth_3_trees"])
+            row["fit_time_s"] = float(row["fit_time_s"])
+            row["accuracy"] = float(row["accuracy"])
+            rows.append(row)
+    return rows
+
+
+def _mixed_forest_grid_summary(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    grouped: dict[tuple[str, int], list[dict[str, object]]] = {}
+    for row in rows:
+        grouped.setdefault((row["curve_id"], row["tree_count"]), []).append(row)
+
+    summary = []
+    for (curve_id, tree_count), items in sorted(
+        grouped.items(), key=lambda kv: (kv[1][0]["display_order"], kv[0][1])
+    ):
+        first = items[0]
+        accuracies = np.array([row["accuracy"] for row in items])
+        times = np.array([row["fit_time_s"] for row in items])
+        summary.append(
+            {
+                "curve_id": curve_id,
+                "curve_label": first["curve_label"],
+                "display_order": first["display_order"],
+                "effective_k": first["effective_k"],
+                "tree_count": tree_count,
+                "depth_1_trees": first["depth_1_trees"],
+                "depth_2_trees": first["depth_2_trees"],
+                "depth_3_trees": first["depth_3_trees"],
+                "datasets": len(items),
+                "mean_accuracy": round(float(accuracies.mean()), 6),
+                "median_accuracy": round(float(np.median(accuracies)), 6),
+                "mean_fit_time_s": round(float(times.mean()), 6),
+                "median_fit_time_s": round(float(np.median(times)), 6),
+            }
+        )
+
+    baseline = next(
+        (
+            row
+            for row in summary
+            if row["curve_id"] == "pure_k1" and row["tree_count"] == 100
+        ),
+        None,
+    )
+    if baseline is not None:
+        for row in summary:
+            row["accuracy_gain_vs_k1_100_pp"] = round(
+                100 * (row["mean_accuracy"] - baseline["mean_accuracy"]), 3
+            )
+            row["time_ratio_vs_k1_100"] = round(
+                row["mean_fit_time_s"] / baseline["mean_fit_time_s"], 3
+            )
+    return summary
+
+
+def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> None:
+    summary = _mixed_forest_grid_summary(rows)
+    _write_csv(TABLE_DIR / "mixed_sighted_forest_grid_summary.csv", summary)
+
+    completed_datasets = len({row["dataset"] for row in rows})
+    grouped: dict[str, list[dict[str, object]]] = {}
+    for row in summary:
+        grouped.setdefault(row["curve_id"], []).append(row)
+
+    curve_order = sorted(
+        grouped,
+        key=lambda curve_id: grouped[curve_id][0]["display_order"],
+    )
+    colors = {
+        "pure_k1": "#2f6f73",
+        "mix_1_95_2_05": "#6f9b6d",
+        "mix_1_90_2_10": "#8ea65b",
+        "mix_1_95_3_05": "#7f6aa6",
+        "mix_1_75_2_25": "#bda94b",
+        "mix_1_50_2_50": "#b07f2f",
+        "pure_k2": "#a04e44",
+        "mix_2_95_3_05": "#7a4f63",
+        "pure_k3": "#374151",
+    }
+    markers = {
+        "pure_k1": "o",
+        "mix_1_95_2_05": "P",
+        "mix_1_90_2_10": "X",
+        "mix_1_95_3_05": "D",
+        "mix_1_75_2_25": "v",
+        "mix_1_50_2_50": ">",
+        "pure_k2": "s",
+        "mix_2_95_3_05": "<",
+        "pure_k3": "^",
+    }
+
+    fig, axes = plt.subplots(1, 2, figsize=(11.2, 5.4))
+    for curve_id in curve_order:
+        curve_rows = sorted(grouped[curve_id], key=lambda row: row["tree_count"])
+        label = curve_rows[0]["curve_label"]
+        tree_counts = [row["tree_count"] for row in curve_rows]
+        accuracies = [row["mean_accuracy"] for row in curve_rows]
+        times = [row["mean_fit_time_s"] for row in curve_rows]
+        axes[0].plot(
+            tree_counts,
+            accuracies,
+            marker=markers[curve_id],
+            linewidth=1.8,
+            markersize=5.2,
+            color=colors[curve_id],
+            label=label,
+        )
+        axes[1].plot(
+            times,
+            accuracies,
+            marker=markers[curve_id],
+            linewidth=1.8,
+            markersize=5.2,
+            color=colors[curve_id],
+            label=label,
+        )
+
+    axes[0].set_xlabel("Number of trees")
+    axes[0].set_ylabel("Mean accuracy")
+    axes[0].set_title("Accuracy as forests grow")
+    axes[0].set_xticks(list(TREE_COUNTS_FOR_FIGURE))
+    axes[0].grid(axis="both", color="#dddddd", linewidth=0.8)
+
+    axes[1].set_xscale("log")
+    axes[1].set_xlabel("Mean fit time (s, log scale)")
+    axes[1].set_ylabel("Mean accuracy")
+    axes[1].set_title("Accuracy-time frontier")
+    axes[1].grid(axis="both", color="#dddddd", linewidth=0.8, which="both")
+
+    handles, labels = axes[1].get_legend_handles_labels()
+    fig.legend(
+        handles,
+        labels,
+        frameon=False,
+        ncol=3,
+        fontsize=8,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.01),
+    )
+    fig.suptitle(
+        f"Forest size, sight depth, and mixed k-sighted forests (n={completed_datasets})",
+        fontsize=13,
+        y=0.98,
+    )
+    fig.tight_layout(rect=[0, 0.16, 1, 0.93])
+    for suffix in ["png", "pdf"]:
+        fig.savefig(FIG_DIR / f"sighted_forest_tradeoff.{suffix}", dpi=220)
+    for suffix in ["pdf", "png"]:
+        fig.savefig(ROOT / "amai_submission" / f"Fig2_forest_size.{suffix}", dpi=220)
+    plt.close(fig)
+
+
 def _mixed_forest_summary(rows: list[dict[str, object]]) -> list[dict[str, object]]:
     grouped: dict[str, list[dict[str, object]]] = {}
     for row in rows:
@@ -505,6 +674,11 @@ def _make_mixed_forest_tradeoff_figure(rows: list[dict[str, object]]) -> None:
 
 
 def make_forest_size_tradeoff_figure() -> None:
+    grid_rows = _read_mixed_forest_grid_results()
+    if grid_rows:
+        _make_mixed_forest_grid_tradeoff_figure(grid_rows)
+        return
+
     mixed_rows = _read_mixed_forest_results()
     if mixed_rows:
         _make_mixed_forest_tradeoff_figure(mixed_rows)
