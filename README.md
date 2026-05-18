@@ -10,6 +10,23 @@
 treeple
 =======
 
+Non-greedy decision-tree research snapshot
+------------------------------------------
+
+This branch is a research snapshot for experiments on non-greedy, k-sighted
+decision-tree induction. It extends treeple with scikit-learn-compatible
+lookahead decision trees and bootstrap forests:
+
+* `treeple.tree.LookaheadDecisionTreeClassifier`
+* `treeple.tree.LookaheadDecisionTreeRegressor`
+* `treeple.ensemble.LookaheadRandomForestClassifier`
+* `treeple.ensemble.LookaheadRandomForestRegressor`
+
+The implementation lives mainly in `treeple/tree/_lookahead.py`,
+`treeple/tree/_lookahead_fast.pyx`, and
+`treeple/ensemble/_lookahead_forest.py`. The PMLB benchmark scripts, result
+tables, and Pattern Recognition Letters submission draft are in `paper/`.
+
 treeple is a scikit-learn compatible API for building state-of-the-art decision trees. These include unsupervised trees, oblique trees, uncertainty trees, quantile trees and causal trees.
 
 Tree-models have withstood the test of time, and are consistently used for modern-day data science and machine learning applications. They especially perform well when there are limited samples for a problem and are flexible learners that can be applied to a wide variety of different settings, such as tabular, images, time-series, genomics, EEG data and more.
