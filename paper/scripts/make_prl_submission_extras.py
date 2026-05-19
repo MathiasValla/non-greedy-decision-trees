@@ -88,6 +88,30 @@ def _panel_caption(
     ax.text(x, y, text, fontsize=fontsize, clip_on=False, **kwargs)
 
 
+def _panel_title(
+    ax,
+    x: float,
+    y: float,
+    text: str,
+    *,
+    title_centered: bool = False,
+    **kwargs,
+) -> None:
+    """Panel titles skip clipping; PDF backends truncate wide centered labels."""
+    ax.text(
+        x,
+        y,
+        text,
+        ha="center" if title_centered else "left",
+        va="center",
+        fontsize=PANEL_TITLE_SIZE,
+        fontweight="bold",
+        color=COLORS["ink"],
+        clip_on=False,
+        **kwargs,
+    )
+
+
 def _panel(
     ax,
     x: float,
@@ -109,17 +133,12 @@ def _panel(
     )
     ax.add_patch(box)
     clip_patch = _panel_clip(ax, (x, y, w, h))
-    _panel_text(
+    _panel_title(
         ax,
-        clip_patch,
         x + (0.50 * w if title_centered else 0.018),
         y + h - 0.052,
         title,
-        ha="center" if title_centered else "left",
-        va="center",
-        fontsize=PANEL_TITLE_SIZE,
-        fontweight="bold",
-        color=COLORS["ink"],
+        title_centered=title_centered,
     )
     return clip_patch
 
