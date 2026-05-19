@@ -1,0 +1,7 @@
+Highlights
+
+- k-sighted trees score splits through optimized descendant subtrees.
+- Uniform extra sight gives small accuracy gains at large time cost.
+- Sparse farther-sighted trees improve mostly greedy bootstrap forests.
+- Mixed-sight forests can dominate lower-sight forests at fixed time budgets.
+- Open code and PMLB result tables support full reproduction.
