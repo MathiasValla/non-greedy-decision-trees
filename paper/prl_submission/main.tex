@@ -9,6 +9,7 @@
 \DeclareUrlCommand\url{\def\UrlFont{\rmfamily}}
 \DeclareUrlCommand\path{\def\UrlFont{\rmfamily}}
 \hypersetup{hidelinks}
+\renewcommand{\ttfamily}{\rmfamily}
 
 \journal{Pattern Recognition Letters}
 
@@ -19,6 +20,7 @@
 \title{Sparse farther-sighted trees can improve forest accuracy--time tradeoffs}
 
 \author[1]{Mathias Valla\corref{cor1}}
+\ead{mathias.valla@gmail.com}
 \cortext[cor1]{Corresponding author.}
 \affiliation[1]{
   organization={Chaire DIALog, Institut Louis Bachelier},
@@ -27,7 +29,7 @@
 }
 
 \begin{abstract}
-Decision trees are induced by a sequence of local split decisions, although the value of a split depends on the descendants it enables. We study $k$-sighted induction, a bounded non-greedy compromise between CART-style recursion and globally optimal tree search: candidate axis-aligned splits are scored by the impurity reduction achieved after a depth-$k$ local subtree is optimized. The question is practical rather than existential: does this additional sight materially improve shallow trees and bootstrap forests once fitting time is considered? On 67 PMLB classification datasets, uniform $k=2$ and $k=3$ induction improves mean accuracy over greedy $k=1$, but by small and uneven margins relative to cost. For single trees, mean accuracy rises from 0.6931 to 0.7100 and 0.7145, while mean fitting time rises from 0.0076 s to 0.3727 s and 70.90 s. For 100-tree bootstrap forests, mean accuracy rises from 0.7068 to 0.7125 and 0.7260, while mean fitting time rises from 0.0188 s to 0.6940 s and 96.19 s. A 57-dataset mixed-forest study gives the constructive exception: injecting a small number of $k=2$ trees can move a mostly greedy ensemble to a better accuracy--time point. Within a 0.7 s fitting-time budget, a 20-tree $\bar{k}=1.25$ forest attains 0.7412 mean accuracy, above lower-sight forests at comparable times. Thus one split at a time remains a strong default for single trees and uniform forests, but sparse farther sight inside forests can be useful.
+Decision trees are induced by a sequence of local split decisions, although the value of a split depends on the descendants it enables. We study $k$-sighted induction, a bounded non-greedy compromise between CART-style recursion and globally optimal tree search: candidate axis-aligned splits are scored by the impurity reduction achieved after a depth-$k$ local subtree is optimized. The question is practical rather than existential: does this additional sight materially improve shallow trees and bootstrap forests once fitting time is considered? Across PMLB classification benchmarks, increasing sight improves mean accuracy for single trees and uniformly sighted bootstrap forests, but the gains are small and uneven while fitting time increases sharply. The mixed-forest study gives the constructive exception: injecting a small number of farther-sighted trees can move a mostly greedy ensemble to a better accuracy--time point. Under a fixed fitting-time budget, a moderately mixed forest can outperform lower-sight forests at comparable times. Thus one split at a time remains a strong default for single trees and uniformly sighted forests, but sparse farther sight inside forests can be useful.
 \end{abstract}
 
 \begin{keyword}
@@ -157,7 +159,7 @@ The author declares no competing interests.
 Work(s) conducted within the Research Chair DIALog under the aegis of the Risk Foundation, a joint initiative by Universit{\'e} Paris-Dauphine PSL and CNP Assurances.
 
 \section*{Data and code availability}
-The benchmark datasets are available from PMLB \cite{olson2017pmlb}. The open-source implementation, scripts, retained result tables, and documentation for retrieving all article results are available at \href{https://github.com/MathiasValla/non-greedy-decision-trees}{https://github.com/MathiasValla/non-greedy-decision-trees}.
+The benchmark datasets are available from PMLB \cite{olson2017pmlb}. The open-source implementation, scripts, retained result tables, and documentation for retrieving all article results are available at \href{https://github.com/MathiasValla/non-greedy-decision-trees}{https://github.com/MathiasValla/non-greedy-decision-trees}. The repository includes a reproducibility guide, REPRODUCING\_\allowbreak RESULTS.md, in the paper directory; it maps each article table and figure to the retained CSV files and commands needed to reproduce all reported results.
 
 \bibliographystyle{elsarticle-num}
 \bibliography{references}
