@@ -26,6 +26,11 @@ The implementation lives mainly in `treeple/tree/_lookahead.py`,
 `treeple/tree/_lookahead_fast.pyx`, and
 `treeple/ensemble/_lookahead_forest.py`. The PMLB benchmark scripts, result
 tables, and Pattern Recognition Letters submission draft are in `paper/`.
+The public project repository is
+<https://github.com/MathiasValla/non-greedy-decision-trees>. See
+`paper/REPRODUCING_RESULTS.md` for the exact CSV files and commands needed to
+retrieve every result reported in the article without rerunning the expensive
+benchmarks.
 
 treeple is a scikit-learn compatible API for building state-of-the-art decision trees. These include unsupervised trees, oblique trees, uncertainty trees, quantile trees and causal trees.
 

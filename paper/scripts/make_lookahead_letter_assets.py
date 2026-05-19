@@ -523,18 +523,19 @@ def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> No
     axes[1].set_ylim(y_min, y_max)
     axes[1].grid(axis="both", color="#dddddd", linewidth=0.8, which="both")
 
-    greedy_budget = next(
+    budget_time = 0.7
+    lower_sight_reference = next(
         row
         for row in summary
-        if row["curve_id"] == "pure_k1" and row["tree_count"] == 100
+        if row["curve_id"] == "mix_1_90_2_10" and row["tree_count"] == 40
     )
     mixed_at_budget = next(
         row
         for row in summary
-        if row["curve_id"] == "mix_1_95_2_05" and row["tree_count"] == 40
+        if row["curve_id"] == "mix_1_75_2_25" and row["tree_count"] == 20
     )
     axes[1].axvline(
-        greedy_budget["mean_fit_time_s"],
+        budget_time,
         color="#111827",
         linestyle="--",
         linewidth=1.1,
@@ -542,8 +543,8 @@ def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> No
         zorder=0,
     )
     axes[1].scatter(
-        [greedy_budget["mean_fit_time_s"]],
-        [greedy_budget["mean_accuracy"]],
+        [lower_sight_reference["mean_fit_time_s"]],
+        [lower_sight_reference["mean_accuracy"]],
         s=70,
         facecolors="none",
         edgecolors="#111827",
@@ -560,11 +561,11 @@ def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> No
         zorder=5,
     )
     axes[1].annotate(
-        "similar time,\nhigher accuracy",
+        "0.7 s budget:\nmore mixed sight,\nhigher accuracy",
         xy=(mixed_at_budget["mean_fit_time_s"], mixed_at_budget["mean_accuracy"]),
         xytext=(
-            greedy_budget["mean_fit_time_s"] * 1.9,
-            mixed_at_budget["mean_accuracy"] + 0.0055,
+            budget_time * 1.55,
+            mixed_at_budget["mean_accuracy"] + 0.0038,
         ),
         arrowprops={
             "arrowstyle": "->",
@@ -576,9 +577,9 @@ def _make_mixed_forest_grid_tradeoff_figure(rows: list[dict[str, object]]) -> No
         va="bottom",
     )
     axes[1].text(
-        greedy_budget["mean_fit_time_s"] * 1.07,
+        budget_time * 1.06,
         y_min + 0.001,
-        "100-tree\nk=1 time",
+        "0.7 s\nbudget",
         fontsize=7.5,
         rotation=90,
         ha="left",

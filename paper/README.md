@@ -11,6 +11,8 @@ Main files:
   from the retained aggregate benchmark summary.
 - `tables/`: generated CSV tables.
 - `figures/`: generated manuscript figures.
+- `REPRODUCING_RESULTS.md`: map from article claims to result files and
+  commands.
 
 Regenerate the assets with:
 
@@ -18,10 +20,7 @@ Regenerate the assets with:
 python paper/scripts/make_lookahead_letter_assets.py
 ```
 
-Important provenance note: the original raw benchmark CSVs were temporary files
-under `/private/tmp` and were not present when this paper package was assembled.
-The current figures and tables therefore use the aggregate benchmark summary
-retained from the completed run: 67 completed datasets, 402 model fits, 42
-dimension-filter skips, 32 load/fetch skips, and 21 fit timeouts. Before journal
-submission, rerun or recover the raw CSVs and add per-dataset supplementary
-tables.
+The retained results used by the current article are in `tables/`, including
+the 67-dataset aggregate benchmark and the 57-dataset mixed-forest grid used for
+Figure 2. See `REPRODUCING_RESULTS.md` for exact provenance and retrieval
+instructions.

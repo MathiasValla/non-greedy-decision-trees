@@ -16,17 +16,18 @@
 
 \begin{frontmatter}
 
-\title{One split at a time is often enough: empirical limits of \texorpdfstring{$k$}{k}-sighted decision-tree induction}
+\title{Sparse farther-sighted trees can improve forest accuracy--time tradeoffs}
 
 \author[1]{Mathias Valla\corref{cor1}}
 \cortext[cor1]{Corresponding author.}
 \affiliation[1]{
-  organization={Affiliation to be completed},
+  organization={Chaire DIALog, Institut Louis Bachelier},
+  city={Paris},
   country={France}
 }
 
 \begin{abstract}
-Decision trees are induced by a sequence of local split decisions, although the value of a split depends on the descendants it enables. We study $k$-sighted induction, a bounded non-greedy compromise between CART-style recursion and globally optimal tree search: candidate axis-aligned splits are scored by the impurity reduction achieved after a depth-$k$ local subtree is optimized. The question is practical rather than existential: does this additional sight materially improve shallow trees and bootstrap forests once fitting time is considered? On 67 PMLB classification datasets, $k=2$ and $k=3$ improve mean accuracy over greedy $k=1$ under this protocol, but by small and uneven margins relative to their cost. For single trees, mean accuracy rises from 0.6931 to 0.7100 and 0.7145, while mean fitting time rises from 0.0076 s to 0.3727 s and 70.90 s. For bootstrap forests, mean accuracy rises from 0.7068 to 0.7125 and 0.7260, while mean fitting time rises from 0.0188 s to 0.6940 s and 96.19 s. A mixed-forest study on 57 datasets shows that a minority of $k=2$ trees can improve mean accuracy, but the frontier remains a gradual accuracy-time tradeoff. These results support $k$-sighted induction as a targeted diagnostic or small-data tool, not a default replacement for greedy splitting.
+Decision trees are induced by a sequence of local split decisions, although the value of a split depends on the descendants it enables. We study $k$-sighted induction, a bounded non-greedy compromise between CART-style recursion and globally optimal tree search: candidate axis-aligned splits are scored by the impurity reduction achieved after a depth-$k$ local subtree is optimized. The question is practical rather than existential: does this additional sight materially improve shallow trees and bootstrap forests once fitting time is considered? On 67 PMLB classification datasets, uniform $k=2$ and $k=3$ induction improves mean accuracy over greedy $k=1$, but by small and uneven margins relative to cost. For single trees, mean accuracy rises from 0.6931 to 0.7100 and 0.7145, while mean fitting time rises from 0.0076 s to 0.3727 s and 70.90 s. For 100-tree bootstrap forests, mean accuracy rises from 0.7068 to 0.7125 and 0.7260, while mean fitting time rises from 0.0188 s to 0.6940 s and 96.19 s. A 57-dataset mixed-forest study gives the constructive exception: injecting a small number of $k=2$ trees can move a mostly greedy ensemble to a better accuracy--time point. Within a 0.7 s fitting-time budget, a 20-tree $\bar{k}=1.25$ forest attains 0.7412 mean accuracy, above lower-sight forests at comparable times. Thus one split at a time remains a strong default for single trees and uniform forests, but sparse farther sight inside forests can be useful.
 \end{abstract}
 
 \begin{keyword}
@@ -39,9 +40,9 @@ Decision trees \sep Random forests \sep Greedy algorithms \sep $k$-sighted induc
 
 Most decision-tree learners make one split decision at a time. At each internal node, CART-style induction selects the split that best improves an impurity criterion, then repeats the same operation independently in the child nodes \cite{breiman1984cart,quinlan1986induction}. This greedy rule is fast, stable enough to be useful, and still central to bagging and random forests \cite{breiman1996bagging,breiman2001random}. It is also myopic: a split is useful because of the subtree it permits, and the locally best split need not be the best first step toward a shallow predictive tree.
 
-This paper asks whether bounded non-greediness is worth its computational price. A $k$-sighted tree evaluates a candidate split by optimizing a local descendant subtree of depth $k$, then chooses the root split of the best such local subtree. The case $k=1$ is ordinary greedy induction. Larger $k$ occupies a middle ground between cheap greedy recursion and exact optimal decision-tree search.
+This paper asks when bounded non-greediness is worth its computational price. A $k$-sighted tree evaluates a candidate split by optimizing a local descendant subtree of depth $k$, then chooses the root split of the best such local subtree. The case $k=1$ is ordinary greedy induction. Larger $k$ occupies a middle ground between cheap greedy recursion and exact optimal decision-tree search.
 
-Our question is deliberately narrow and empirical: does multi-step split optimization materially improve shallow decision trees and bootstrap forests when predictive accuracy and fitting time are evaluated jointly? The answer is mixed. Extra sight can improve mean accuracy, and it sometimes improves it substantially on a dataset. Yet the improvement is not consistent, and the fitting time grows by orders of magnitude. The main contribution is a compact benchmark and accuracy-time framing showing why one split at a time remains a strong default.
+Our question is deliberately narrow and empirical: does multi-step split optimization materially improve shallow decision trees and bootstrap forests when predictive accuracy and fitting time are evaluated jointly? The answer separates two regimes. Giving every tree more sight is usually expensive for a thin and uneven accuracy gain. In contrast, mixed forests reveal a useful compromise: a small minority of farther-sighted trees can improve the accuracy--time frontier of an otherwise greedy ensemble. The main contribution is a compact benchmark, accompanied by open code and retained result tables, that distinguishes uniformly non-greedy induction from sparse non-greedy ensemble design.
 
 \section{Related work}
 
@@ -86,6 +87,8 @@ We then studied mixed bootstrap forests on a 57-dataset PMLB sample. Each mixed 
 \]
 This shorthand is descriptive: for example, a 90\% $k=1$ and 10\% $k=2$ forest and a 95\% $k=1$ and 5\% $k=3$ forest both have $\bar{k}=1.10$, but very different costs. We evaluated all curves at 20, 40, 60, 100, and 200 trees.
 
+The implementation, benchmark scripts, and retained result tables are available at \href{https://github.com/MathiasValla/non-greedy-decision-trees}{https://github.com/MathiasValla/non-greedy-decision-trees}.
+
 \section{Results}
 
 Table~\ref{tab:aggregate} gives the aggregate benchmark. Extra sight improves mean accuracy, but the improvement is thin relative to the time increase. For single trees, $k=2$ adds 1.69 percentage points over $k=1$ while fitting time is about 49 times larger; $k=3$ adds 2.15 points while fitting time is about $9.4\times 10^3$ times larger. For bootstrap forests, $k=2$ adds 0.57 points at about 37 times the fitting time, and $k=3$ adds 1.92 points at about $5.1\times 10^3$ times the fitting time.
@@ -126,25 +129,23 @@ Figure~\ref{fig:forest_size} shows the full forest-size grid: the left panel plo
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{Fig2_forest_size.pdf}
-\caption{Forest-size grid for pure and mixed $k$-sighted bootstrap forests on the 57-dataset mixed-forest benchmark. Left: mean accuracy versus number of trees. Right: the same curve points versus mean fitting time on a logarithmic scale; the dashed vertical line marks the mean fitting time of the 100-tree greedy forest. Each curve is evaluated at 20, 40, 60, 100, and 200 trees. Legend labels use effective sight $\bar{k}$, the average tree sight depth in the ensemble; the two $\bar{k}=1.10$ curves are distinct mixtures, one with 90\% $k=1$ and 10\% $k=2$ trees and one with 95\% $k=1$ and 5\% $k=3$ trees.}
+\caption{Forest-size grid for pure and mixed $k$-sighted bootstrap forests on the 57-dataset mixed-forest benchmark. Left: mean accuracy versus number of trees. Right: the same curve points versus mean fitting time on a logarithmic scale; the dashed vertical line marks a 0.7 s fitting-time budget. Each curve is evaluated at 20, 40, 60, 100, and 200 trees. Legend labels use effective sight $\bar{k}$, the average tree sight depth in the ensemble; the two $\bar{k}=1.10$ curves are distinct mixtures, one with 90\% $k=1$ and 10\% $k=2$ trees and one with 95\% $k=1$ and 5\% $k=3$ trees.}
 \label{fig:forest_size}
 \end{figure*}
 
-\clearpage
-
-The right panel also shows why mixed forests can be beneficial. The dashed vertical line marks the fitting-time budget of the 100-tree greedy forest. Near that same budget, a 40-tree forest with 95\% $k=1$ trees and 5\% $k=2$ trees has higher mean accuracy (0.7306 versus 0.7241) while taking slightly less mean fitting time (0.409 s versus 0.453 s). Thus the practical question is not only whether every tree should be farther-sighted. A small number of $k=2$ trees can sometimes move an otherwise greedy ensemble to a better accuracy-time point.
+The right panel also shows why mixed forests can be beneficial. The dashed vertical line marks a 0.7 s fitting-time budget. Within that budget, the 20-tree $\bar{k}=1.25$ forest reaches 0.7412 mean accuracy in 0.661 s. Lower-sight forests at comparable times are less accurate: for instance, the 40-tree $\bar{k}=1.10$ forest reaches 0.7368 accuracy in 0.638 s, and the 60-tree $\bar{k}=1.05$ forest reaches 0.7340 accuracy in 0.614 s. This vertical comparison is not a formal dominance result or a tuned Pareto frontier, but it is the clearest empirical case for heterogeneous sight in this grid: at comparable fitting time, replacing a modest number of greedy trees by $k=2$ trees can be better than spending the same budget only on additional low-sight trees. Thus the practical question is not only whether every tree should be farther-sighted. A small number of $k=2$ trees can sometimes move an otherwise greedy ensemble to a better accuracy--time point.
 
 Adding $k=3$ trees is much more expensive. At 100 trees, a 95\% $k=1$ and 5\% $k=3$ forest reaches 0.7325 accuracy but costs 110 times the 100-tree greedy forest. A 95\% $k=2$ and 5\% $k=3$ forest reaches 0.7540 accuracy but costs 134 times the greedy forest. Within the evaluated grid, increasing the number of greedy trees alone does not close the gap on this sample: a 200-tree greedy forest has mean accuracy 0.7242, essentially unchanged from the 100-tree greedy forest, whereas a 20-tree $k=2$ forest reaches 0.7491 at 5.2 times the 100-tree greedy fitting time. The pure $k=3$ curve is still farther to the right and does not dominate the $k=2$ frontier. The lesson is not that greedy trees always suffice. It is that improvements from extra sight arrive through a visible and expensive accuracy-time frontier, not through a nearly free ensemble effect.
 
 \section{Discussion}
 
-The empirical message is conservative. $k$-sighted induction is a plausible correction to greedy myopia, and the mixed-forest results show that a small number of $k=2$ trees can improve a shallow forest. But the gains are uneven, and the computation grows much faster than accuracy. These comparisons should be read as controlled benchmarks, not as a complete ranking of ensemble design choices: they use one train--test split per dataset, shallow trees, all features at each split, and wall-clock fitting times from this implementation. Bagging and random forests already provide cheap ways to reduce instability by averaging many greedy trees; spending computation inside every split decision must clear a high bar.
+The empirical message is conservative but not purely negative. $k$-sighted induction is a plausible correction to greedy myopia, and the mixed-forest results show that a small number of $k=2$ trees can improve a shallow forest at a comparable fitting-time budget. But the gains are uneven, and the computation grows much faster than accuracy when all trees are made farther-sighted. These comparisons should be read as controlled benchmarks, not as a complete ranking of ensemble design choices: they use one train--test split per dataset, shallow trees, all features at each split, and wall-clock fitting times from this implementation. Bagging and random forests already provide cheap ways to reduce instability by averaging many greedy trees; spending computation inside every split decision must clear a high bar. The mixed-forest result suggests a different design principle: allocate non-greedy computation sparsely, where it can diversify the ensemble, rather than applying it uniformly.
 
-These results do not rule out $k$-sighted trees. They identify where the method is most plausible: small datasets, shallow interpretable trees, specialized interaction structures, or settings where fitting time is cheap relative to errors. They also suggest that $k=2$ is the natural first target for any practical non-greedy extension. In contrast, $k=3$ looks difficult to justify as a routine default under this protocol.
+These results do not rule out $k$-sighted trees. They identify where the method is most plausible: small datasets, shallow interpretable trees, specialized interaction structures, or settings where fitting time is cheap relative to errors. They also suggest that $k=2$ is the natural first target for any practical non-greedy extension. In contrast, $k=3$ looks difficult to justify as a routine default under this protocol. The effective sight notation $\bar{k}$ should also be read descriptively rather than as a continuous model parameter: two mixtures with the same $\bar{k}$ can allocate computation to quite different trees.
 
 \section{Conclusion}
 
-Multi-step split optimization can improve decision trees and forests, but in this benchmark it does so by a narrow and inconsistent margin relative to its computational cost. Greedy CART-style induction is not globally optimal; nevertheless, it remains a remarkably competitive accuracy-time compromise. For routine shallow tabular trees and forests, one split at a time is often enough.
+Multi-step split optimization can improve decision trees and forests, but uniform non-greediness is costly and inconsistent under this benchmark. Greedy CART-style induction remains a remarkably competitive accuracy--time compromise for single trees and uniformly sighted forests. The more useful lesson comes from mixed ensembles: injecting a few farther-sighted trees can improve a mostly greedy forest without paying the cost of making every tree farther-sighted. The promising target is therefore not a fully far-sighted forest by default, but a budgeted heterogeneous forest that uses extra sight sparingly.
 
 \section*{CRediT authorship contribution statement}
 Mathias Valla: Conceptualization, Methodology, Software, Investigation, Writing--original draft.
@@ -152,11 +153,11 @@ Mathias Valla: Conceptualization, Methodology, Software, Investigation, Writing-
 \section*{Declaration of competing interest}
 The author declares no competing interests.
 
-\section*{Data and code availability}
-The benchmark datasets are available from PMLB \cite{olson2017pmlb}. The open-source implementation, scripts, tables, and an experimental package for spherical tree and $k$-sighted tree experiments will be available in the \href{https://github.com/MathiasValla/non-greedy-decision-trees}{project GitHub repository}.
+\section*{Acknowledgments}
+Work(s) conducted within the Research Chair DIALog under the aegis of the Risk Foundation, a joint initiative by Universit{\'e} Paris-Dauphine PSL and CNP Assurances.
 
-\section*{Funding}
-Funding information is to be completed before submission.
+\section*{Data and code availability}
+The benchmark datasets are available from PMLB \cite{olson2017pmlb}. The open-source implementation, scripts, retained result tables, and documentation for retrieving all article results are available at \href{https://github.com/MathiasValla/non-greedy-decision-trees}{https://github.com/MathiasValla/non-greedy-decision-trees}.
 
 \bibliographystyle{elsarticle-num}
 \bibliography{references}

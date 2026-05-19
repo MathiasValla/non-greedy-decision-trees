@@ -7,4 +7,9 @@ This folder contains an Elsevier `elsarticle` submission draft for Pattern Recog
 - `references.bib`: bibliography.
 - `Fig1_accuracy_time.pdf` and `Fig2_forest_size.pdf`: manuscript figures.
 
-Before submission, complete the author email, affiliation, and funding fields.
+The implementation and retained article results are documented in
+`../REPRODUCING_RESULTS.md` and will be available from
+<https://github.com/MathiasValla/non-greedy-decision-trees>.
+
+Before submission, complete the author email if required by the submission
+system.
