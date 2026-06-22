@@ -1,0 +1,7 @@
+estimator,estimator_slug,lookahead_depth,datasets,mean_accuracy,median_accuracy,mean_fit_time_s,median_fit_time_s,total_fit_time_s
+Decision tree,tree,1,67,0.69305,0.755396,0.007554,0.004333,0.506
+Decision tree,tree,2,67,0.709993,0.722222,0.372741,0.05466,24.974
+Decision tree,tree,3,67,0.714542,0.733333,70.902457,2.183356,4750.465
+Random forest,forest,1,67,0.706771,0.75,0.018811,0.011592,1.26
+Random forest,forest,2,67,0.712458,0.740741,0.694049,0.120779,46.501
+Random forest,forest,3,67,0.725979,0.761194,96.186354,4.057186,6444.486

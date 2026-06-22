@@ -1,0 +1,29 @@
+Dear Editors,
+
+Please consider the enclosed manuscript, "Sparse Farther-Sighted Trees in
+Shallow Classification Forests: A Short Note", for publication in the Journal
+of Classification as a Short Note.
+
+The note studies a bounded non-greedy variant of decision-tree induction in
+which candidate splits are evaluated through optimized local descendant
+subtrees. The main result is intentionally narrow: uniformly increasing sight
+depth gives only small and inconsistent accuracy improvements relative to its
+computational cost, while sparse farther-sighted trees can improve the
+accuracy-time tradeoff of mostly greedy bootstrap forests.
+
+The submission is original work, is not under consideration elsewhere, and has
+not been previously published. The manuscript is prepared as an anonymized,
+double-spaced, single-column review copy. Author information is supplied
+separately on the title page, consistent with the journal's double-blind review
+process.
+
+Corresponding author:
+Mathias Valla
+Chaire DIALog, Institut Louis Bachelier, Paris, France
+Email: mathias.valla@gmail.com
+Full postal address: to complete in Editorial Manager
+Telephone: to complete in Editorial Manager
+
+Sincerely,
+
+Mathias Valla
