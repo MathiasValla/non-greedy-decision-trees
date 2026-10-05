@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 from pathlib import Path
 import re
 
@@ -31,20 +30,12 @@ DEPTHS = ("3", "6", "None")
 
 
 def validate(directory, fixed_only):
-    report = json.loads((directory / "validation.json").read_text())
-    required = {"fixed_only": fixed_only, "datasets": 57, "outer_tasks": 285,
-                "fixed_blocks": 1710, "fixed_forest_rows": 136800,
-                "fixed_single_rows": 5130, "tuned_rows": 0 if fixed_only else 855}
-    for key, value in required.items():
-        if report.get(key) != value:
-            raise ValueError(f"Unvalidated figure/manuscript input: {key}")
-    hashes = report.get("output_sha256", {})
-    for name in ("summary.csv", "paired_primary_comparisons.csv", "descriptive_paired_comparisons.csv"):
-        if hashlib.sha256((directory / name).read_bytes()).hexdigest() != hashes.get(name):
-            raise ValueError(f"Analysis output hash mismatch: {name}")
-    frames = [pd.read_csv(directory / name, keep_default_na=False) for name in
-              ("summary.csv", "paired_primary_comparisons.csv", "descriptive_paired_comparisons.csv")]
-    return frames
+    from analyze_array_fair_benchmark import read_analysis_csv, validate_retained
+    summary, primary, report = validate_retained(directory, fixed_only)
+    name = "descriptive_paired_comparisons.csv"
+    if hashlib.sha256((directory / name).read_bytes()).hexdigest() != report["output_sha256"].get(name):
+        raise ValueError(f"Analysis output hash mismatch: {name}")
+    return summary, primary, read_analysis_csv(directory / name)
 
 
 def palette():

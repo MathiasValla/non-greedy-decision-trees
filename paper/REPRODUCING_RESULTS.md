@@ -47,8 +47,31 @@ fresh `--out` directory, not deletion or reuse of incompatible evidence.
 All source/environment/protocol identities are frozen. Do not edit induction or
 runner sources while a production run is active. NPZ prediction caches are local
 resumable work products, not article result tables, and are ignored by git.
-Final analysis and figure retrieval commands will be documented only after the
-analysis implementation and the complete evidence have passed review.
+The analysis implementation has passed synthetic completeness, numerical,
+selection/accounting, and layout checks. Production analysis still requires the
+complete cohort. Once all fixed shards finish, run:
+
+```bash
+.venv310/bin/python paper/scripts/analyze_array_fair_benchmark.py --fixed-only
+```
+
+After all tuned shards also finish, run the same command without `--fixed-only`.
+The analyzer independently verifies raw identities, split indices, bank scores,
+costs, and CV winners before exporting to `paper/array_revision_fair/analysis/`.
+The `fixed_only/` export has no partial-family p-values; the `full/` export
+requires all eleven contrasts and all three separate tuned refits.
+
+When the completed analysis files are available in the repository, regenerate
+figures directly from the retained hashed CSVs, without NPZ caches or refitting:
+
+```bash
+.venv310/bin/python paper/scripts/analyze_array_fair_benchmark.py --plot-summaries --fixed-only
+.venv310/bin/python paper/scripts/analyze_array_fair_benchmark.py --plot-summaries
+```
+
+Use only the command for the corresponding completed export. See
+`paper/array_revision_fair/analysis_audit.md` for required files, output schemas,
+and safeguards. The reproduction instructions do not certify an unfinished run.
 
 ## Preceding Repeated Evaluation (Superseded Protocol)
 

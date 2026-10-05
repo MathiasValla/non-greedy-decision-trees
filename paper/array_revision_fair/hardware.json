@@ -1,0 +1,12 @@
+{
+  "source": "system_profiler SPHardwareDataType -json, non-identifying fields only",
+  "recorded_date": "2026-10-05",
+  "machine_model": "Mac15,12",
+  "machine_name": "MacBook Air",
+  "chip_type": "Apple M3",
+  "number_processors_reported": "proc 8:4:4",
+  "physical_memory": "16 GB",
+  "benchmark_concurrent_shards": 5,
+  "estimator_and_native_library_threads_per_shard": 1,
+  "isolated_machine_timing": false
+}
