@@ -193,7 +193,7 @@ def figure3(summary, primary):
              r"width=0.42\textwidth,height=5.2cm,grid=major,grid style={gray!15},",
              r"tick label style={font=\scriptsize},label style={font=\small},title style={font=\small}]",
              r"\nextgroupplot[title={(a) Paired tuned-family differences},xlabel={Accuracy difference (pp)},",
-             r"ytick={0,1,2},yticklabels={" + ",".join(labels) + r"},ydir=reverse,ymin=-0.4,ymax=2.4]"]
+             r"ytick={0,1,2},yticklabels={" + ",".join("{" + label + "}" for label in labels) + r"},ydir=reverse,ymin=-0.4,ymax=2.4]"]
     for index, row in enumerate(rows.itertuples()):
         lines.extend([r"\addplot+[only marks,mark=*,color=fairC" + str((3, 2, 7)[index]) +
                       r",error bars/.cd,x dir=both,x explicit] table[x=x,y=y,x error minus=low,x error plus=high] {",

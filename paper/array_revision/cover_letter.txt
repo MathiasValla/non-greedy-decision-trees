@@ -1,3 +1,7 @@
+WORKING DRAFT FOR AUTHOR REVIEW: the expanded matched and equally tuned
+evaluation is running. Do not send this letter until its complete evidence and
+the final manuscript have been checked.
+
 Dear Dr Hazarika,
 
 Please find the revised manuscript ARRAY-D-26-03529, previously titled
@@ -7,8 +11,10 @@ costs, and limits".
 
 I agree with Reviewer 1's methodological concerns. The revised study adds
 repeated stratified outer partitions, deeper and unrestricted tree settings,
-training-only tuned CART/random-forest baselines, depth-matched CART controls,
-and paired statistical analysis. It corrects bootstrap-slot and timing issues,
+matched, unpruned CART and sighted controls, training-only selection for both
+conventional and mixed forests, and paired statistical analysis. The new grid
+includes three-sighted members, with separate fixed and tuned comparisons.
+It corrects bootstrap-slot and timing issues,
 removes the ad hoc utility heuristic, and positions bounded search as established
 prior work rather than a new induction algorithm. The accompanying response
 details every change and the remaining limitations.

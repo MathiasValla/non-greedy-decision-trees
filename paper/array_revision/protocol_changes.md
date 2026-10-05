@@ -1,5 +1,9 @@
 # Execution Amendments
 
+This log describes the **preceding, superseded protocol**, not amendments to the
+currently frozen matched/equally-tuned run. That run is documented separately in
+`../array_revision_fair/PROTOCOL.md` and must not reuse these result records.
+
 The predictive comparisons, five seeds, dataset cohort, and depths were fixed
 before numerical result analysis. Neither amendment below selects a model or
 dataset based on outer-test performance.
