@@ -85,6 +85,8 @@ the response in two passes. Only claim successful compilation after verification
 
 ## Author Checks Before Upload
 
+Confirm that the linked repository and retained results are publicly accessible
+before submission; the scripts do not change repository visibility.
 Read the full new results, claims, point-by-point response, and AI disclosure;
 the author's substantive approval is required before claiming human verification
 or submitting. Keep Mathias Valla as the sole author. Confirm portal metadata

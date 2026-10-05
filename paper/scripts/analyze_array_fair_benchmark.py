@@ -803,7 +803,7 @@ MARKERS = ("o", "s", "^", "D", "v")
 
 def curve_label(weights):
     horizon = sum(h * weights[h - 1] / 20 for h in (1, 2, 3))
-    return "/".join(str(5 * value) for value in weights) + f"% (h={horizon:.2f})"
+    return "/".join(str(5 * value) for value in weights) + r"% ($\bar{k}=" + f"{horizon:.2f}" + "$)"
 
 
 def curve_style(index):
@@ -895,7 +895,7 @@ def plot_curves(summary, path, depth=3, features=None, test_only=False):
     for axis in axes:
         axis.set_ylim(max(0, low - margin), min(1, high + margin))
     fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(.5, .015), ncol=4,
-               frameon=False, fontsize=7, title="Composition: % k1/k2/k3 (mean horizon h)",
+               frameon=False, fontsize=7, title=r"Composition: % k1/k2/k3 (mean sight $\bar{k}$)",
                title_fontsize=7, columnspacing=1.1, handlelength=1.6, handletextpad=.4)
     markers = [Line2D([], [], color="0.25", marker=marker, ls="none", markersize=3.5, label=f"T={count}")
                for count, marker in zip(COUNTS, MARKERS)]
