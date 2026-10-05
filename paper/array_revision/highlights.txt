@@ -1,0 +1,5 @@
+- Sparse two-sighted replacements improve constrained shallow CART ensembles.
+- Mean gains shrink with deeper members while fitting costs remain substantial.
+- Uniform two-sighted induction can reduce unrestricted-depth test accuracy.
+- Training-selected conventional forests outperform the fixed mixed settings.
+- Paired repeats and sensitivity analyses delimit the shallow benefit.

@@ -1,0 +1,63 @@
+{
+  "dataset": "lymphography",
+  "seed": 1001,
+  "max_depth": "3",
+  "n_samples": 148,
+  "n_features": 18,
+  "n_classes": 4,
+  "train_index_sha256": "bc6b3ad4df34a05baadc3f14c95bdfb0ce6c8b3ef618d4edc05ae83810c272ec",
+  "test_index_sha256": "4048aca915295bac067788c4388cd1dbb955921d80c253c0ad5b6d56bb85ce5a",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "3",
+      "n_estimators": 1,
+      "fit_time_s": 0.0005655423738062382,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3,
+      "accuracy": 0.7297297297297297,
+      "balanced_accuracy": 0.37916666666666665
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.051632040180265903,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 3.0,
+      "accuracy": 0.7837837837837838,
+      "balanced_accuracy": 0.4041666666666667
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "3",
+      "n_estimators": 200,
+      "fit_time_s": 0.10212004138156772,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 3.0,
+      "accuracy": 0.7567567567567568,
+      "balanced_accuracy": 0.38749999999999996
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.2420307919383049,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 0.24195274896919727,
+      "realized_depth": 3.0,
+      "accuracy": 0.7567567567567568,
+      "balanced_accuracy": 0.38749999999999996
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.07031999994069338,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3.0,
+      "accuracy": 0.7837837837837838,
+      "balanced_accuracy": 0.4
+    }
+  ]
+}

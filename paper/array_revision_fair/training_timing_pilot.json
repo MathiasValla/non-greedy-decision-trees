@@ -1,0 +1,186 @@
+{
+  "purpose": "training-only timing, no test predictions or scores",
+  "rows": [
+    {
+      "actual_depth": 3,
+      "dataset": "iris",
+      "fit_time_s": 0.0011993329972028732,
+      "horizon": 1,
+      "max_depth": 3,
+      "n_features": 4,
+      "n_leaves": 4,
+      "n_training_rows": 112
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "iris",
+      "fit_time_s": 0.002974041737616062,
+      "horizon": 2,
+      "max_depth": 3,
+      "n_features": 4,
+      "n_leaves": 7,
+      "n_training_rows": 112
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "iris",
+      "fit_time_s": 0.103021708317101,
+      "horizon": 3,
+      "max_depth": 3,
+      "n_features": 4,
+      "n_leaves": 7,
+      "n_training_rows": 112
+    },
+    {
+      "actual_depth": 5,
+      "dataset": "iris",
+      "fit_time_s": 0.0006108749657869339,
+      "horizon": 1,
+      "max_depth": null,
+      "n_features": 4,
+      "n_leaves": 7,
+      "n_training_rows": 112
+    },
+    {
+      "actual_depth": 15,
+      "dataset": "iris",
+      "fit_time_s": 0.008018207736313343,
+      "horizon": 2,
+      "max_depth": null,
+      "n_features": 4,
+      "n_leaves": 25,
+      "n_training_rows": 112
+    },
+    {
+      "actual_depth": 20,
+      "dataset": "iris",
+      "fit_time_s": 0.5472801248542964,
+      "horizon": 3,
+      "max_depth": null,
+      "n_features": 4,
+      "n_leaves": 30,
+      "n_training_rows": 112
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "bupa",
+      "fit_time_s": 0.0005458751693367958,
+      "horizon": 1,
+      "max_depth": 3,
+      "n_features": 5,
+      "n_leaves": 8,
+      "n_training_rows": 258
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "bupa",
+      "fit_time_s": 0.015275416895747185,
+      "horizon": 2,
+      "max_depth": 3,
+      "n_features": 5,
+      "n_leaves": 8,
+      "n_training_rows": 258
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "bupa",
+      "fit_time_s": 1.6380793750286102,
+      "horizon": 3,
+      "max_depth": 3,
+      "n_features": 5,
+      "n_leaves": 8,
+      "n_training_rows": 258
+    },
+    {
+      "actual_depth": 11,
+      "dataset": "bupa",
+      "fit_time_s": 0.0008972920477390289,
+      "horizon": 1,
+      "max_depth": null,
+      "n_features": 5,
+      "n_leaves": 51,
+      "n_training_rows": 258
+    },
+    {
+      "actual_depth": 12,
+      "dataset": "bupa",
+      "fit_time_s": 0.047443042043596506,
+      "horizon": 2,
+      "max_depth": null,
+      "n_features": 5,
+      "n_leaves": 114,
+      "n_training_rows": 258
+    },
+    {
+      "actual_depth": 15,
+      "dataset": "bupa",
+      "fit_time_s": 4.190787374973297,
+      "horizon": 3,
+      "max_depth": null,
+      "n_features": 5,
+      "n_leaves": 119,
+      "n_training_rows": 258
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "nursery",
+      "fit_time_s": 0.0019538328051567078,
+      "horizon": 1,
+      "max_depth": 3,
+      "n_features": 8,
+      "n_leaves": 5,
+      "n_training_rows": 9718
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "nursery",
+      "fit_time_s": 0.05972779216244817,
+      "horizon": 2,
+      "max_depth": 3,
+      "n_features": 8,
+      "n_leaves": 8,
+      "n_training_rows": 9718
+    },
+    {
+      "actual_depth": 3,
+      "dataset": "nursery",
+      "fit_time_s": 0.5009059170261025,
+      "horizon": 3,
+      "max_depth": 3,
+      "n_features": 8,
+      "n_leaves": 8,
+      "n_training_rows": 9718
+    },
+    {
+      "actual_depth": 14,
+      "dataset": "nursery",
+      "fit_time_s": 0.0035333330743014812,
+      "horizon": 1,
+      "max_depth": null,
+      "n_features": 8,
+      "n_leaves": 231,
+      "n_training_rows": 9718
+    },
+    {
+      "actual_depth": 18,
+      "dataset": "nursery",
+      "fit_time_s": 0.39490762492641807,
+      "horizon": 2,
+      "max_depth": null,
+      "n_features": 8,
+      "n_leaves": 4525,
+      "n_training_rows": 9718
+    },
+    {
+      "actual_depth": 17,
+      "dataset": "nursery",
+      "fit_time_s": 2.5658630416728556,
+      "horizon": 3,
+      "max_depth": null,
+      "n_features": 8,
+      "n_leaves": 4783,
+      "n_training_rows": 9718
+    }
+  ],
+  "scope_changes_from_pilot": false
+}

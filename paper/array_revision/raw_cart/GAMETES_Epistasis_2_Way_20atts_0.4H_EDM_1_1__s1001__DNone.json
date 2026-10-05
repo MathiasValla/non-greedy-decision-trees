@@ -1,0 +1,63 @@
+{
+  "dataset": "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+  "seed": 1001,
+  "max_depth": "None",
+  "n_samples": 1600,
+  "n_features": 20,
+  "n_classes": 2,
+  "train_index_sha256": "c4e4a8f10a879eaa84575e450883e2c539e979179f71c2818c21931d8b055cdf",
+  "test_index_sha256": "4688271b58d5f827503355d5e7a0282cb5e62c1bf7d88fe0805e3e366a6a4466",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "None",
+      "n_estimators": 1,
+      "fit_time_s": 0.004209875129163265,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 24,
+      "accuracy": 0.5,
+      "balanced_accuracy": 0.5
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "fit_time_s": 0.3686609254218638,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 19.05,
+      "accuracy": 0.6775,
+      "balanced_accuracy": 0.6775
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "None",
+      "n_estimators": 200,
+      "fit_time_s": 0.7493742164224386,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 19.245,
+      "accuracy": 0.6925,
+      "balanced_accuracy": 0.6924999999999999
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "fit_time_s": 7.5079809171147645,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 7.5078590414486825,
+      "realized_depth": 18.89,
+      "accuracy": 0.7,
+      "balanced_accuracy": 0.7
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "fit_time_s": 0.149380125105381,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 21.25,
+      "accuracy": 0.7125,
+      "balanced_accuracy": 0.7124999999999999
+    }
+  ]
+}

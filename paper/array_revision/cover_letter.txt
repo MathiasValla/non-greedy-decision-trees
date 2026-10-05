@@ -1,0 +1,35 @@
+Dear Dr Hazarika,
+
+Please find the revised manuscript ARRAY-D-26-03529, previously titled
+"Sparse farther-sighted trees can improve forest accuracy-time tradeoffs" and
+now titled "Bounded split optimization in decision trees and forests: gains,
+costs, and limits".
+
+I agree with Reviewer 1's methodological concerns. The revised study adds
+repeated stratified outer partitions, deeper and unrestricted tree settings,
+training-only tuned CART/random-forest baselines, depth-matched CART controls,
+and paired statistical analysis. It corrects bootstrap-slot and timing issues,
+removes the ad hoc utility heuristic, and positions bounded search as established
+prior work rather than a new induction algorithm. The accompanying response
+details every change and the remaining limitations.
+
+Reviewer 2's attached report appears to concern a numerical-aware LogBERT
+telecommunications manuscript rather than this decision-tree submission. I
+respectfully request confirmation that the report was assigned correctly and
+would welcome any corrected feedback intended for this paper.
+
+Having considered your suggestion, I would now welcome the possibility of a
+transfer to another suitable journal offering publication without a mandatory
+article processing charge (APC), including a subscription publication route if
+available. I would appreciate your guidance and confirmation of the applicable
+publication terms before agreeing to a transfer. My preference is for a no-APC
+route rather than paid open access. I understand that a transfer remains subject
+to independent editorial assessment and does not imply acceptance.
+
+The sole-author list is unchanged. The revised sources, complete new results,
+figures, and reproducibility documentation accompany the revision.
+
+Yours sincerely,
+Mathias Valla
+Chaire DIALog, Institut Louis Bachelier, Paris, France
+mathias.valla@gmail.com

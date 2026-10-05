@@ -1,0 +1,155 @@
+{
+  "dataset": "corral",
+  "seed": 1000,
+  "max_depth": "6",
+  "n_samples": 160,
+  "n_features": 6,
+  "n_classes": 2,
+  "train_index_sha256": "4f6933d8385fec25f13bb61dab90008f9cc5a6acd2db85d7c91977fa8a814e27",
+  "test_index_sha256": "9780289c545b7246623f24f138fa4236b812a9513f61e06a517b6b4d6c6d8abc",
+  "rows": [
+    {
+      "model_id": "tree_k1",
+      "max_depth": "6",
+      "n_estimators": 1,
+      "fit_time_s": 0.002032207790762186,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 5,
+      "n_leaves": 14,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "tree_k2",
+      "max_depth": "6",
+      "n_estimators": 1,
+      "fit_time_s": 0.001302208285778761,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 4,
+      "n_leaves": 9,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "greedy20",
+      "max_depth": "6",
+      "n_estimators": 20,
+      "n_sighted": 0,
+      "fit_time_s": 0.012032833881676197,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.35,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix05_20",
+      "max_depth": "6",
+      "n_estimators": 20,
+      "n_sighted": 1,
+      "fit_time_s": 0.013062585145235062,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.35,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix10_20",
+      "max_depth": "6",
+      "n_estimators": 20,
+      "n_sighted": 2,
+      "fit_time_s": 0.01408441923558712,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.35,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix25_20",
+      "max_depth": "6",
+      "n_estimators": 20,
+      "n_sighted": 5,
+      "fit_time_s": 0.016863794531673193,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.3,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix50_20",
+      "max_depth": "6",
+      "n_estimators": 20,
+      "n_sighted": 10,
+      "fit_time_s": 0.020920337177813053,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.2,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "sighted2_20",
+      "max_depth": "6",
+      "n_estimators": 20,
+      "n_sighted": 20,
+      "fit_time_s": 0.0283710858784616,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.0,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "greedy100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "n_sighted": 0,
+      "fit_time_s": 0.05886974232271314,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.37,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix05_100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "n_sighted": 5,
+      "fit_time_s": 0.0638595363125205,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.37,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix10_100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "n_sighted": 10,
+      "fit_time_s": 0.06793233100324869,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.35,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "mix25_100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "n_sighted": 25,
+      "fit_time_s": 0.0810100780799985,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.31,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "model_id": "greedy200",
+      "max_depth": "6",
+      "n_estimators": 200,
+      "n_sighted": 0,
+      "fit_time_s": 0.12201965926215053,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 4.395,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    }
+  ]
+}

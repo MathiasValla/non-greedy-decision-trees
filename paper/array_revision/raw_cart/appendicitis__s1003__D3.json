@@ -1,0 +1,63 @@
+{
+  "dataset": "appendicitis",
+  "seed": 1003,
+  "max_depth": "3",
+  "n_samples": 106,
+  "n_features": 7,
+  "n_classes": 2,
+  "train_index_sha256": "8363f927fc81401a32616a55055daf8115342eb9623d70c263733427c7ef7363",
+  "test_index_sha256": "6bc6d9006a8ed0d08d3d9393dbeca528210063c4d73b9e45a9e761e3d7ee3547",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "3",
+      "n_estimators": 1,
+      "fit_time_s": 0.0006121252663433552,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3,
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.7
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.06076599983498454,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 2.98,
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.7
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "3",
+      "n_estimators": 200,
+      "fit_time_s": 0.11273157550022006,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 2.98,
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.7
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 2.1588444584049284,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 2.158752713818103,
+      "realized_depth": 2.98,
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.7
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.06778170773759484,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3.0,
+      "accuracy": 0.8888888888888888,
+      "balanced_accuracy": 0.7
+    }
+  ]
+}

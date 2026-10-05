@@ -1,0 +1,63 @@
+{
+  "dataset": "dermatology",
+  "seed": 1002,
+  "max_depth": "None",
+  "n_samples": 366,
+  "n_features": 34,
+  "n_classes": 6,
+  "train_index_sha256": "1d05bdc1044150a72778299c043200ae4350dd3d8bbc940c40e054193dc69920",
+  "test_index_sha256": "d90325ceaa67b30fce087efb49e1a0d8772ef218f6af9bab98a2690ea7330d88",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "None",
+      "n_estimators": 1,
+      "fit_time_s": 0.0010249586775898933,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 11,
+      "accuracy": 0.9565217391304348,
+      "balanced_accuracy": 0.9365740740740741
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "fit_time_s": 0.08751838281750679,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 8.83,
+      "accuracy": 0.967391304347826,
+      "balanced_accuracy": 0.9697420634920636
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "None",
+      "n_estimators": 200,
+      "fit_time_s": 0.16949679562821984,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 8.78,
+      "accuracy": 0.967391304347826,
+      "balanced_accuracy": 0.9697420634920636
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "fit_time_s": 6.247554125264287,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 6.247454830445349,
+      "realized_depth": 9.19,
+      "accuracy": 0.9782608695652174,
+      "balanced_accuracy": 0.9756944444444443
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "fit_time_s": 0.07264425000175834,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 11.71,
+      "accuracy": 0.967391304347826,
+      "balanced_accuracy": 0.9652777777777777
+    }
+  ]
+}

@@ -1,0 +1,571 @@
+dataset,seed,model_id,params,fit_time_s,selection_fit_time_s
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.004839897155761719,0.05315620917826891
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1000,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.1955428123474121,5.1544301668182015
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.003687143325805664,0.05462695797905326
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.24270200729370117,5.216633792035282
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0032372474670410156,0.05271637486293912
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.20853400230407715,5.192756500095129
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.003995180130004883,0.051303334068506956
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.32681798934936523,5.344245500396937
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.002209186553955078,0.05335383303463459
+GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.2644338607788086,5.652628957759589
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0033271312713623047,0.053715667221695185
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.3164501190185547,5.450224332977086
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.004642009735107422,0.052943500224500895
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.2515988349914551,5.393635374959558
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0051839351654052734,0.05651516607031226
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.3361020088195801,5.379415958188474
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0034019947052001953,0.050354082603007555
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.27162599563598633,5.304695415776223
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.004537105560302734,0.05661779176443815
+GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.3134918212890625,5.0342139159329236
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0040318965911865234,0.04711095802485943
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.33290696144104004,5.134068500250578
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.003058195114135742,0.04991345899179578
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.30364108085632324,4.886738124769181
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0019659996032714844,0.04697554185986519
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.2521078586578369,5.238954749889672
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.004415035247802734,0.05387183278799057
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.3160240650177002,5.363486709073186
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0037088394165039062,0.05164012499153614
+GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.2593672275543213,5.33761529205367
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0035729408264160156,0.04713608417659998
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.22940707206726074,4.807682457845658
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0019741058349609375,0.043741832952946424
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.17122983932495117,4.688650416210294
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0019991397857666016,0.046358250081539154
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.22759032249450684,4.900347708258778
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.004374027252197266,0.05330991558730602
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.1725308895111084,4.8165817079134285
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.003604888916015625,0.050211834255605936
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.19737505912780762,5.224619916174561
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0023849010467529297,0.04973095841705799
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.2849397659301758,5.368539832998067
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0032761096954345703,0.051787832751870155
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.21506619453430176,5.146548624616116
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.003303050994873047,0.0552537078037858
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.20401525497436523,5.309107999783009
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0036630630493164062,0.052329749800264835
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.2643740177154541,5.408517749980092
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0036001205444335938,0.06059070909395814
+GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.270251989364624,5.5538250003010035
+analcatdata_aids,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0002949237823486328,0.014874167274683714
+analcatdata_aids,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05451488494873047,1.8896471657790244
+analcatdata_aids,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00029015541076660156,0.017686167266219854
+analcatdata_aids,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.04533123970031738,1.8907709158957005
+analcatdata_aids,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005738735198974609,0.01534733409062028
+analcatdata_aids,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.053752899169921875,1.9580304590053856
+analcatdata_aids,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006570816040039062,0.01590712508186698
+analcatdata_aids,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.0489652156829834,1.9122697915881872
+analcatdata_aids,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00032329559326171875,0.015249958261847496
+analcatdata_aids,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.053130149841308594,1.983708250336349
+analcatdata_asbestos,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005629062652587891,0.019510915968567133
+analcatdata_asbestos,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04311513900756836,1.8434594999998808
+analcatdata_asbestos,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0002779960632324219,0.012950375210493803
+analcatdata_asbestos,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.05922579765319824,1.8972544586285949
+analcatdata_asbestos,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00027489662170410156,0.013016707729548216
+analcatdata_asbestos,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04360508918762207,1.8588200001977384
+analcatdata_asbestos,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005743503570556641,0.015666999854147434
+analcatdata_asbestos,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05267500877380371,1.8586905421689153
+analcatdata_asbestos,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0002930164337158203,0.013470124918967485
+analcatdata_asbestos,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.043399810791015625,1.8887249999679625
+analcatdata_bankruptcy,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00045990943908691406,0.01845708442851901
+analcatdata_bankruptcy,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.060832977294921875,2.3444058331660926
+analcatdata_bankruptcy,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.000453948974609375,0.018157000187784433
+analcatdata_bankruptcy,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.059250831604003906,2.342257915996015
+analcatdata_bankruptcy,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0004353523254394531,0.01879383297637105
+analcatdata_bankruptcy,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06285691261291504,2.411052624695003
+analcatdata_bankruptcy,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0003981590270996094,0.017700999975204468
+analcatdata_bankruptcy,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06181597709655762,2.4202548330649734
+analcatdata_bankruptcy,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00028705596923828125,0.01236129179596901
+analcatdata_bankruptcy,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.03986167907714844,1.5729317497462034
+analcatdata_boxing1,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00031280517578125,0.013057957869023085
+analcatdata_boxing1,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.050119876861572266,1.9067297498695552
+analcatdata_boxing1,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0003018379211425781,0.01565845776349306
+analcatdata_boxing1,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.0516049861907959,1.922828916925937
+analcatdata_boxing1,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00033283233642578125,0.015071334317326546
+analcatdata_boxing1,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05321645736694336,1.9274573340080678
+analcatdata_boxing1,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00030684471130371094,0.013052332680672407
+analcatdata_boxing1,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.051959991455078125,1.8883782080374658
+analcatdata_boxing1,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0002970695495605469,0.015362208243459463
+analcatdata_boxing1,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.0497589111328125,1.898467458318919
+analcatdata_boxing2,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0002868175506591797,0.013999666087329388
+analcatdata_boxing2,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05570411682128906,1.9146720841526985
+analcatdata_boxing2,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00028586387634277344,0.01290087541565299
+analcatdata_boxing2,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.05662989616394043,1.9394525419920683
+analcatdata_boxing2,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0003800392150878906,0.016502208076417446
+analcatdata_boxing2,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.05233621597290039,2.023126916028559
+analcatdata_boxing2,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00029206275939941406,0.013350999914109707
+analcatdata_boxing2,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.04942202568054199,1.958691124804318
+analcatdata_boxing2,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00034999847412109375,0.015605499967932701
+analcatdata_boxing2,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05271172523498535,1.9929182915948331
+analcatdata_creditscore,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003559589385986328,0.016496208030730486
+analcatdata_creditscore,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.059638023376464844,2.228865792043507
+analcatdata_creditscore,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00036406517028808594,0.016593999695032835
+analcatdata_creditscore,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0589139461517334,2.2512637921608984
+analcatdata_creditscore,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0004668235778808594,0.018721541855484247
+analcatdata_creditscore,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05804610252380371,2.322338958270848
+analcatdata_creditscore,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00045490264892578125,0.018396041821688414
+analcatdata_creditscore,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.058406829833984375,2.3001689999364316
+analcatdata_creditscore,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0002799034118652344,0.01223070826381445
+analcatdata_creditscore,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04105997085571289,1.5935944160446525
+analcatdata_cyyoung8092,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005369186401367188,0.02087354240939021
+analcatdata_cyyoung8092,1000,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07194805145263672,2.585910167079419
+analcatdata_cyyoung8092,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0009248256683349609,0.025823375210165977
+analcatdata_cyyoung8092,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.07044816017150879,2.8417610838077962
+analcatdata_cyyoung8092,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005290508270263672,0.04691241588443518
+analcatdata_cyyoung8092,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06515002250671387,2.844463416840881
+analcatdata_cyyoung8092,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006000995635986328,0.02639833278954029
+analcatdata_cyyoung8092,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07497000694274902,3.1196714998222888
+analcatdata_cyyoung8092,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0005109310150146484,0.023228042293339968
+analcatdata_cyyoung8092,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07459187507629395,3.0227087917737663
+analcatdata_cyyoung9302,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006008148193359375,0.023486957885324955
+analcatdata_cyyoung9302,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07469797134399414,2.791455290745944
+analcatdata_cyyoung9302,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00048804283142089844,0.019135083071887493
+analcatdata_cyyoung9302,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.06941390037536621,2.571059958077967
+analcatdata_cyyoung9302,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005898475646972656,0.023937208112329245
+analcatdata_cyyoung9302,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06717205047607422,2.795683292206377
+analcatdata_cyyoung9302,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0005056858062744141,0.02143870759755373
+analcatdata_cyyoung9302,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.06965494155883789,2.838127041235566
+analcatdata_cyyoung9302,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003349781036376953,0.012466459069401026
+analcatdata_cyyoung9302,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04140019416809082,1.610924709122628
+analcatdata_dmft,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.00080108642578125,0.019683666992932558
+analcatdata_dmft,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06536197662353516,2.4795087086968124
+analcatdata_dmft,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006988048553466797,0.021968333050608635
+analcatdata_dmft,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.06661319732666016,2.48910608375445
+analcatdata_dmft,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0005540847778320312,0.018108832649886608
+analcatdata_dmft,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.07132077217102051,2.511845916043967
+analcatdata_dmft,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0006389617919921875,0.01877158274874091
+analcatdata_dmft,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07087397575378418,2.6773375417105854
+analcatdata_dmft,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0005807876586914062,0.02245400007814169
+analcatdata_dmft,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06090402603149414,2.6771807093173265
+analcatdata_fraud,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003230571746826172,0.015281583648175001
+analcatdata_fraud,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0608367919921875,2.173722708132118
+analcatdata_fraud,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003390312194824219,0.014470958150923252
+analcatdata_fraud,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.059699296951293945,2.160346374846995
+analcatdata_fraud,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00033593177795410156,0.016419915948063135
+analcatdata_fraud,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06299495697021484,2.247680999804288
+analcatdata_fraud,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00037288665771484375,0.016789665911346674
+analcatdata_fraud,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.05998373031616211,2.23018033336848
+analcatdata_fraud,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004780292510986328,0.024306959006935358
+analcatdata_fraud,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.0970151424407959,3.1313677090220153
+analcatdata_germangss,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005340576171875,0.021420042030513287
+analcatdata_germangss,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06745195388793945,2.6662013749592006
+analcatdata_germangss,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006399154663085938,0.021130334120243788
+analcatdata_germangss,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.07421016693115234,2.6569869578815997
+analcatdata_germangss,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005278587341308594,0.022403874900192022
+analcatdata_germangss,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06716299057006836,2.6171417920850217
+analcatdata_germangss,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0006263256072998047,0.020536749623715878
+analcatdata_germangss,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.06582522392272949,2.5954184997826815
+analcatdata_germangss,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.00045490264892578125,0.014223667327314615
+analcatdata_germangss,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.0513758659362793,1.8517958750016987
+analcatdata_happiness,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0005800724029541016,0.022388165816664696
+analcatdata_happiness,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.0629730224609375,1.8623143332079053
+analcatdata_happiness,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0002942085266113281,0.012313124723732471
+analcatdata_happiness,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.043831586837768555,1.8871152908541262
+analcatdata_happiness,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0002949237823486328,0.014467957895249128
+analcatdata_happiness,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.04359722137451172,1.8801110000349581
+analcatdata_happiness,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.000324249267578125,0.012933833990246058
+analcatdata_happiness,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.04451394081115723,1.8164654579013586
+analcatdata_happiness,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003387928009033203,0.016501708887517452
+analcatdata_happiness,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.043257713317871094,1.879237084183842
+analcatdata_japansolvent,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004677772521972656,0.019079208374023438
+analcatdata_japansolvent,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06287693977355957,2.4449469172395766
+analcatdata_japansolvent,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0004379749298095703,0.018134708050638437
+analcatdata_japansolvent,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.06592106819152832,2.456909333821386
+analcatdata_japansolvent,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005030632019042969,0.018928958103060722
+analcatdata_japansolvent,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06351399421691895,2.4606657922267914
+analcatdata_japansolvent,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0007488727569580078,0.02071054233238101
+analcatdata_japansolvent,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05723381042480469,2.3770370413549244
+analcatdata_japansolvent,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00029969215393066406,0.011997584253549576
+analcatdata_japansolvent,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0410161018371582,1.5737135410308838
+analcatdata_lawsuit,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0005950927734375,0.019223417155444622
+analcatdata_lawsuit,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05586600303649902,2.05489670811221
+analcatdata_lawsuit,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00039887428283691406,0.015454791951924562
+analcatdata_lawsuit,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05631709098815918,2.1166310417465866
+analcatdata_lawsuit,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0006082057952880859,0.01565462490543723
+analcatdata_lawsuit,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.1291639804840088,2.189695709384978
+analcatdata_lawsuit,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003590583801269531,0.026895500253885984
+analcatdata_lawsuit,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.052053213119506836,2.1453278339467943
+analcatdata_lawsuit,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003216266632080078,0.017070666886866093
+analcatdata_lawsuit,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.052017927169799805,2.050813250243664
+appendicitis,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005900859832763672,0.02567254239693284
+appendicitis,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.07808089256286621,3.173470166977495
+appendicitis,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0006451606750488281,0.026033957954496145
+appendicitis,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.0716860294342041,3.10656112479046
+appendicitis,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0005779266357421875,0.0217138328589499
+appendicitis,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07490777969360352,3.0208415421657264
+appendicitis,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0006048679351806641,0.02370908297598362
+appendicitis,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.08260011672973633,3.0964724170044065
+appendicitis,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003330707550048828,0.012776708230376244
+appendicitis,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.04187893867492676,1.5682143340818584
+balance_scale,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0005087852478027344,0.01724412478506565
+balance_scale,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.06565284729003906,2.292470040731132
+balance_scale,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0005288124084472656,0.021410583052784204
+balance_scale,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.05683422088623047,2.2811314170248806
+balance_scale,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0004937648773193359,0.017531041987240314
+balance_scale,1002,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.05562591552734375,2.2939997920766473
+balance_scale,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0005309581756591797,0.016963124740868807
+balance_scale,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0621640682220459,2.019697166979313
+balance_scale,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005679130554199219,0.019188624806702137
+balance_scale,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.05374789237976074,2.369018207769841
+breast_cancer,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.000598907470703125,0.022797583136707544
+breast_cancer,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.07491207122802734,2.7900066659785807
+breast_cancer,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0005021095275878906,0.020704083144664764
+breast_cancer,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06505274772644043,2.724926458671689
+breast_cancer,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005781650543212891,0.023518791887909174
+breast_cancer,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06768321990966797,2.785317750182003
+breast_cancer,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0004992485046386719,0.021084542386233807
+breast_cancer,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.0780329704284668,2.7114474582485855
+breast_cancer,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0004432201385498047,0.015325667336583138
+breast_cancer,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04320502281188965,1.762413874734193
+bupa,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0008912086486816406,0.025005416944622993
+bupa,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.06387495994567871,2.781425249762833
+bupa,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0008838176727294922,0.023915875237435102
+bupa,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.07643699645996094,2.7966341669671237
+bupa,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0006318092346191406,0.024521540850400925
+bupa,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06581401824951172,2.6974238329567015
+bupa,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0006241798400878906,0.025502624921500683
+bupa,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.07330489158630371,2.707044290844351
+bupa,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.000713348388671875,0.01687279110774398
+bupa,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0460050106048584,1.9442715416662395
+car_evaluation,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013141632080078125,0.03565291687846184
+car_evaluation,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.14775609970092773,5.396780582610518
+car_evaluation,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013360977172851562,0.033391875214874744
+car_evaluation,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.14412379264831543,4.0837410828098655
+car_evaluation,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013251304626464844,0.037116417195647955
+car_evaluation,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.1575300693511963,5.339561750181019
+car_evaluation,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0014271736145019531,0.03681179182603955
+car_evaluation,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.14384698867797852,5.401290083304048
+car_evaluation,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0012102127075195312,0.031296041794121265
+car_evaluation,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.10665130615234375,3.8331878343597054
+cloud,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0008559226989746094,0.02712283283472061
+cloud,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.08595895767211914,3.352003959007561
+cloud,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0008490085601806641,0.026198667008429766
+cloud,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.09897303581237793,3.2613470843061805
+cloud,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006830692291259766,0.02212645811960101
+cloud,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.06766009330749512,2.506388332694769
+cloud,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0006449222564697266,0.020503167062997818
+cloud,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.07329010963439941,2.4681546660140157
+cloud,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005040168762207031,0.015671249944716692
+cloud,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.08800005912780762,2.4053675839677453
+confidence,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00030994415283203125,0.013877166900783777
+confidence,1000,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.056739091873168945,1.8596544591709971
+confidence,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0003840923309326172,0.023399292025715113
+confidence,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05719709396362305,1.9201137921772897
+confidence,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0003457069396972656,0.013542334083467722
+confidence,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.04409503936767578,1.8559697922319174
+confidence,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00031375885009765625,0.012914250139147043
+confidence,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.045774221420288086,1.8656099159270525
+confidence,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0003070831298828125,0.01841404102742672
+confidence,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.05139303207397461,1.92754300031811
+corral,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00034499168395996094,0.014127375092357397
+corral,1000,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.059503793716430664,2.137285790871829
+corral,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00034809112548828125,0.014864250086247921
+corral,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05824589729309082,2.1332893748767674
+corral,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0003681182861328125,0.01571154221892357
+corral,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.06085467338562012,2.1845806250348687
+corral,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0005481243133544922,0.01727099996060133
+corral,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.06366491317749023,2.2076253751292825
+corral,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00028586387634277344,0.012131792027503252
+corral,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.0413210391998291,1.586278666742146
+dermatology,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0011341571807861328,0.02926583308726549
+dermatology,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07669901847839355,3.3618409167975187
+dermatology,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0009801387786865234,0.029311292339116335
+dermatology,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08523201942443848,3.352436542045325
+dermatology,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0010409355163574219,0.03418166562914848
+dermatology,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.1099541187286377,3.636169374920428
+dermatology,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0010540485382080078,0.031137750018388033
+dermatology,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.10887289047241211,3.6605215002782643
+dermatology,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0008897781372070312,0.030394542030990124
+dermatology,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08982396125793457,3.456542667001486
+ecoli,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0007770061492919922,0.022191582713276148
+ecoli,1000,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.06920433044433594,2.6903193751350045
+ecoli,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0007791519165039062,0.022719208151102066
+ecoli,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.06743884086608887,2.7156364172697067
+ecoli,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006608963012695312,0.024169333279132843
+ecoli,1002,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07797980308532715,3.2535944576375186
+ecoli,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006651878356933594,0.022597457747906446
+ecoli,1003,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.07014679908752441,2.9304174999706447
+ecoli,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004322528839111328,0.014906374737620354
+ecoli,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.05324721336364746,1.8190466673113406
+flags,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0007698535919189453,0.022639749571681023
+flags,1000,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.16056513786315918,3.553474875167012
+flags,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0006351470947265625,0.026353292167186737
+flags,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08968091011047363,3.4184187916107476
+flags,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0012040138244628906,0.036170999985188246
+flags,1002,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07459497451782227,3.2718714997172356
+flags,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006399154663085938,0.032325583044439554
+flags,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08632087707519531,3.2436727499589324
+flags,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.000823974609375,0.023338417056947947
+flags,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.09134197235107422,3.157254457939416
+haberman,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0005247592926025391,0.024542416911572218
+haberman,1000,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.051604270935058594,2.0775804170407355
+haberman,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003578662872314453,0.01487283268943429
+haberman,1001,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.057962894439697266,2.0127450837753713
+haberman,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004239082336425781,0.014156207907944918
+haberman,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.053436994552612305,2.037044624798
+haberman,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00045490264892578125,0.01993966707959771
+haberman,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.04579281806945801,2.039920915849507
+haberman,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003688335418701172,0.014355541206896305
+haberman,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.04500102996826172,2.047481582965702
+hayes_roth,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0003418922424316406,0.015056875068694353
+hayes_roth,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05810427665710449,1.9996217917650938
+hayes_roth,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0003561973571777344,0.016194666270166636
+hayes_roth,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04733109474182129,1.9422066248953342
+hayes_roth,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.000347137451171875,0.01471041701734066
+hayes_roth,1002,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04728889465332031,1.8762359591200948
+hayes_roth,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0003712177276611328,0.014139874838292599
+hayes_roth,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.04885101318359375,1.9028965001925826
+hayes_roth,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00034308433532714844,0.019854292273521423
+hayes_roth,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.048616886138916016,1.8220266671851277
+iris,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00025963783264160156,0.012745792046189308
+iris,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.03591322898864746,1.3808372500352561
+iris,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00049591064453125,0.01837216690182686
+iris,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04768800735473633,1.9327551671303809
+iris,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00036787986755371094,0.013768457807600498
+iris,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04572796821594238,1.8959155417978764
+iris,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00031304359436035156,0.01338658295571804
+iris,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.04470491409301758,1.8736682082526386
+iris,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003650188446044922,0.020307292230427265
+iris,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.04906797409057617,1.9476940422318876
+irish,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004658699035644531,0.019585708156228065
+irish,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.06056499481201172,2.4506184170022607
+irish,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005221366882324219,0.017328542191535234
+irish,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.06443214416503906,2.442868458107114
+irish,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004763603210449219,0.017778417095541954
+irish,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06322407722473145,2.4471985828131437
+irish,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004611015319824219,0.01906983321532607
+irish,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.06309390068054199,2.4447469590231776
+irish,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00035309791564941406,0.01334537472575903
+irish,1004,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.04495096206665039,1.7264332920312881
+labor,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0003821849822998047,0.015440374612808228
+labor,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06235218048095703,2.2420866251923144
+labor,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00037980079650878906,0.015939875040203333
+labor,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06264376640319824,2.2606419171206653
+labor,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0005240440368652344,0.01706441631540656
+labor,1002,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06407713890075684,2.539449749980122
+labor,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00039577484130859375,0.018792416900396347
+labor,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06424403190612793,2.5472297919914126
+labor,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0008637905120849609,0.03968791710212827
+labor,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.09496307373046875,3.4931717081926763
+led24,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.00497889518737793,0.09049445763230324
+led24,1000,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.19895100593566895,8.29141658404842
+led24,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.004962921142578125,0.09386129071936011
+led24,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.1610260009765625,8.2487239590846
+led24,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.005639076232910156,0.09578724997118115
+led24,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.4320230484008789,8.756750458851457
+led24,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.004003763198852539,0.09165183315053582
+led24,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.1948537826538086,8.754152541980147
+led24,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.004934072494506836,0.08576662512496114
+led24,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.21137213706970215,8.778554457705468
+led7,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013709068298339844,0.035310833249241114
+led7,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 5}",0.12198400497436523,3.5151453749276698
+led7,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0013051033020019531,0.031484583392739296
+led7,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.08939003944396973,3.5390455420129
+led7,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.001283884048461914,0.03475087508559227
+led7,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.11269092559814453,3.656411957927048
+led7,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0012829303741455078,0.033653708174824715
+led7,1003,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.10308098793029785,3.4767217091284692
+led7,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0008649826049804688,0.02085704216733575
+led7,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0771331787109375,2.391944416798651
+lupus,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00033283233642578125,0.014277041889727116
+lupus,1000,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.05005812644958496,1.9088733331300318
+lupus,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00029397010803222656,0.012624999973922968
+lupus,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.04822707176208496,1.8651263751089573
+lupus,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0002999305725097656,0.012987291906028986
+lupus,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04969596862792969,1.9155829581432045
+lupus,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0002887248992919922,0.013378333766013384
+lupus,1003,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.04911303520202637,1.9542906251735985
+lupus,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.00031685829162597656,0.014471124857664108
+lupus,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.0413818359375,1.9235980422236025
+lymphography,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006577968597412109,0.02630858402699232
+lymphography,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0784609317779541,3.3071981663815677
+lymphography,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006430149078369141,0.02528058411553502
+lymphography,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07672500610351562,3.3200907916761935
+lymphography,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005860328674316406,0.02468229178339243
+lymphography,1002,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07966399192810059,3.286536166910082
+lymphography,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006010532379150391,0.02845662459731102
+lymphography,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.07869696617126465,3.287903333082795
+lymphography,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0007288455963134766,0.03152979211881757
+lymphography,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07532906532287598,3.2349801249802113
+mofn_3_7_10,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0014221668243408203,0.04952024994418025
+mofn_3_7_10,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10554909706115723,3.4981680000200868
+mofn_3_7_10,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0010669231414794922,0.03258608328178525
+mofn_3_7_10,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10592174530029297,3.5429046251811087
+mofn_3_7_10,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0024132728576660156,0.03583995811641216
+mofn_3_7_10,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10103988647460938,3.248135209083557
+mofn_3_7_10,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0012061595916748047,0.033194917254149914
+mofn_3_7_10,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10734176635742188,3.2302192919887602
+mofn_3_7_10,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0012118816375732422,0.03296120837330818
+mofn_3_7_10,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.11866092681884766,4.002964125014842
+monk1,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005908012390136719,0.018779625184834003
+monk1,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.09204506874084473,2.7000277913175523
+monk1,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005512237548828125,0.019069166854023933
+monk1,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.09134697914123535,2.6843593339435756
+monk1,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0006861686706542969,0.022097417153418064
+monk1,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10191082954406738,3.099474959075451
+monk1,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005481243133544922,0.02054037479683757
+monk1,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.1007077693939209,3.084937083069235
+monk1,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00043392181396484375,0.013410833198577166
+monk1,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.05118298530578613,1.8093651658855379
+monk2,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00084686279296875,0.026703499723225832
+monk2,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.09652996063232422,3.554979959037155
+monk2,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0009160041809082031,0.02864175010472536
+monk2,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.09690189361572266,3.5637057502754033
+monk2,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0009119510650634766,0.028502583969384432
+monk2,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10737204551696777,3.4816114995628595
+monk2,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0009381771087646484,0.030836458783596754
+monk2,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10349607467651367,3.4529249579645693
+monk2,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00045108795166015625,0.01436854200437665
+monk2,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.0535428524017334,1.8193011246621609
+monk3,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0004680156707763672,0.0167517913505435
+monk3,1000,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.0837240219116211,2.5535607910715044
+monk3,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0004820823669433594,0.01820399984717369
+monk3,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.0801849365234375,2.526061083190143
+monk3,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0005280971527099609,0.01902270782738924
+monk3,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.08548808097839355,2.852222208864987
+monk3,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0005109310150146484,0.01854533376172185
+monk3,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.08448600769042969,2.8211785000748932
+monk3,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00036787986755371094,0.013734458945691586
+monk3,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 5}",0.04638791084289551,1.7142375418916345
+mux6,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00037384033203125,0.016928167082369328
+mux6,1000,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.06509590148925781,2.2520739170722663
+mux6,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0004360675811767578,0.015854583121836185
+mux6,1001,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.06783318519592285,2.254286791663617
+mux6,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00037097930908203125,0.01654483424499631
+mux6,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.06420230865478516,2.34020600002259
+mux6,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0004100799560546875,0.018615500070154667
+mux6,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.06403779983520508,2.3308105003088713
+mux6,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0002906322479248047,0.012477417010813951
+mux6,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.043892860412597656,1.626706708688289
+new_thyroid,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004520416259765625,0.01617754204198718
+new_thyroid,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06005716323852539,2.204551290720701
+new_thyroid,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004622936248779297,0.016900458838790655
+new_thyroid,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.06346392631530762,2.2124226251617074
+new_thyroid,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005548000335693359,0.01980833290144801
+new_thyroid,1002,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.061972856521606445,2.433084167074412
+new_thyroid,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006771087646484375,0.017749834340065718
+new_thyroid,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06247305870056152,2.4036143752746284
+new_thyroid,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0004899501800537109,0.018369249999523163
+new_thyroid,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.05854201316833496,2.195149166043848
+nursery,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.008873939514160156,0.11729312501847744
+nursery,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.6346049308776855,12.634237625170499
+nursery,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.006947040557861328,0.12965316697955132
+nursery,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.6715261936187744,14.448474625125527
+nursery,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.007845163345336914,0.1287017078138888
+nursery,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.6804821491241455,12.900542125105858
+nursery,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.009723901748657227,0.12359308311715722
+nursery,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.6970739364624023,13.159216334111989
+nursery,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.004880189895629883,0.06738304207101464
+nursery,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.3810429573059082,6.808857291936874
+parity5+5,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.001508951187133789,0.033731999807059765
+parity5+5,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.12040185928344727,3.2467500837519765
+parity5+5,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013208389282226562,0.029005666729062796
+parity5+5,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.12470293045043945,3.3271882911212742
+parity5+5,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0014369487762451172,0.02957704197615385
+parity5+5,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.11844182014465332,3.212666417006403
+parity5+5,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.001332998275756836,0.02769537502899766
+parity5+5,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.11899709701538086,3.203382832929492
+parity5+5,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0014297962188720703,0.0340034170076251
+parity5+5,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.14024710655212402,3.903532040771097
+parity5,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0002357959747314453,0.010357458144426346
+parity5,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.03440284729003906,1.3418249590322375
+parity5,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003371238708496094,0.015490583144128323
+parity5,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.04782581329345703,2.034130749758333
+parity5,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0003311634063720703,0.015693000052124262
+parity5,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.05014514923095703,2.0034870826639235
+parity5,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003829002380371094,0.015210708137601614
+parity5,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.0541231632232666,1.8671704581938684
+parity5,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.000335693359375,0.015536250080913305
+parity5,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.05049610137939453,1.9709159168414772
+penguins,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006930828094482422,0.021747542079538107
+penguins,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0805361270904541,2.8161686253733933
+penguins,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0005712509155273438,0.021409499924629927
+penguins,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07319498062133789,2.808168458286673
+penguins,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.000720977783203125,0.02561891684308648
+penguins,1002,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.07674908638000488,3.1920691672712564
+penguins,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0007936954498291016,0.025146041996777058
+penguins,1003,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0754539966583252,2.9893939159810543
+penguins,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.00047087669372558594,0.01633433299139142
+penguins,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.04456186294555664,1.7548579168505967
+postoperative_patient_data,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00047898292541503906,0.018670042045414448
+postoperative_patient_data,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06437110900878906,2.455387208145112
+postoperative_patient_data,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004467964172363281,0.01955949980765581
+postoperative_patient_data,1001,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.06248593330383301,2.405305083375424
+postoperative_patient_data,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004222393035888672,0.019014333374798298
+postoperative_patient_data,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.0645608901977539,2.467553250025958
+postoperative_patient_data,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 5}",0.0004248619079589844,0.01866175001487136
+postoperative_patient_data,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.060508012771606445,2.4264246663078666
+postoperative_patient_data,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0002989768981933594,0.012356416787952185
+postoperative_patient_data,1004,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.040802001953125,1.5678339996375144
+prnn_synth,1000,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0004260540008544922,0.014914666302502155
+prnn_synth,1000,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0452420711517334,1.786383000202477
+prnn_synth,1001,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003421306610107422,0.016797875054180622
+prnn_synth,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.05003190040588379,1.8147793752141297
+prnn_synth,1002,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0006301403045654297,0.018042124807834625
+prnn_synth,1002,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.048509836196899414,1.8985957079567015
+prnn_synth,1003,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.0003368854522705078,0.013970582745969296
+prnn_synth,1003,rf_tuned,"{'max_depth': 3, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.04272937774658203,1.8633882077410817
+prnn_synth,1004,cart_tuned,"{'max_depth': 3, 'min_samples_leaf': 1}",0.00036716461181640625,0.013878332916647196
+prnn_synth,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.04412198066711426,1.9188574999570847
+soybean,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0015211105346679688,0.03419908322393894
+soybean,1000,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08882999420166016,4.329091665800661
+soybean,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0015196800231933594,0.03100254200398922
+soybean,1001,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08567285537719727,4.359936874825507
+soybean,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.001993894577026367,0.04105575010180473
+soybean,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.16410493850708008,4.272272417321801
+soybean,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0017380714416503906,0.039020624943077564
+soybean,1003,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.11513614654541016,4.242074416950345
+soybean,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013492107391357422,0.03732170816510916
+soybean,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.09457993507385254,3.5595155828632414
+spect,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0007266998291015625,0.026539457961916924
+spect,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.08001494407653809,3.237778834067285
+spect,1001,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0006871223449707031,0.024713125079870224
+spect,1001,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 1}",0.08897686004638672,3.2676534578204155
+spect,1002,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0007538795471191406,0.02516645798459649
+spect,1002,rf_tuned,"{'max_depth': 3, 'max_features': None, 'min_samples_leaf': 5}",0.09054899215698242,3.243853166233748
+spect,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 5}",0.0006878376007080078,0.025591040961444378
+spect,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08061480522155762,3.2417096248827875
+spect,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 5}",0.0006690025329589844,0.02516587497666478
+spect,1004,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08177995681762695,3.2076273751445115
+tae,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0004730224609375,0.021714000031352043
+tae,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.060697078704833984,2.27934129210189
+tae,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0004639625549316406,0.018656833097338676
+tae,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.06306719779968262,2.322330583818257
+tae,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00045490264892578125,0.019253750331699848
+tae,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.06696295738220215,2.329475332982838
+tae,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0004572868347167969,0.01670862501487136
+tae,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.0656888484954834,2.3300333749502897
+tae,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0007829666137695312,0.01767666731029749
+tae,1004,rf_tuned,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.056353092193603516,2.365101832896471
+threeOf9,1000,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0006940364837646484,0.026042291894555092
+threeOf9,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.10418581962585449,3.9283153750002384
+threeOf9,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.00061798095703125,0.023766333237290382
+threeOf9,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.07853269577026367,2.7861296674236655
+threeOf9,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0008387565612792969,0.02719129202887416
+threeOf9,1002,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.12035918235778809,3.690360249951482
+threeOf9,1003,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0007092952728271484,0.025487125385552645
+threeOf9,1003,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.09158086776733398,3.3753626672551036
+threeOf9,1004,cart_tuned,"{'max_depth': 6, 'min_samples_leaf': 1}",0.0004589557647705078,0.01468825014308095
+threeOf9,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.05047297477722168,1.815824874676764
+tic_tac_toe,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0016241073608398438,0.04313383297994733
+tic_tac_toe,1000,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.28106117248535156,4.320701791904867
+tic_tac_toe,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0013041496276855469,0.03268091706559062
+tic_tac_toe,1001,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.15293121337890625,4.307942791841924
+tic_tac_toe,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.001558065414428711,0.037914250046014786
+tic_tac_toe,1002,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.1119539737701416,4.017008041962981
+tic_tac_toe,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0012819766998291016,0.034674915950745344
+tic_tac_toe,1003,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.14289259910583496,4.262604124844074
+tic_tac_toe,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0007259845733642578,0.016500957775861025
+tic_tac_toe,1004,rf_tuned,"{'max_depth': None, 'max_features': None, 'min_samples_leaf': 1}",0.07021117210388184,2.053368791937828
+xd6,1000,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0008020401000976562,0.024408415891230106
+xd6,1000,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.09005284309387207,3.135431499686092
+xd6,1001,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.001071929931640625,0.02866033324971795
+xd6,1001,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.10103297233581543,3.596491875126958
+xd6,1002,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0009241104125976562,0.028800999745726585
+xd6,1002,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.09077095985412598,3.1193748749792576
+xd6,1003,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0010781288146972656,0.030275417026132345
+xd6,1003,rf_tuned,"{'max_depth': 6, 'max_features': 'sqrt', 'min_samples_leaf': 1}",0.08283424377441406,3.3012310839258134
+xd6,1004,cart_tuned,"{'max_depth': None, 'min_samples_leaf': 1}",0.0005230903625488281,0.01586250029504299
+xd6,1004,rf_tuned,"{'max_depth': 6, 'max_features': None, 'min_samples_leaf': 1}",0.056443214416503906,1.8963708747178316

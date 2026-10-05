@@ -1,0 +1,155 @@
+{
+  "dataset": "hayes_roth",
+  "seed": 1000,
+  "max_depth": "None",
+  "n_samples": 160,
+  "n_features": 4,
+  "n_classes": 3,
+  "train_index_sha256": "ba700789428557b48ef5d7503fb0c93fe671c2da0c94868e6a635b4b9860c35e",
+  "test_index_sha256": "65065901ed8c8217eebfb0486a47fa72344a87a924e8d3320dd1df6c7ebeec36",
+  "rows": [
+    {
+      "model_id": "tree_k1",
+      "max_depth": "None",
+      "n_estimators": 1,
+      "fit_time_s": 0.001464999746531248,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 10,
+      "n_leaves": 25,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "tree_k2",
+      "max_depth": "None",
+      "n_estimators": 1,
+      "fit_time_s": 0.004706459119915962,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 9,
+      "n_leaves": 45,
+      "accuracy": 0.75,
+      "balanced_accuracy": 0.7291666666666666
+    },
+    {
+      "model_id": "greedy20",
+      "max_depth": "None",
+      "n_estimators": 20,
+      "n_sighted": 0,
+      "fit_time_s": 0.02326858462765813,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.2,
+      "accuracy": 0.85,
+      "balanced_accuracy": 0.875
+    },
+    {
+      "model_id": "mix05_20",
+      "max_depth": "None",
+      "n_estimators": 20,
+      "n_sighted": 1,
+      "fit_time_s": 0.02588158566504717,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.15,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "mix10_20",
+      "max_depth": "None",
+      "n_estimators": 20,
+      "n_sighted": 2,
+      "fit_time_s": 0.02845304412767291,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.1,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "mix25_20",
+      "max_depth": "None",
+      "n_estimators": 20,
+      "n_sighted": 5,
+      "fit_time_s": 0.03667266899719834,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.05,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "mix50_20",
+      "max_depth": "None",
+      "n_estimators": 20,
+      "n_sighted": 10,
+      "fit_time_s": 0.057033376302570105,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 8.8,
+      "accuracy": 0.725,
+      "balanced_accuracy": 0.7083333333333334
+    },
+    {
+      "model_id": "sighted2_20",
+      "max_depth": "None",
+      "n_estimators": 20,
+      "n_sighted": 20,
+      "fit_time_s": 0.09312362549826503,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 8.05,
+      "accuracy": 0.675,
+      "balanced_accuracy": 0.6666666666666666
+    },
+    {
+      "model_id": "greedy100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "n_sighted": 0,
+      "fit_time_s": 0.12795162852853537,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.3,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "mix05_100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "n_sighted": 5,
+      "fit_time_s": 0.14524358697235584,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.26,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "mix10_100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "n_sighted": 10,
+      "fit_time_s": 0.15861396118998528,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.22,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "mix25_100",
+      "max_depth": "None",
+      "n_estimators": 100,
+      "n_sighted": 25,
+      "fit_time_s": 0.2016668771393597,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.05,
+      "accuracy": 0.825,
+      "balanced_accuracy": 0.8541666666666666
+    },
+    {
+      "model_id": "greedy200",
+      "max_depth": "None",
+      "n_estimators": 200,
+      "n_sighted": 0,
+      "fit_time_s": 0.24179050279781222,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 9.31,
+      "accuracy": 0.85,
+      "balanced_accuracy": 0.875
+    }
+  ]
+}

@@ -1,0 +1,614 @@
+\documentclass[final,5p,times]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+\hypersetup{hidelinks}
+\urlstyle{same}
+\journal{Array}
+\begin{document}
+\begin{frontmatter}
+\title{Bounded split optimization in decision trees and forests: gains, costs, and limits}
+\author[1]{Mathias Valla\corref{cor1}}
+\ead{mathias.valla@gmail.com}
+\cortext[cor1]{Corresponding author.}
+\affiliation[1]{organization={Chaire DIALog, Institut Louis Bachelier},city={Paris},country={France}}
+\begin{abstract}
+\textbf{Working draft: the equally tuned, matched-stopping extension with three-sighted members is pending. The numerical results below describe the preceding evaluation and are not the final submission evidence.}
+
+Greedy induction can miss interactions that become useful only after further splits. We study whether established bounded split optimization improves prediction enough to justify its fitting cost, and whether that computation helps when allocated to a minority of forest members. Local optimization horizon is distinguished from final tree depth. Repeated stratified partitions of a fixed PMLB sample compare shallow, deeper, and unrestricted unpruned learners. We separate fixed-architecture comparisons from training-only model selection applied to both conventional and mixed forests. Paired effects, uncertainty intervals, multiplicity-adjusted tests, and benchmark-family sensitivities replace single-split comparisons. Final fitting cost is distinguished from the cost of selecting a model. Aggregate accuracy--cost curves are descriptive, not evidence for a validated per-dataset time-budget policy. The completed equally tuned evaluation will determine the scope of any predictive advantage; no general superiority claim is made in this working draft.
+\end{abstract}
+\begin{keyword}
+Decision trees \sep Bootstrap ensembles \sep Bounded split optimization \sep Computational cost \sep Statistical evaluation
+\end{keyword}
+\end{frontmatter}
+
+\section{Introduction}
+Decision trees choose a sequence of splits, but most induction methods optimize each split separately. CART minimizes the weighted impurity of the two immediate children and then recurses \cite{breiman1984cart}. A candidate with little immediate gain may enable a useful interaction one generation later. Bounded descendant optimization addresses this mismatch by scoring the first split through the best local subtree it enables.
+
+This idea is established. The question here is empirical: \emph{does bounded split optimization improve held-out accuracy enough to justify its measured fitting cost, and does applying it to a minority of ensemble members help?} We use $k$-sighted to denote an integer local horizon of $k$ split generations, including the current split. A mixed forest has members with different integer horizons; its average horizon is descriptive rather than a fractional optimization rule.
+
+The original screening study restricted final tree depth to three and used one split per dataset. Such a design can examine constrained shallow learners, but cannot establish practical superiority over deep, tuned random forests. Its accuracy--time plots also cannot validate a model selected under a fixed per-dataset fitting budget. The revised protocol therefore uses repeated partitions, explicitly separates horizon from final depth, matches common hyperparameters and the absence of pruning, and applies training-only selection to both conventional and mixed forests. Untuned and tuned comparisons answer separate questions and are not substituted for one another. The study examines a fixed sample of small PMLB tasks rather than claiming coverage of general machine-learning workloads.
+
+The shallow regime is deliberate, not a proposed default for random forests. Limiting member size can regularize an ensemble, with conditional predictive benefits documented particularly in noisy regression settings \cite{zhou2023trees,duroux2018impact}. At depth three each binary member has at most eight leaves; that bound does not limit the whole forest to eight prediction regions. We retain this capacity-limited question while testing deeper alternatives rather than assuming that shallow members are universally sufficient.
+
+The contribution is an evaluation of computation allocation, not a new bounded-search algorithm or an optimality certificate. The implementation and reproducibility guide are available at \href{https://github.com/MathiasValla/non-greedy-decision-trees}{the project repository}. The one-sighted baseline in the new protocol is library CART, rather than an independently implemented greedy learner with different stopping behaviour.
+
+\section{Related work}
+Greedy induction and bootstrap aggregation are standard foundations \cite{breiman1984cart,quinlan1986induction,breiman1996bagging}. Conventional random forests additionally randomize the features available at each split \cite{breiman2001random}; a bootstrap ensemble using all features is not that conventional baseline.
+
+Non-greedy induction predates the present study. Norton \cite{norton1989generating} considered downstream tree quality, while Ragavan and Rendell \cite{ragavan1993lookahead} used lookahead for feature construction. Murthy and Salzberg's LOOK procedure directly evaluates a split with optimally split children, corresponding to the two-generation case here \cite{murthy1995lookahead}. Their findings already question whether added computation reliably improves prediction. Later work revisited pathology and anytime computation allocation \cite{elomaa2005lookahead,esmeir2007anytime}. Norouzi et al. \cite{norouzi2015efficient} jointly optimize oblique split and leaf parameters, a different form of non-greediness.
+
+The closest forest precedent is the stepwise lookahead forest of Donick and Lera \cite{donick2021stepwise}. It optimizes two-level blocks and studies interactions in noisy data. Our builder instead commits one root split and re-solves at each actual child; our ensemble question concerns allocating different horizons across members. We do not claim priority for lookahead forests or heterogeneous ensembles. Randomized splits \cite{geurts2006extremely} and random final depths \cite{horn2026randomdepth} are other established ensemble design choices. Heterogeneity alone is not evidence of a beneficial diversity mechanism \cite{kuncheva2003diversity}.
+
+Modern optimal-tree methods exploit mathematical programming, bounds, caching, and separable subproblems \cite{bertsimas2017optimal,verwer2019learning,hu2019optimal,lin2020generalized,aglin2020caching,demirovic2022murtree,vanderlinden2023separable,aghaei2025strong}. Reference ensembles can guide restricted search \cite{mctavish2022reference}. SPLIT and LicketySPLIT combine non-greedy choices with greedy continuation and distinguish search depth from final depth \cite{babbar2025nearoptimal}. Their objectives and continuation rules differ from truncated terminal impurity. Recent comparisons also emphasize that objectives, size constraints, and tuning affect conclusions about greedy versus optimal trees \cite{vanderlinden2026optimalgreedy}. We do not benchmark these solvers here and cannot infer that our measured cost is unavoidable for every non-greedy method.
+
+\subsection{Tree-size regularization}
+Shallow forests have a rationale beyond making search tractable, but the evidence is conditional. Zhou and Mentch \cite{zhou2023trees} study tree size as random-forest regularization and report benefits for smaller trees at low signal-to-noise ratios. Duroux and Scornet \cite{duroux2018impact} compare subsampling and early termination theoretically for quantile regression forests and empirically for Breiman-style regression forests. Their leaf-count and resampling settings differ from our bootstrap depth-three Gini classifiers; neither study identifies depth three as a general optimum. Competitive shallow single-tree classification results \cite{bertsimas2017optimal} motivate a separate capacity-constrained question, not a guarantee for forests. Consistency theory with controlled but growing leaf counts \cite{scornet2015consistency} likewise does not establish consistency for fixed depth three. We therefore situate the shallow experiment within tree-size regularization research without substituting it for a comparison with deep forests. Results about shallow learners in sequential boosting are not evidence for independently fitted bootstrap ensembles.
+
+\section{Method}
+\subsection{Horizon and final depth}
+Let $S$ be the examples reaching a node, $I(S)$ its Gini impurity, and $W(S)$ its total weight. Let $D$ be the maximum number of splits along a final root-to-leaf path and $d$ the current depth. At that node the actual search horizon is $h=\min(k,D-d)$; when $D$ is unrestricted, $h=k$. Increasing $k$ changes search, whereas increasing $D$ changes capacity.
+
+Define the optimal local terminal score recursively:
+\begin{align}
+ C_0(S)&=W(S)I(S),\\
+ C_h(S)&=\min\left\{C_0(S),\min_{s\in\mathcal S(S)}
+ \big[C_{h-1}(S_l(s))+C_{h-1}(S_r(s))\big]\right\}.
+ \label{eq:recursion}
+\end{align}
+Here $\mathcal S(S)$ contains admissible axis-aligned midpoint thresholds between distinct observed feature values, subject to the leaf, depth, and feature constraints. The selected root minimizes the second term when it is no worse than stopping, up to numerical tolerance. Feasible zero-gain splits are allowed, as in unpruned CART. Only that root is committed. The configured horizon is then restored at each actual child. This is receding-horizon induction, not a single depth-$k$ fit followed by an unchanged completion.
+
+For a fixed node, expanding the feasible horizon cannot worsen the optimal terminal \emph{training impurity}. This does not guarantee better test accuracy or monotone performance of the final receding-horizon trees. Gini is not misclassification error or a sparsity-penalized loss. When $k\geq D$ at the root, exhaustive search solves the depth-bounded terminal-impurity problem, subject to the stated constraints and numerical tolerance. Thus $k=D=3$ is a special shallow full-horizon case, not evidence of scalable global optimization.
+
+\subsection{Implementation and stopping}
+The isolated Cython scorer evaluates uncapped numerical thresholds and reuses sorted prefix class counts for the terminal split calculation. It does not introduce branch-and-bound or a global optimality certificate. Pure or infeasible nodes stop, but a feasible split is not rejected solely for having zero gain. Both implementations receive float32 predictors, Gini impurity, the same permitted total depth, split and leaf minima, feature setting, and seed. The minimum impurity decrease and minimum leaf-weight fraction are zero. CART uses \texttt{ccp\_alpha=0}; the sighted builder has no post-fit pruning. Threshold rounding, tie-breaking, and random-feature ordering can still differ. Horizon is the deliberate algorithmic change, not a change in capacity or pruning.
+
+The one-sighted constituent is scikit-learn CART. Forest tree seeds and bootstrap multiplicities follow scikit-learn's random-forest construction. Each member fits the full training matrix using multiplicities as sample weights; zero-weight rows are excluded from the sighted builder's sample-count constraints. This avoids the different minimum-leaf semantics of physically duplicated rows. Verification checks prepared CART-bank predictions against the actual library random forest across all ensemble sizes, depths, feature settings, and leaf minima, including bags missing a rare class.
+
+Each mixed-forest bootstrap position contains exactly one tree. A farther-sighted member replaces CART at that position; it does not add a second tree trained on an already-counted draw. The paired fits use the same weighted draw and seed. Label-independent random permutations of successive 20-position blocks assign disjoint horizon groups. This gives exact proportions and nested prefixes at every evaluated ensemble size. Class probabilities are aligned to the common dataset class ordering before averaging.
+
+The shorthand $\bar k=\sum_j p_j k_j$ describes a mixture. It is not a sufficient description of its search or cost: $90\%$ one-sighted plus $10\%$ two-sighted and $95\%$ one-sighted plus $5\%$ three-sighted both have $\bar k=1.1$. We specify proportions and ensemble size directly.
+
+\subsection{Search cost}
+Counting complete split assignments is not the runtime of Eq.~\eqref{eq:recursion}. Additivity allows the child optima to be computed separately. If every recursive call has at most $m$ candidates and $E_h$ counts candidate evaluations, a uniform worst-case abstraction gives
+\begin{equation}
+ E_0=0,\qquad E_h\leq m+2m E_{h-1},\qquad
+ E_h\leq m\frac{(2m)^h-1}{2m-1}.
+\end{equation}
+The bound is exponential in horizon, before accounting for sorting, partitioning, changing sample sizes, and early stopping. Final fit cost additionally sums searches over committed nodes. A fixed short horizon can therefore be used in deep trees; whether its cost is acceptable is an empirical question. Our timings characterize this implementation and candidate space, not an inherent lower bound for optimized non-greedy induction.
+
+\section{Experimental protocol}
+\subsection{Dataset sample and repeated partitions}
+We freeze the 57-dataset sample previously used for the mixed-forest grid. This is a convenience sample of tractable PMLB classification tasks \cite{olson2017pmlb}, not a random sample of all classification problems or a fresh external validation collection. Every dataset is retained in the new protocol. Dataset names, raw and used dimensions, class counts, and split hashes are retained. PMLB's supplied numeric representation and categorical encodings are shared by all methods. Loading explicitly applies the same complete-case rule to every family; the manifest records missingness, removed-row counts, and a retained source-index hash. This removes eleven rows from \texttt{penguins}. No imputation, learned encoding, scaling, or candidate cap is introduced.
+
+Each dataset receives five paired stratified $75/25$ outer partitions, with seeds $1000$--$1004$. Estimator and bootstrap seeds vary across repetitions. All methods use the same outer indices. This increases assessment of split stability; overlapping partitions are not independent datasets. The study is an extension of an exploratory benchmark, not preregistered independent confirmation.
+
+\subsection{Models and training-only selection}
+Fixed-architecture comparisons use $D\in\{3,6,\infty\}$, minimum leaf size one, and either all features or square-root feature subsampling. Single trees use $k=1,2,3$ with identical common settings and no pruning. Every forest composition is evaluated at $T\in\{20,40,60,100,200\}$. In addition to the three pure horizons, each pair $(1,2)$, $(1,3)$, and $(2,3)$ uses $5\%,10\%,25\%,$ or $50\%$ of the farther-sighted horizon. A sparse three-way composition uses $85\%,10\%,5\%$ of horizons one, two, and three. Thus sixteen explicitly specified compositions span every ensemble size; equal average horizons do not identify identical mixtures.
+
+The tuned experiment is separate. Conventional RF, the one-/two-sighted family, and the inclusive one-/two-/three-sighted family all receive training-only inner cross-validation. They share depths $\{3,6,\infty\}$, leaf minima $\{1,5\}$, feature settings $\{\sqrt p,p\}$, and ensemble sizes $\{20,40,60,100\}$. The 200-member fixed curves are descriptive and not extra tuning candidates for only one family. The RF space has 48 candidates, the one-/two-sighted space 288, and the inclusive space 768; both mixed spaces contain the full RF space. Equal common search grids do not mean equal computational effort, and the larger mixed spaces can incur greater selection uncertainty and cost.
+
+Inner folds are shared across families. Shuffled stratified cross-validation uses $\min(3,c_{\min})$ folds when each observed outer-training class has at least two examples. A singleton or single-class training partition uses ordinary shuffled three-fold cross-validation; this fallback is documented and cannot provide reliable rare-class validation. Shared horizon-specific banks are fitted once per fold and structural configuration, and scored at every admissible size and composition. Highest mean inner accuracy selects, followed by measured validation fitting work and a stable candidate identifier to break ties. All three configurations are locked before separate refits and outer-test evaluation \cite{cawley2010selection}. The selected conventional baseline refits the actual library RF. Outer test outcomes never choose candidates.
+
+Three-sighted members are included in both repeated fixed and tuned experiments, not treated only as historical evidence. No fit timeout is imposed. Incremental bank checkpoints permit recovery without deleting unfinished tasks. Completeness requires every planned dataset, repetition, structural block, and selected refit; an error stops execution rather than silently shrinking the sample.
+
+\subsection{Timing and outcomes}
+Accuracy is the primary metric and balanced accuracy is an imbalance sensitivity. Scores are first averaged over the five repetitions within each dataset, then averaged equally across datasets. We retain all repeat-level scores and selected baseline settings.
+
+Fixed-curve fitting work sums measured \texttt{fit} durations for exactly the included members. Constructor/bootstrap preparation and prediction are measured separately, not silently included in this axis. Direct selected-model refit wall time includes construction and bootstrap preparation but excludes prediction. We report validation selection work separately from final refit cost. Each tuned family is charged the banks and schedules required by its complete candidate space, including unused members of computed banks. Shared computation is charged fully to each standalone family but counted only once when reporting the physical benchmark work. A sum of recorded stage wall times excludes checkpoint I/O, process startup, and idle gaps; it is not a full uninterrupted end-to-end stopwatch. These experiments do not enforce an equal total computation budget.
+
+Five concurrent shards each use one thread for fitting and numerical libraries. Wall times reflect the recorded software and shared hardware load, not isolated-machine speed measurements. Cross-implementation timing comparisons include implementation effects. Close time matches must therefore not be interpreted as guaranteed budget feasibility. We do not optimize a utility weight or claim a validated fixed-time frontier.
+
+\subsection{Uncertainty and multiple comparisons}
+For each contrast we average the paired repetition differences within each dataset. A percentile bootstrap of these dataset means, with 20,000 resamples, gives an unadjusted $95\%$ interval for the equal-dataset mean effect. It describes variation across the benchmark tasks under a dataset-exchangeability approximation; it is not a distribution-free confidence interval for all machine-learning applications.
+
+Two-sided Wilcoxon signed-rank tests use dataset-level differences, omit zero differences, and assign $p=1$ for an all-zero contrast \cite{demsar2006comparisons}. They test a signed-rank location hypothesis, requiring the usual symmetry qualification, rather than the same mean estimated by the bootstrap. Holm adjustment \cite{holm1979sequential} covers one prespecified family of eleven contrasts: eight fixed 100-member comparisons of $10\%$ two- or three-sighted replacements with matched RF, at depth three or unrestricted depth and either feature setting; and the three pairwise comparisons of the tuned families. Other depths, sizes, proportions, and single-tree contrasts are descriptive. Intervals are not simultaneous. This contrast family was frozen before the new run; the underlying cohort had already been explored.
+
+Known related GAMETES, MONK, LED, parity, and Cy Young tasks are also averaged within families for a sensitivity analysis with equal family weighting. A second sensitivity removes the explicitly named synthetic/constructed tasks in the released manifest. Both change the weighting or sample; neither selects favourable results. Dataset dependence beyond those known groups remains possible. Failure to detect a difference is not evidence of equivalence.
+
+\section{Results}
+\textbf{Draft transition notice: this section, its tables and figures, and the discussion below still retain the preceding protocol's results. They are not results of the matched and equally tuned protocol specified above and must be replaced before submission.}
+% BEGIN GENERATED results_text
+\subsection{Complete evaluation}
+Both stages completed all 855 dataset--seed--depth tasks, yielding 16,245 model score records on 57 datasets. No planned dataset or repetition is removed. The sample spans 32--12,958 observations and 2--43 predictors. All five outer partitions of \texttt{lymphography} require the documented singleton-class inner-CV fallback. Table~\ref{tab:performance} reports the main models; complete mixture-grid and tuning records are released separately. Unless stated otherwise, differences below are percentage points of accuracy and intervals are unadjusted dataset-bootstrap intervals.
+
+\subsection{Uniformly increasing sight}
+At depth three, the two-sighted tree improves mean accuracy over standard CART by 2.76 points [0.67, 5.21], but the median paired improvement is only 0.13 points, with 29 wins, three ties, and 25 losses. The Holm-adjusted signed-rank $p$-value is 0.611. Thus the positive mean interval does not imply a broadly consistent paired advantage or rejection by the separate location test. At depth six the mean difference is 0.38 points [$-1.89$, 2.97], with $p_H=1.000$. With unrestricted depth it becomes $-5.14$ points [$-8.70$, $-1.86$], with $p_H=0.012$. The mean realized depths are 15.1 for the unrestricted two-sighted tree and 10.1 for CART; the former reaches depth 58 in one fit. Greater realized depth coincides with poorer test performance here, without identifying its cause.
+
+The pure two-sighted 20-tree forest gains 2.76 points [1.42, 4.27] over the custom greedy forest at depth three ($p_H=0.012$). Its depth-six difference is $-0.13$ points [$-2.35$, 2.05], whereas the unrestricted difference is $-6.21$ points [$-9.59$, $-3.22$] ($p_H<0.001$). Figure~\ref{fig:depth} shows the depth dependence. Uniformly increasing local sight therefore does not reliably improve prediction when final capacity is relaxed. Its mean forest fitting-cost ratio remains 27.4--31.7 relative to the custom control; the two-sighted single tree costs 126.1--298.2 times the optimized-library CART fit. These cross-implementation ratios characterize the present scorer, not all non-greedy algorithms.
+
+\subsection{Sparse two-sighted replacements}
+The strongest depth-matched mixed result is shallow. Replacing ten of 100 CART members increases mean accuracy from 0.7263 to 0.7369: a paired gain of 1.07 points [0.52, 1.70], with $p_H=0.0033$. The median gain is 0.20 points, and the dataset counts are 31 wins, 15 ties, and 11 losses. Balanced accuracy increases by 1.12 points. Mean measured constituent cost rises from 0.075 to 0.868 s, a ratio of 11.6; the median dataset-paired cost ratio is 5.5. This is an accuracy gain under matched shallow capacity, not under equal computation.
+
+The direction survives both specified sensitivities, with a smaller effect. Giving equal weight to the 48 known dataset families gives 0.82 points [0.32, 1.42], with family-adjusted $p_H=0.018$. On the 38 tasks outside the named synthetic/constructed set, the mean effect is 0.60 points [0.14, 1.15]. The latter interval is descriptive and unadjusted; neither sensitivity makes the convenience sample representative of general workloads.
+
+At depths six and unlimited, CART-mixture mean gains shrink to 0.48 points [0.13, 0.88] and 0.34 points [0.08, 0.64]. Both median effects are zero and both primary-family signed-rank $p_H$ values are 0.273. These positive mean intervals and non-rejected signed-rank tests concern different estimands; they are not evidence of equivalence or contradictory decisions about one common hypothesis. Mean cost ratios increase to 16.2 and 23.8. The custom-greedy mixture shows the same attenuation, but its shallow mean cost ratio is only 4.1 because that greedy implementation is slower than library CART. Comparator choice materially changes the apparent tradeoff.
+
+\subsection{Training-selected conventional baselines}
+The tuned random forest has mean accuracy 0.7896 and balanced accuracy 0.7541. Relative to it, the CART mixture's accuracy differences are $-5.27$ points [$-8.06$, $-2.88$] at depth three, $-1.83$ points [$-3.49$, $-0.51$] at depth six, and $-1.13$ points [$-2.12$, $-0.29$] without a depth limit. Corresponding tuned-family $p_H$ values are below 0.001, 0.021, and 0.036. These are benchmark-average disadvantages, not losses on every dataset. In 285 training-only forest selections, depth three is chosen 115 times, depth six 83 times, and unrestricted depth 87 times. The shallow option can be useful, but fixing it for every task is not justified by these selections.
+
+Mean random-forest refit time is 0.101 s, compared with 0.868, 1.527, and 2.787 s for the CART mixtures. However, mean total conventional-forest selection-plus-refit time is 3.090 s. Figure~\ref{fig:tradeoff} and Table~\ref{tab:performance} exclude that selection cost from their fitting axis. They consequently cannot establish end-to-end budget dominance: the conventional baselines are tuned and the mixtures are not, and timing scopes and implementations differ. The evidence does not support practical superiority of the mixed learner over the training-selected conventional alternative.
+% END GENERATED results_text
+
+\begin{table*}[t]
+\centering\small
+\caption{Repeated-partition performance. Scores and fitting costs are equal-dataset means after averaging repetitions. The two-sighted tree is the custom learner; the CART mixture replaces ten of 100 standard CART members. Tuned baseline rows use inner-selected depth, leaf size, and, for forests, features. Costs exclude baseline selection.}
+\label{tab:performance}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+Model & Maximum depth & Accuracy & Balanced accuracy & Fit cost (s) & Mean realized depth\\\midrule
+% BEGIN GENERATED table_performance
+CART tree & 3 & 0.6782 & 0.6241 & 0.001 & 3.0 \\
+Two-sighted tree & 3 & 0.7058 & 0.6542 & 0.106 & 3.0 \\
+CART bagging (100) & 3 & 0.7263 & 0.6700 & 0.075 & 2.9 \\
+CART + 10\% two-sighted (100) & 3 & 0.7369 & 0.6811 & 0.868 & 2.9 \\
+Random forest (sqrt) & 3 & 0.7222 & 0.6578 & 0.078 & 3.0 \\
+CART tree & 6 & 0.7282 & 0.6947 & 0.001 & 5.6 \\
+Two-sighted tree & 6 & 0.7321 & 0.6975 & 0.189 & 5.9 \\
+CART bagging (100) & 6 & 0.7665 & 0.7315 & 0.094 & 5.4 \\
+CART + 10\% two-sighted (100) & 6 & 0.7713 & 0.7354 & 1.527 & 5.4 \\
+Random forest (sqrt) & 6 & 0.7559 & 0.7122 & 0.081 & 5.7 \\
+CART tree & $\infty$ & 0.7451 & 0.7194 & 0.001 & 10.1 \\
+Two-sighted tree & $\infty$ & 0.6937 & 0.6576 & 0.410 & 15.1 \\
+CART bagging (100) & $\infty$ & 0.7749 & 0.7465 & 0.117 & 8.9 \\
+CART + 10\% two-sighted (100) & $\infty$ & 0.7783 & 0.7480 & 2.787 & 9.4 \\
+Random forest (sqrt) & $\infty$ & 0.7639 & 0.7307 & 0.094 & 10.1 \\
+Tuned CART & tuned & 0.7557 & 0.7235 & 0.001 & -- \\
+Tuned random forest & tuned & 0.7896 & 0.7541 & 0.101 & -- \\
+% END GENERATED table_performance
+\bottomrule\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering\small
+\caption{Depth-matched paired differences. Effects and unadjusted dataset-bootstrap intervals are in percentage points; $p_H$ is Holm-adjusted over all 15 rows. W/T/L counts dataset-mean wins, ties, and losses for the first model. Cost ratios compare mean measured fitting costs. Custom-greedy and standard CART controls are distinct.}
+\label{tab:comparisons}
+\begin{tabular}{@{}lrlrrr@{}}\toprule
+Comparison & Depth & Mean difference [95\% interval] & $p_H$ & W/T/L & Cost ratio\\\midrule
+% BEGIN GENERATED table_comparisons
+Two-sighted vs. greedy tree & 3 & 2.94 [0.91, 5.34] & 0.298 & 31/2/24 & 39.3 \\
+Two-sighted vs. greedy (20) & 3 & 2.76 [1.42, 4.27] & 0.012 & 33/6/18 & 31.7 \\
+10\% mixture vs. greedy (100) & 3 & 1.15 [0.60, 1.78] & $<0.001$ & 32/14/11 & 4.1 \\
+Two-sighted vs. CART tree & 3 & 2.76 [0.67, 5.21] & 0.611 & 29/3/25 & 126.1 \\
+CART mixture vs. CART bagging & 3 & 1.07 [0.52, 1.70] & 0.003 & 31/15/11 & 11.6 \\
+Two-sighted vs. greedy tree & 6 & 0.70 [-1.57, 3.26] & 1.000 & 23/3/31 & 39.0 \\
+Two-sighted vs. greedy (20) & 6 & -0.13 [-2.35, 2.05] & 1.000 & 24/1/32 & 31.7 \\
+10\% mixture vs. greedy (100) & 6 & 0.34 [-0.06, 0.77] & 1.000 & 23/13/21 & 4.0 \\
+Two-sighted vs. CART tree & 6 & 0.38 [-1.89, 2.97] & 1.000 & 21/5/31 & 167.0 \\
+CART mixture vs. CART bagging & 6 & 0.48 [0.13, 0.88] & 0.273 & 26/19/12 & 16.2 \\
+Two-sighted vs. greedy tree & $\infty$ & -4.92 [-8.47, -1.73] & 0.039 & 19/1/37 & 31.6 \\
+Two-sighted vs. greedy (20) & $\infty$ & -6.21 [-9.59, -3.22] & $<0.001$ & 12/2/43 & 27.4 \\
+10\% mixture vs. greedy (100) & $\infty$ & 0.18 [-0.10, 0.52] & 1.000 & 20/18/19 & 3.6 \\
+Two-sighted vs. CART tree & $\infty$ & -5.14 [-8.70, -1.86] & 0.012 & 17/2/38 & 298.2 \\
+CART mixture vs. CART bagging & $\infty$ & 0.34 [0.08, 0.64] & 0.273 & 24/20/13 & 23.8 \\
+% END GENERATED table_comparisons
+\bottomrule\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]
+\centering% BEGIN GENERATED figure1
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.35cm},
+width=0.43\textwidth,height=5.4cm,
+tick label style={font=\footnotesize},label style={font=\small},
+title style={font=\small},xtick={0,1,2},xticklabels={3,6,Unlimited},
+xlabel={Maximum tree depth}]
+\nextgroupplot[title={(a) Paired accuracy difference},ylabel={Accuracy difference (pp)},
+legend to name=revisionDepthLegend,legend columns=3,legend style={font=\scriptsize,draw=none}]
+\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+-0.16 2.75607001 2.08761326 2.45245298
+0.84 0.38169954 2.27508480 2.59080479
+1.84 -5.14064131 3.55602812 3.28294057
+};
+\addlegendentry{Tree vs. CART}
+\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.00 2.75796847 1.33537199 1.50898259
+1.00 -0.13106597 2.21413150 2.17890428
+2.00 -6.21006486 3.37536345 2.98535557
+};
+\addlegendentry{Uniform forest (20)}
+\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.16 1.06592014 0.54406835 0.63608495
+1.16 0.48398550 0.35712173 0.39578368
+2.16 0.33996210 0.26439018 0.30328854
+};
+\addlegendentry{CART mixture (100)}
+\addplot[black!40,dashed,forget plot] coordinates {(-0.3,0) (2.3,0)};
+\nextgroupplot[title={(b) Relative fitting cost},ymode=log,ylabel={Ratio of mean costs}]
+\addplot+[mark=*,color=blue!65!black] table[x=x,y=y] {
+x y
+0.00 126.10010529
+1.00 166.99899148
+2.00 298.17639650
+};
+\addplot+[mark=*,color=red!70!black] table[x=x,y=y] {
+x y
+0.00 31.72878677
+1.00 31.74331933
+2.00 27.44396915
+};
+\addplot+[mark=*,color=green!45!black] table[x=x,y=y] {
+x y
+0.00 11.58967399
+1.00 16.18150025
+2.00 23.79945058
+};
+\end{groupplot}
+\end{tikzpicture}
+\par\smallskip\pgfplotslegendfromname{revisionDepthLegend}
+% END GENERATED figure1
+\caption{Depth sensitivity of paired effects and fitting costs. The blue comparison uses standard CART trees, the orange one the custom 20-tree greedy control, and the green one standard CART bagging with or without two-sighted replacements. Bars are unadjusted dataset-bootstrap intervals. Search horizon remains two when final depth increases.}
+\label{fig:depth}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering% BEGIN GENERATED figure2
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=3 by 1,horizontal sep=0.85cm},
+width=0.285\textwidth,height=5.0cm,xmode=log,
+ymin=0.66300315,ymax=0.84436750,
+tick label style={font=\scriptsize},label style={font=\small},
+title style={font=\small},xlabel={Mean fitting cost (s)}]
+\nextgroupplot[title={Depth 3},ylabel={Mean test accuracy},legend to name=revisionTradeoffLegend,legend columns=3,legend style={font=\scriptsize,draw=none}]
+\addplot+[only marks,mark=*,color=black!55,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.07486186 0.72627476 0.05004736 0.04740820
+};
+\addlegendentry{CART bagging (100)}
+\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.86762453 0.73693396 0.05045626 0.04711055
+};
+\addlegendentry{CART + 10\% two-sighted}
+\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.07771087 0.72220298 0.05248264 0.04984934
+};
+\addlegendentry{Random forest ($\sqrt p$)}
+\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+2.05360076 0.74461342 0.05067633 0.04736742
+};
+\addlegendentry{Custom 25\% mixture}
+\addplot+[only marks,mark=*,color=violet!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.14933932 0.72689552 0.04990173 0.04669041
+};
+\addlegendentry{CART bagging (200)}
+\addplot+[only marks,mark=star,color=black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.10056143 0.78960568 0.05075568 0.04804461
+};
+\addlegendentry{Tuned random forest}
+\nextgroupplot[title={Depth 6}]
+\addplot+[only marks,mark=*,color=black!55,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.09438863 0.76649855 0.05507105 0.05143986
+};
+\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+1.52734958 0.77133841 0.05457501 0.05060709
+};
+\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.08073096 0.75594454 0.05826145 0.05424469
+};
+\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+3.81256240 0.77297001 0.05437573 0.05013077
+};
+\addplot+[only marks,mark=*,color=violet!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.18748234 0.76496869 0.05525298 0.05165550
+};
+\addplot+[only marks,mark=star,color=black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.10056143 0.78960568 0.05075568 0.04804461
+};
+\nextgroupplot[title={Unlimited depth}]
+\addplot+[only marks,mark=*,color=black!55,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.11709103 0.77488791 0.05676300 0.05231888
+};
+\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+2.78670219 0.77828753 0.05625186 0.05165585
+};
+\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.09391535 0.76390864 0.05931316 0.05560074
+};
+\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+7.38365203 0.77852380 0.05591336 0.05149956
+};
+\addplot+[only marks,mark=*,color=violet!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.23649546 0.77412509 0.05668270 0.05233608
+};
+\addplot+[only marks,mark=star,color=black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.10056143 0.78960568 0.05075568 0.04804461
+};
+\end{groupplot}
+\end{tikzpicture}
+\par\smallskip\pgfplotslegendfromname{revisionTradeoffLegend}
+% END GENERATED figure2
+\caption{Descriptive accuracy--cost points at each final-depth setting. Dataset-bootstrap bars describe mean accuracy, not paired differences; Table~\ref{tab:comparisons} provides the paired analysis. The same training-only tuned random-forest reference is shown in each panel. Fitting boundaries differ between prepared-slot ensembles and library forest refits as explained in the protocol. This plot is not a validated per-dataset fixed-budget selection rule.}
+\label{fig:tradeoff}
+\end{figure*}
+
+\section{Discussion}
+% BEGIN GENERATED discussion_text
+The revision changes the interpretation of the exploratory result. Sparse two-sighted replacements can improve a constrained shallow CART ensemble, including under the stated family and constructed-task sensitivities. That is a restricted configuration effect, not a generally improved accuracy--time frontier. Its median gain is smaller than its mean gain, and the extra cost is substantial even when only a minority of members use bounded search. With deeper members, mean gains attenuate and the adjusted signed-rank analysis does not establish the same location advantage. Uniform two-sighted induction can be detrimental at unrestricted depth. Better local terminal training impurity is therefore not a certificate of better prediction.
+
+This interpretation is consistent with studying shallow members as a regularized regime, rather than dismissing them as inherently unrealistic. The cited tree-size literature motivates conditional capacity control, not one universally preferred depth. Our training-selected forests use both shallow and deeper configurations. Depth-matched comparisons answer whether stronger local optimization helps within a capacity constraint; comparisons with tuned conventional learners answer a different, more practical question. On the present sample, the latter do not favour the fixed mixtures. Neither a nonsignificant contrast nor the success of a restricted shallow ensemble warrants the assertion that greedy induction is equivalent to every non-greedy method.
+% END GENERATED discussion_text
+
+The hypothesis that a minority of farther-sighted members can improve an ensemble remains useful to test. However, a difference between heterogeneous and homogeneous ensembles does not identify its mechanism. Member strength, shared bias, stopping behaviour, and error dependence can all change. We do not measure a causal diversity effect or justify the phrase ``enlighten the forest.'' The descriptive average horizon likewise does not make two mixtures with the same $\bar k$ interchangeable.
+
+Three limitations remain substantial. First, the convenience sample contains small tasks and constructed interactions, so even unlimited final depth does not establish scalability to large modern tabular or vision datasets. Second, only the conventional baselines undergo inner model selection; a carefully tuned, resource-bounded mixed learner could behave differently. Third, the scorer exhaustively searches numerical thresholds without modern caching, bounds, or continuation heuristics. Cython improves execution, but is not a new algorithmic solution to combinatorial search. Comparisons with DL8.5, MurTree, STreeD, or SPLIT require aligning representation, loss, and structural constraints before they can support a solver ranking.
+
+The earlier $0.7$ s vertical slice was chosen from aggregate exploratory curves. It was neither a per-dataset constraint nor a training-selected policy, and its mixed times were allocated estimates. The historical implementation also combined overlapping member prefixes. Those observations motivated the new unique-slot study but do not support a fixed-budget superiority claim. A future budget experiment would need to choose depth, tree count, and mixture proportion solely within each training partition, account for selection cost, and validate final fitting feasibility before examining test outcomes.
+
+\section{Conclusion}
+% BEGIN GENERATED conclusion_text
+Bounded split optimization is an established way to address myopic induction, but its predictive value depends on capacity and the comparator. In the repeated evaluation, sparse two-sighted replacements improve a shallow, depth-matched CART ensemble at substantial additional fitting cost. The mean advantage shrinks with deeper members, uniform two-sighted induction can reduce unrestricted-depth accuracy, and training-selected conventional forests achieve higher benchmark-average accuracy. These findings support a conditional benefit for constrained shallow ensembles, not general mixed-forest superiority or a validated fixed-time policy. Future work should compare training-selected, resource-bounded mixtures with modern hybrid search while accounting for selection cost and testing larger, independent tasks.
+% END GENERATED conclusion_text
+
+\section*{CRediT authorship contribution statement}
+Mathias Valla: Conceptualization, Methodology, Software, Investigation, Formal analysis, Writing--original draft, Writing--review and editing.
+\section*{Declaration of competing interest}
+The author declares no competing interests.
+\section*{Acknowledgments}
+Work(s) conducted within the Research Chair DIALog under the aegis of the Risk Foundation, a joint initiative by Universit{\'e} Paris-Dauphine PSL and CNP Assurances.
+\section*{Data and code availability}
+The datasets are publicly available from PMLB \cite{olson2017pmlb}. Code, dataset and environment manifests, repeat-level results, selected hyperparameters, paired analyses, figures, and manuscript sources are available at \url{https://github.com/MathiasValla/non-greedy-decision-trees}. The repository's \texttt{paper/REPRODUCING\_RESULTS.md} documents how to retrieve and reproduce all results in this article. Historical summary tables are separated from the complete new evaluation; historical aggregates without retained raw fits are not used for statistical inference.
+\section*{Declaration of generative AI and AI-assisted technologies}
+OpenAI Codex (OpenAI) was used to assist with literature discovery, manuscript revision, benchmark and analysis code, and figure-generation code. Numerical figures are computed from retained experimental records using reproducible NumPy, SciPy, pandas, and Matplotlib workflows, with equivalent numerical plots embedded in the LaTeX source; no generative image model supplies data or artwork. The author must review the sources, code, results, and text before submission and takes responsibility for the submitted version.
+
+% BEGIN GENERATED bibliography
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{breiman1984cart}
+L.~Breiman, J.~H. Friedman, R.~A. Olshen, C.~J. Stone, Classification and
+  Regression Trees, Wadsworth, Belmont, CA, 1984.
+
+\bibitem{zhou2023trees}
+S.~Zhou, L.~Mentch,
+  \href{https://onlinelibrary.wiley.com/doi/10.1002/sam.11594}{Trees, forests,
+  chickens, and eggs: when and why to prune trees in a random forest},
+  Statistical Analysis and Data Mining: The ASA Data Science Journal 16~(1)
+  (2023) 45--64, first published online 25 August 2022.
+\newblock \href {https://doi.org/10.1002/sam.11594}
+  {\path{doi:10.1002/sam.11594}}.
+\newline\urlprefix\url{https://onlinelibrary.wiley.com/doi/10.1002/sam.11594}
+
+\bibitem{duroux2018impact}
+R.~Duroux, E.~Scornet, \href{https://doi.org/10.1051/ps/2018008}{Impact of
+  subsampling and tree depth on random forests}, {ESAIM}: Probability and
+  Statistics 22 (2018) 96--128.
+\newblock \href {https://doi.org/10.1051/ps/2018008}
+  {\path{doi:10.1051/ps/2018008}}.
+\newline\urlprefix\url{https://doi.org/10.1051/ps/2018008}
+
+\bibitem{quinlan1986induction}
+J.~R. Quinlan, Induction of decision trees, Machine Learning 1~(1) (1986)
+  81--106.
+\newblock \href {https://doi.org/10.1007/BF00116251}
+  {\path{doi:10.1007/BF00116251}}.
+
+\bibitem{breiman1996bagging}
+L.~Breiman, Bagging predictors, Machine Learning 24~(2) (1996) 123--140.
+\newblock \href {https://doi.org/10.1007/BF00058655}
+  {\path{doi:10.1007/BF00058655}}.
+
+\bibitem{breiman2001random}
+L.~Breiman, Random forests, Machine Learning 45~(1) (2001) 5--32.
+\newblock \href {https://doi.org/10.1023/A:1010933404324}
+  {\path{doi:10.1023/A:1010933404324}}.
+
+\bibitem{norton1989generating}
+S.~W. Norton,
+  \href{https://www.ijcai.org/Proceedings/89-1/Papers/128.pdf}{Generating
+  better decision trees}, in: Proceedings of the Eleventh International Joint
+  Conference on Artificial Intelligence, 1989, pp. 800--805.
+\newline\urlprefix\url{https://www.ijcai.org/Proceedings/89-1/Papers/128.pdf}
+
+\bibitem{ragavan1993lookahead}
+H.~Ragavan, L.~A. Rendell, Lookahead feature construction for learning hard
+  concepts, in: Machine Learning Proceedings 1993, Morgan Kaufmann, 1993, pp.
+  252--259.
+\newblock \href {https://doi.org/10.1016/B978-1-55860-307-3.50039-3}
+  {\path{doi:10.1016/B978-1-55860-307-3.50039-3}}.
+
+\bibitem{murthy1995lookahead}
+S.~K. Murthy, S.~L. Salzberg,
+  \href{https://www.ijcai.org/Proceedings/95-2/Papers/002.pdf}{Lookahead and
+  pathology in decision tree induction}, in: Proceedings of the Fourteenth
+  International Joint Conference on Artificial Intelligence, 1995, pp.
+  1025--1031.
+\newline\urlprefix\url{https://www.ijcai.org/Proceedings/95-2/Papers/002.pdf}
+
+\bibitem{elomaa2005lookahead}
+T.~Elomaa, T.~Malinen, On look-ahead and pathology in decision tree learning,
+  Journal of Experimental \& Theoretical Artificial Intelligence 17~(1--2)
+  (2005) 19--33.
+\newblock \href {https://doi.org/10.1080/09528130512331315936}
+  {\path{doi:10.1080/09528130512331315936}}.
+
+\bibitem{esmeir2007anytime}
+S.~Esmeir, S.~Markovitch,
+  \href{https://www.jmlr.org/papers/v8/esmeir07a.html}{Anytime learning of
+  decision trees}, Journal of Machine Learning Research 8 (2007) 891--933.
+\newline\urlprefix\url{https://www.jmlr.org/papers/v8/esmeir07a.html}
+
+\bibitem{norouzi2015efficient}
+M.~Norouzi, M.~D. Collins, M.~A. Johnson, D.~J. Fleet, P.~Kohli, Efficient
+  non-greedy optimization of decision trees, in: Advances in Neural Information
+  Processing Systems, Vol.~28, 2015, pp. 1729--1737.
+
+\bibitem{donick2021stepwise}
+D.~Donick, S.~C. Lera,
+  \href{https://www.nature.com/articles/s41598-021-88571-3}{Uncovering feature
+  interdependencies in high-noise environments with stepwise lookahead decision
+  forests}, Scientific Reports 11 (2021) 9238, article 9238.
+\newblock \href {https://doi.org/10.1038/s41598-021-88571-3}
+  {\path{doi:10.1038/s41598-021-88571-3}}.
+\newline\urlprefix\url{https://www.nature.com/articles/s41598-021-88571-3}
+
+\bibitem{geurts2006extremely}
+P.~Geurts, D.~Ernst, L.~Wehenkel,
+  \href{https://doi.org/10.1007/s10994-006-6226-1}{Extremely randomized trees},
+  Machine Learning 63~(1) (2006) 3--42.
+\newblock \href {https://doi.org/10.1007/s10994-006-6226-1}
+  {\path{doi:10.1007/s10994-006-6226-1}}.
+\newline\urlprefix\url{https://doi.org/10.1007/s10994-006-6226-1}
+
+\bibitem{horn2026randomdepth}
+D.~Horn, T.~M. Krabel, T.~N.~T. Tran, A.~Groll, C.~Jentsch,
+  \href{https://doi.org/10.1007/s00180-025-01697-0}{The impact of random tree
+  depth---a novel randomization process for ensemble methods}, Computational
+  Statistics 41 (2026) 25, article 25.
+\newblock \href {https://doi.org/10.1007/s00180-025-01697-0}
+  {\path{doi:10.1007/s00180-025-01697-0}}.
+\newline\urlprefix\url{https://doi.org/10.1007/s00180-025-01697-0}
+
+\bibitem{kuncheva2003diversity}
+L.~I. Kuncheva, C.~J. Whitaker,
+  \href{https://doi.org/10.1023/A:1022859003006}{Measures of diversity in
+  classifier ensembles and their relationship with the ensemble accuracy},
+  Machine Learning 51 (2003) 181--207.
+\newblock \href {https://doi.org/10.1023/A:1022859003006}
+  {\path{doi:10.1023/A:1022859003006}}.
+\newline\urlprefix\url{https://doi.org/10.1023/A:1022859003006}
+
+\bibitem{bertsimas2017optimal}
+D.~Bertsimas, J.~Dunn, Optimal classification trees, Machine Learning 106~(7)
+  (2017) 1039--1082.
+\newblock \href {https://doi.org/10.1007/s10994-017-5633-9}
+  {\path{doi:10.1007/s10994-017-5633-9}}.
+
+\bibitem{verwer2019learning}
+S.~Verwer, Y.~Zhang, Learning optimal classification trees using a binary
+  linear program formulation, in: Proceedings of the AAAI Conference on
+  Artificial Intelligence, Vol.~33, 2019, pp. 1625--1632.
+\newblock \href {https://doi.org/10.1609/aaai.v33i01.33011624}
+  {\path{doi:10.1609/aaai.v33i01.33011624}}.
+
+\bibitem{hu2019optimal}
+X.~Hu, C.~Rudin, M.~Seltzer, Optimal sparse decision trees, in: Advances in
+  Neural Information Processing Systems, Vol.~32, 2019, pp. 7265--7273.
+
+\bibitem{lin2020generalized}
+J.~Lin, C.~Zhong, D.~Hu, C.~Rudin, M.~Seltzer,
+  \href{https://proceedings.mlr.press/v119/lin20g.html}{Generalized and
+  scalable optimal sparse decision trees}, in: Proceedings of the 37th
+  International Conference on Machine Learning, Vol. 119 of Proceedings of
+  Machine Learning Research, 2020, pp. 6150--6160.
+\newline\urlprefix\url{https://proceedings.mlr.press/v119/lin20g.html}
+
+\bibitem{aglin2020caching}
+G.~Aglin, S.~Nijssen, P.~Schaus,
+  \href{https://ojs.aaai.org/index.php/AAAI/article/view/5711}{Learning optimal
+  decision trees using caching branch-and-bound search}, in: Proceedings of the
+  AAAI Conference on Artificial Intelligence, Vol.~34, 2020, pp. 3146--3153.
+\newblock \href {https://doi.org/10.1609/aaai.v34i04.5711}
+  {\path{doi:10.1609/aaai.v34i04.5711}}.
+\newline\urlprefix\url{https://ojs.aaai.org/index.php/AAAI/article/view/5711}
+
+\bibitem{demirovic2022murtree}
+E.~Demirovi{\'c}, A.~Lukina, E.~Hebrard, J.~Chan, J.~Bailey, C.~Leckie,
+  K.~Ramamohanarao, P.~J. Stuckey,
+  \href{https://jmlr.org/papers/v23/20-520.html}{{MurTree}: Optimal decision
+  trees via dynamic programming and search}, Journal of Machine Learning
+  Research 23~(26) (2022) 1--47.
+\newline\urlprefix\url{https://jmlr.org/papers/v23/20-520.html}
+
+\bibitem{vanderlinden2023separable}
+J.~G.~M. van~der Linden, M.~M. de~Weerdt, E.~Demirovi{\'c},
+  \href{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1d5fce9627e15c84db572a66e029b1fc-Abstract-Conference.html}{Necessary
+  and sufficient conditions for optimal decision trees using dynamic
+  programming}, in: Advances in Neural Information Processing Systems, Vol.~36,
+  2023, pp. 9173--9212.
+\newblock \href {https://doi.org/10.52202/075280-0404}
+  {\path{doi:10.52202/075280-0404}}.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1d5fce9627e15c84db572a66e029b1fc-Abstract-Conference.html}
+
+\bibitem{aghaei2025strong}
+S.~Aghaei, A.~G{\'o}mez, P.~Vayanos, Strong optimal classification trees,
+  Operations Research 73~(4) (2025) 2223--2241.
+\newblock \href {https://doi.org/10.1287/opre.2021.0034}
+  {\path{doi:10.1287/opre.2021.0034}}.
+
+\bibitem{mctavish2022reference}
+H.~McTavish, C.~Zhong, R.~Achermann, I.~Karimalis, J.~Chen, C.~Rudin,
+  M.~Seltzer,
+  \href{https://ojs.aaai.org/index.php/AAAI/article/view/21194}{Fast sparse
+  decision tree optimization via reference ensembles}, in: Proceedings of the
+  AAAI Conference on Artificial Intelligence, Vol.~36, 2022, pp. 9604--9613.
+\newblock \href {https://doi.org/10.1609/aaai.v36i9.21194}
+  {\path{doi:10.1609/aaai.v36i9.21194}}.
+\newline\urlprefix\url{https://ojs.aaai.org/index.php/AAAI/article/view/21194}
+
+\bibitem{babbar2025nearoptimal}
+V.~Babbar, H.~McTavish, C.~Rudin, M.~Seltzer,
+  \href{https://proceedings.mlr.press/v267/babbar25a.html}{Near-optimal
+  decision trees in a {SPLIT} second}, in: Proceedings of the 42nd
+  International Conference on Machine Learning, Vol. 267 of Proceedings of
+  Machine Learning Research, PMLR, 2025, pp. 2114--2175.
+\newline\urlprefix\url{https://proceedings.mlr.press/v267/babbar25a.html}
+
+\bibitem{vanderlinden2026optimalgreedy}
+J.~G.~M. van~der Linden, D.~Vos, M.~M. de~Weerdt, S.~Verwer, E.~Demirovi{\'c},
+  \href{https://openreview.net/forum?id=DvDOAtskXl}{Optimal or greedy decision
+  trees? revisiting their objectives, tuning, and performance}, Transactions on
+  Machine Learning Research (2026).
+\newline\urlprefix\url{https://openreview.net/forum?id=DvDOAtskXl}
+
+\bibitem{scornet2015consistency}
+E.~Scornet, G.~Biau, J.-P. Vert,
+  \href{https://doi.org/10.1214/15-AOS1321}{Consistency of random forests}, The
+  Annals of Statistics 43~(4) (2015) 1716--1741.
+\newblock \href {https://doi.org/10.1214/15-AOS1321}
+  {\path{doi:10.1214/15-AOS1321}}.
+\newline\urlprefix\url{https://doi.org/10.1214/15-AOS1321}
+
+\bibitem{olson2017pmlb}
+R.~S. Olson, W.~La~Cava, P.~Orzechowski, R.~J. Urbanowicz, J.~H. Moore, {PMLB}:
+  a large benchmark suite for machine learning evaluation and comparison,
+  BioData Mining 10 (2017) 36.
+\newblock \href {https://doi.org/10.1186/s13040-017-0154-4}
+  {\path{doi:10.1186/s13040-017-0154-4}}.
+
+\bibitem{cawley2010selection}
+G.~C. Cawley, N.~L.~C. Talbot,
+  \href{https://jmlr.org/papers/v11/cawley10a.html}{On over-fitting in model
+  selection and subsequent selection bias in performance evaluation}, Journal
+  of Machine Learning Research 11 (2010) 2079--2107.
+\newline\urlprefix\url{https://jmlr.org/papers/v11/cawley10a.html}
+
+\bibitem{demsar2006comparisons}
+J.~Dem{\v s}ar, \href{https://jmlr.org/papers/v7/demsar06a.html}{Statistical
+  comparisons of classifiers over multiple data sets}, Journal of Machine
+  Learning Research 7 (2006) 1--30.
+\newline\urlprefix\url{https://jmlr.org/papers/v7/demsar06a.html}
+
+\bibitem{holm1979sequential}
+S.~Holm, \href{https://www.jstor.org/stable/4615733}{A simple sequentially
+  rejective multiple test procedure}, Scandinavian Journal of Statistics 6~(2)
+  (1979) 65--70.
+\newline\urlprefix\url{https://www.jstor.org/stable/4615733}
+
+\end{thebibliography}
+% END GENERATED bibliography
+\end{document}

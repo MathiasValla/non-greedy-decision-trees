@@ -1,0 +1,63 @@
+{
+  "dataset": "led7",
+  "seed": 1004,
+  "max_depth": "6",
+  "n_samples": 3200,
+  "n_features": 7,
+  "n_classes": 10,
+  "train_index_sha256": "5f7042057d053018351634aeb8d80402341804c8ea7868a1d3971772040cc21d",
+  "test_index_sha256": "0a23b7bdd7d85791029cdf0fd081b9c7b21195e7b5db4f94c19d748ac5b294c3",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "6",
+      "n_estimators": 1,
+      "fit_time_s": 0.0015027089975774288,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 6,
+      "accuracy": 0.70875,
+      "balanced_accuracy": 0.7066681275540769
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "fit_time_s": 0.1430507912300527,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 6.0,
+      "accuracy": 0.725,
+      "balanced_accuracy": 0.7223398319122345
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "6",
+      "n_estimators": 200,
+      "fit_time_s": 0.29368225019425154,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 6.0,
+      "accuracy": 0.7225,
+      "balanced_accuracy": 0.719867304439707
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "fit_time_s": 0.38466900028288364,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 0.38454408664256334,
+      "realized_depth": 6.0,
+      "accuracy": 0.72375,
+      "balanced_accuracy": 0.7210577806301832
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "fit_time_s": 0.12400245806202292,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 6.0,
+      "accuracy": 0.73375,
+      "balanced_accuracy": 0.7306349485637117
+    }
+  ]
+}

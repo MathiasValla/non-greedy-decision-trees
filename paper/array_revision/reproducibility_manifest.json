@@ -1,0 +1,52 @@
+{
+  "python": "3.10.18",
+  "platform": "macOS-15.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.15.3",
+    "scikit-learn": "1.7.2",
+    "pandas": "2.3.3",
+    "matplotlib": "3.10.9",
+    "pmlb": "1.0.1.post3",
+    "Cython": "3.3.0",
+    "setuptools": "84.0.0"
+  },
+  "source_hashes": {
+    "treeple/tree/_lookahead.py": "2b9e31b28ceb896d7a8c08358cc286fac0262928f5966942c28d74d7d14a7e34",
+    "treeple/tree/_lookahead_fast.pyx": "86725b4fcc7176bb096612aba4a98e583997c4cafd13339d90894d6f8e6c30c9",
+    "paper/scripts/analyze_array_revision.py": "38ef70f2ac72d49a7b97d7a4a42e35dc6f177dc71f42053e43ae105be3209811",
+    "paper/scripts/export_array_revision_provenance.py": "41f82afd5de492317fce6570b717d1e2c5bae7bf7a1189f96add1858f92e6c17",
+    "paper/scripts/finalize_array_revision_source.py": "f0cf414888bd07984d9a3bcb8d46b67d250f1c2c33a7a0f71444227c4a7e41b8",
+    "paper/scripts/run_array_cart_controls.py": "6bf96e93c491c6f5584c8b1eaba3b11a57599d4b73456b394eb57cb43c94a0d1",
+    "paper/scripts/run_array_revision_benchmark.py": "1400b41cd449faa1dcf26d12d94c55d13e4e2dc86b7e9f9dd518412a17c187a5",
+    "paper/scripts/verify_array_revision.py": "f1b3f8edb5a76c9a05f582562c09bf9f1c2f7e65372c8159904b62e60e143f6c",
+    "paper/scripts/build_revision_runtime.py": "413e093b9cdce5e9d745a00d07a009ef4e9e4965a6f2a87cb26038827775e40d",
+    "paper/scripts/revision_runtime.py": "71d68f4f18a17a856640e3b682048fec1da9576a8af28b0b441870bb7dbf335a"
+  },
+  "compiled_scorer_hashes": {
+    "_lookahead_fast.cpython-310-darwin.so": "214617d6679f893e0628692f98acd68ca51c8acfc310e11c0045a259cee91382"
+  },
+  "repository_base_commit": "fcb05d0e83c6b0ee803b4e38c7187c624a883744",
+  "cv_fallback_partitions": 5,
+  "source_amendments": "protocol_changes.md",
+  "validation": {
+    "complete_tasks": 855,
+    "expected_tasks": 855,
+    "complete_cart_control_tasks": 855,
+    "datasets": 57,
+    "result_rows": 16245,
+    "known_family_groups": 48,
+    "named_non_synthetic_datasets": 38,
+    "all_repeats_balanced": true,
+    "missing_or_duplicate_tasks": 0,
+    "n_samples_range": [
+      32,
+      12958
+    ],
+    "n_features_range": [
+      2,
+      43
+    ]
+  }
+}

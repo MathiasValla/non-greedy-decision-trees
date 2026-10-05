@@ -1,0 +1,28 @@
+{
+  "XOR_stopping_convention_checked": true,
+  "weighted_multiclass_Cython_Python_parity": true,
+  "depth_clipping_and_unlimited_tree_checked": true,
+  "missing_bootstrap_class_alignment": true,
+  "size_stable_bootstrap_prefix": true,
+  "distinct_replacement_slots": true,
+  "native_threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libopenblas",
+      "filepath": "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/numpy/.dylibs/libopenblas64_.0.dylib",
+      "version": "0.3.23.dev",
+      "threading_layer": "pthreads",
+      "architecture": "armv8"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libomp",
+      "filepath": "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/sklearn/.dylibs/libomp.dylib",
+      "version": null
+    }
+  ]
+}

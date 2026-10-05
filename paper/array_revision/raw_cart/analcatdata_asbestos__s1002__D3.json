@@ -1,0 +1,63 @@
+{
+  "dataset": "analcatdata_asbestos",
+  "seed": 1002,
+  "max_depth": "3",
+  "n_samples": 83,
+  "n_features": 3,
+  "n_classes": 2,
+  "train_index_sha256": "34710a2b03d3da142d7f4c3ae5a1fca4276beff65090e5c2582e539c60eda279",
+  "test_index_sha256": "7e279e496fd81f1bafeef84272cb3ca1c736b3a74f6d3538db8cb917c17456d5",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "3",
+      "n_estimators": 1,
+      "fit_time_s": 0.00033837510272860527,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3,
+      "accuracy": 0.5714285714285714,
+      "balanced_accuracy": 0.5833333333333333
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.030871459748595953,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 3.0,
+      "accuracy": 0.6190476190476191,
+      "balanced_accuracy": 0.625
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "3",
+      "n_estimators": 200,
+      "fit_time_s": 0.06041004555299878,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 3.0,
+      "accuracy": 0.6190476190476191,
+      "balanced_accuracy": 0.625
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.05970599967986345,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 0.059659671038389206,
+      "realized_depth": 3.0,
+      "accuracy": 0.6190476190476191,
+      "balanced_accuracy": 0.625
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.0439454996958375,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3.0,
+      "accuracy": 0.6666666666666666,
+      "balanced_accuracy": 0.6805555555555556
+    }
+  ]
+}

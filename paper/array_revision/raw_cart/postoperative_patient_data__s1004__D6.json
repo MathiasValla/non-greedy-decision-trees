@@ -1,0 +1,63 @@
+{
+  "dataset": "postoperative_patient_data",
+  "seed": 1004,
+  "max_depth": "6",
+  "n_samples": 88,
+  "n_features": 8,
+  "n_classes": 2,
+  "train_index_sha256": "16363274022a8b77f483836e5a4da74de1e8d8627cdc81994d40929f39efc813",
+  "test_index_sha256": "2363bfe2ce1b9640e22897ab894a443fb25e3f515a06e5d9f4b75cec0973cc65",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "6",
+      "n_estimators": 1,
+      "fit_time_s": 0.0005130418576300144,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 6,
+      "accuracy": 0.6818181818181818,
+      "balanced_accuracy": 0.5208333333333334
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "fit_time_s": 0.048109791707247496,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 6.0,
+      "accuracy": 0.6363636363636364,
+      "balanced_accuracy": 0.4375
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "6",
+      "n_estimators": 200,
+      "fit_time_s": 0.1002571671269834,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 6.0,
+      "accuracy": 0.6818181818181818,
+      "balanced_accuracy": 0.46875
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "fit_time_s": 0.10877920920029283,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 0.10870150104165077,
+      "realized_depth": 6.0,
+      "accuracy": 0.6363636363636364,
+      "balanced_accuracy": 0.4375
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "6",
+      "n_estimators": 100,
+      "fit_time_s": 0.06926445895805955,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 6.0,
+      "accuracy": 0.7272727272727273,
+      "balanced_accuracy": 0.5
+    }
+  ]
+}

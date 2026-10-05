@@ -1,0 +1,81 @@
+{
+  "all_passed": true,
+  "recorded_at_utc": "2026-10-05T20:15:35Z",
+  "source_hashes": {
+    "paper/scripts/verify_fair_revision.py": "b5d067596aa6f109b3b9cdadcbddbdac852d5a1bcba34f84aec991b1946e4a13",
+    "paper/scripts/run_array_fair_benchmark.py": "b81b34aa10aecb075a617ed3aa64c0ddcd6c60047651d8ca7f4e63f6a0bde999",
+    "paper/scripts/build_fair_revision_runtime.py": "2a00bd0102604c318fc504eef46ba26a64cccdb11597799100b107a57a856b30",
+    "paper/scripts/fair_revision_runtime.py": "6b5f61a01967b0f21442527489dd47c81e6bdde8d346938f0f5571b0659afbce",
+    "paper/array_revision_fair/runtime/_sighted_fast.pyx": "c6a339c64819e27b5a7738383e7508a02ecb16cfee14f9b2aeb46d6665eec255",
+    "paper/array_revision_fair/PROTOCOL.md": "debfd341b3402a41e4f3c80911cc349e0cd9bcb043cf2ed5c38007d29a022836",
+    "paper/tables/mixed_sighted_dataset_sample.csv": "fbd3c74a1acebb8a2eb46a355487315339e21bafc1744a61ccf639daef8582ef"
+  },
+  "harness": {
+    "zero_gain_xor": true,
+    "constant_feature_fallback_seeds": 8,
+    "optimized_oracle_cases": 36,
+    "nuisance_XOR_depth_matched_seed": 3,
+    "weighted_CART_RF_equivalence": true,
+    "RF_prefix_cases": 120,
+    "missing_class_bootstrap_bags": 1944,
+    "absolute_tolerance": 1e-12,
+    "relative_tolerance": 0,
+    "threadpools": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libopenblas",
+        "filepath": "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/numpy/.dylibs/libopenblas64_.0.dylib",
+        "version": "0.3.23.dev",
+        "threading_layer": "pthreads",
+        "architecture": "armv8"
+      },
+      {
+        "user_api": "openmp",
+        "internal_api": "openmp",
+        "num_threads": 1,
+        "prefix": "libomp",
+        "filepath": "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/sklearn/.dylibs/libomp.dylib",
+        "version": null
+      }
+    ],
+    "source_hashes": {
+      "paper/scripts/verify_fair_revision.py": "b5d067596aa6f109b3b9cdadcbddbdac852d5a1bcba34f84aec991b1946e4a13",
+      "paper/scripts/fair_revision_runtime.py": "6b5f61a01967b0f21442527489dd47c81e6bdde8d346938f0f5571b0659afbce",
+      "paper/array_revision_fair/runtime/_sighted_fast.pyx": "c6a339c64819e27b5a7738383e7508a02ecb16cfee14f9b2aeb46d6665eec255"
+    },
+    "compiled_scorer_sha256": "656d4fbaaeb67d3734c80ec96ed4f8733368567e77b06ea3111922136f107d6b"
+  },
+  "commands": [
+    {
+      "command": [
+        "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/bin/python",
+        "paper/scripts/verify_fair_revision.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 5.299552208278328,
+      "output": "{\n  \"zero_gain_xor\": true,\n  \"constant_feature_fallback_seeds\": 8,\n  \"optimized_oracle_cases\": 36,\n  \"nuisance_XOR_depth_matched_seed\": 3,\n  \"weighted_CART_RF_equivalence\": true,\n  \"RF_prefix_cases\": 120,\n  \"missing_class_bootstrap_bags\": 1944,\n  \"absolute_tolerance\": 1e-12,\n  \"relative_tolerance\": 0,\n  \"threadpools\": [\n    {\n      \"user_api\": \"blas\",\n      \"internal_api\": \"openblas\",\n      \"num_threads\": 1,\n      \"prefix\": \"libopenblas\",\n      \"filepath\": \"/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/numpy/.dylibs/libopenblas64_.0.dylib\",\n      \"version\": \"0.3.23.dev\",\n      \"threading_layer\": \"pthreads\",\n      \"architecture\": \"armv8\"\n    },\n    {\n      \"user_api\": \"openmp\",\n      \"internal_api\": \"openmp\",\n      \"num_threads\": 1,\n      \"prefix\": \"libomp\",\n      \"filepath\": \"/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/sklearn/.dylibs/libomp.dylib\",\n      \"version\": null\n    }\n  ],\n  \"source_hashes\": {\n    \"paper/scripts/verify_fair_revision.py\": \"b5d067596aa6f109b3b9cdadcbddbdac852d5a1bcba34f84aec991b1946e4a13\",\n    \"paper/scripts/fair_revision_runtime.py\": \"6b5f61a01967b0f21442527489dd47c81e6bdde8d346938f0f5571b0659afbce\",\n    \"paper/array_revision_fair/runtime/_sighted_fast.pyx\": \"c6a339c64819e27b5a7738383e7508a02ecb16cfee14f9b2aeb46d6665eec255\"\n  },\n  \"compiled_scorer_sha256\": \"656d4fbaaeb67d3734c80ec96ed4f8733368567e77b06ea3111922136f107d6b\"\n}\n"
+    },
+    {
+      "command": [
+        "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/bin/python",
+        "paper/scripts/run_array_fair_benchmark.py",
+        "--self-test"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.9820231245830655,
+      "output": "Pure-function tests passed\n"
+    },
+    {
+      "command": [
+        "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/bin/python",
+        "paper/scripts/run_array_fair_benchmark.py",
+        "--pilot"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1.8440042920410633,
+      "output": "Pilot passed: RF prefix equivalence, k1/k2/k3, three tuned refits, partial-bank resume\n"
+    }
+  ]
+}

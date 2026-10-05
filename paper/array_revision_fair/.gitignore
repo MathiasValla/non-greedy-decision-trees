@@ -1,0 +1,3 @@
+# Large resumable prediction banks stay local; all article scores are exported.
+*.npz
+*.lock

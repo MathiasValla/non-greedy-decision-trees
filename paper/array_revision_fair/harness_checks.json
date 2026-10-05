@@ -1,0 +1,37 @@
+{
+  "zero_gain_xor": true,
+  "constant_feature_fallback_seeds": 8,
+  "optimized_oracle_cases": 36,
+  "nuisance_XOR_depth_matched_seed": 3,
+  "weighted_CART_RF_equivalence": true,
+  "RF_prefix_cases": 120,
+  "missing_class_bootstrap_bags": 1944,
+  "absolute_tolerance": 1e-12,
+  "relative_tolerance": 0,
+  "threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libopenblas",
+      "filepath": "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/numpy/.dylibs/libopenblas64_.0.dylib",
+      "version": "0.3.23.dev",
+      "threading_layer": "pthreads",
+      "architecture": "armv8"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 1,
+      "prefix": "libomp",
+      "filepath": "/Users/mathiasvalla/Desktop/Post-doc/Papiers/Non_greedy_trees/treeple/.venv310/lib/python3.10/site-packages/sklearn/.dylibs/libomp.dylib",
+      "version": null
+    }
+  ],
+  "source_hashes": {
+    "paper/scripts/verify_fair_revision.py": "b5d067596aa6f109b3b9cdadcbddbdac852d5a1bcba34f84aec991b1946e4a13",
+    "paper/scripts/fair_revision_runtime.py": "6b5f61a01967b0f21442527489dd47c81e6bdde8d346938f0f5571b0659afbce",
+    "paper/array_revision_fair/runtime/_sighted_fast.pyx": "c6a339c64819e27b5a7738383e7508a02ecb16cfee14f9b2aeb46d6665eec255"
+  },
+  "compiled_scorer_sha256": "656d4fbaaeb67d3734c80ec96ed4f8733368567e77b06ea3111922136f107d6b"
+}

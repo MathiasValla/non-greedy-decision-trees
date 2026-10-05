@@ -1,0 +1,19 @@
+{
+  "complete_tasks": 855,
+  "expected_tasks": 855,
+  "complete_cart_control_tasks": 855,
+  "datasets": 57,
+  "result_rows": 16245,
+  "known_family_groups": 48,
+  "named_non_synthetic_datasets": 38,
+  "all_repeats_balanced": true,
+  "missing_or_duplicate_tasks": 0,
+  "n_samples_range": [
+    32,
+    12958
+  ],
+  "n_features_range": [
+    2,
+    43
+  ]
+}

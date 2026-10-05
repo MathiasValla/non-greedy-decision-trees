@@ -1,0 +1,63 @@
+{
+  "dataset": "breast_cancer",
+  "seed": 1004,
+  "max_depth": "3",
+  "n_samples": 286,
+  "n_features": 9,
+  "n_classes": 2,
+  "train_index_sha256": "435df8ca9c3e12b874acaea942919610304b9d31cfad64bcfb2d67024a1c5b61",
+  "test_index_sha256": "a0b203fb99ae37e4ed62b5fef6c656ad1f884a7f0c439d21bf2538e9b7bef474",
+  "rows": [
+    {
+      "model_id": "cart_fixed",
+      "max_depth": "3",
+      "n_estimators": 1,
+      "fit_time_s": 0.0007412498816847801,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3,
+      "accuracy": 0.75,
+      "balanced_accuracy": 0.5994397759103641
+    },
+    {
+      "model_id": "cart_bag100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.05696291150525212,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 3.0,
+      "accuracy": 0.7638888888888888,
+      "balanced_accuracy": 0.6372549019607843
+    },
+    {
+      "model_id": "cart_bag200",
+      "max_depth": "3",
+      "n_estimators": 200,
+      "fit_time_s": 0.11293612793087959,
+      "time_kind": "measured_tree_fit_sum",
+      "realized_depth": 3.0,
+      "accuracy": 0.7638888888888888,
+      "balanced_accuracy": 0.6372549019607843
+    },
+    {
+      "model_id": "cart_mix10_100",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.21227166708558798,
+      "time_kind": "direct_wall_clock",
+      "tree_fit_sum_s": 0.21218112390488386,
+      "realized_depth": 3.0,
+      "accuracy": 0.7638888888888888,
+      "balanced_accuracy": 0.6372549019607843
+    },
+    {
+      "model_id": "rf_sqrt_fixed",
+      "max_depth": "3",
+      "n_estimators": 100,
+      "fit_time_s": 0.0708212498575449,
+      "time_kind": "direct_wall_clock",
+      "realized_depth": 3.0,
+      "accuracy": 0.7638888888888888,
+      "balanced_accuracy": 0.6372549019607843
+    }
+  ]
+}

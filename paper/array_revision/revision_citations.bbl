@@ -1,0 +1,238 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{breiman1984cart}
+L.~Breiman, J.~H. Friedman, R.~A. Olshen, C.~J. Stone, Classification and
+  Regression Trees, Wadsworth, Belmont, CA, 1984.
+
+\bibitem{zhou2023trees}
+S.~Zhou, L.~Mentch,
+  \href{https://onlinelibrary.wiley.com/doi/10.1002/sam.11594}{Trees, forests,
+  chickens, and eggs: when and why to prune trees in a random forest},
+  Statistical Analysis and Data Mining: The ASA Data Science Journal 16~(1)
+  (2023) 45--64, first published online 25 August 2022.
+\newblock \href {https://doi.org/10.1002/sam.11594}
+  {\path{doi:10.1002/sam.11594}}.
+\newline\urlprefix\url{https://onlinelibrary.wiley.com/doi/10.1002/sam.11594}
+
+\bibitem{duroux2018impact}
+R.~Duroux, E.~Scornet, \href{https://doi.org/10.1051/ps/2018008}{Impact of
+  subsampling and tree depth on random forests}, {ESAIM}: Probability and
+  Statistics 22 (2018) 96--128.
+\newblock \href {https://doi.org/10.1051/ps/2018008}
+  {\path{doi:10.1051/ps/2018008}}.
+\newline\urlprefix\url{https://doi.org/10.1051/ps/2018008}
+
+\bibitem{quinlan1986induction}
+J.~R. Quinlan, Induction of decision trees, Machine Learning 1~(1) (1986)
+  81--106.
+\newblock \href {https://doi.org/10.1007/BF00116251}
+  {\path{doi:10.1007/BF00116251}}.
+
+\bibitem{breiman1996bagging}
+L.~Breiman, Bagging predictors, Machine Learning 24~(2) (1996) 123--140.
+\newblock \href {https://doi.org/10.1007/BF00058655}
+  {\path{doi:10.1007/BF00058655}}.
+
+\bibitem{breiman2001random}
+L.~Breiman, Random forests, Machine Learning 45~(1) (2001) 5--32.
+\newblock \href {https://doi.org/10.1023/A:1010933404324}
+  {\path{doi:10.1023/A:1010933404324}}.
+
+\bibitem{norton1989generating}
+S.~W. Norton,
+  \href{https://www.ijcai.org/Proceedings/89-1/Papers/128.pdf}{Generating
+  better decision trees}, in: Proceedings of the Eleventh International Joint
+  Conference on Artificial Intelligence, 1989, pp. 800--805.
+\newline\urlprefix\url{https://www.ijcai.org/Proceedings/89-1/Papers/128.pdf}
+
+\bibitem{ragavan1993lookahead}
+H.~Ragavan, L.~A. Rendell, Lookahead feature construction for learning hard
+  concepts, in: Machine Learning Proceedings 1993, Morgan Kaufmann, 1993, pp.
+  252--259.
+\newblock \href {https://doi.org/10.1016/B978-1-55860-307-3.50039-3}
+  {\path{doi:10.1016/B978-1-55860-307-3.50039-3}}.
+
+\bibitem{murthy1995lookahead}
+S.~K. Murthy, S.~L. Salzberg,
+  \href{https://www.ijcai.org/Proceedings/95-2/Papers/002.pdf}{Lookahead and
+  pathology in decision tree induction}, in: Proceedings of the Fourteenth
+  International Joint Conference on Artificial Intelligence, 1995, pp.
+  1025--1031.
+\newline\urlprefix\url{https://www.ijcai.org/Proceedings/95-2/Papers/002.pdf}
+
+\bibitem{elomaa2005lookahead}
+T.~Elomaa, T.~Malinen, On look-ahead and pathology in decision tree learning,
+  Journal of Experimental \& Theoretical Artificial Intelligence 17~(1--2)
+  (2005) 19--33.
+\newblock \href {https://doi.org/10.1080/09528130512331315936}
+  {\path{doi:10.1080/09528130512331315936}}.
+
+\bibitem{esmeir2007anytime}
+S.~Esmeir, S.~Markovitch,
+  \href{https://www.jmlr.org/papers/v8/esmeir07a.html}{Anytime learning of
+  decision trees}, Journal of Machine Learning Research 8 (2007) 891--933.
+\newline\urlprefix\url{https://www.jmlr.org/papers/v8/esmeir07a.html}
+
+\bibitem{norouzi2015efficient}
+M.~Norouzi, M.~D. Collins, M.~A. Johnson, D.~J. Fleet, P.~Kohli, Efficient
+  non-greedy optimization of decision trees, in: Advances in Neural Information
+  Processing Systems, Vol.~28, 2015, pp. 1729--1737.
+
+\bibitem{donick2021stepwise}
+D.~Donick, S.~C. Lera,
+  \href{https://www.nature.com/articles/s41598-021-88571-3}{Uncovering feature
+  interdependencies in high-noise environments with stepwise lookahead decision
+  forests}, Scientific Reports 11 (2021) 9238, article 9238.
+\newblock \href {https://doi.org/10.1038/s41598-021-88571-3}
+  {\path{doi:10.1038/s41598-021-88571-3}}.
+\newline\urlprefix\url{https://www.nature.com/articles/s41598-021-88571-3}
+
+\bibitem{geurts2006extremely}
+P.~Geurts, D.~Ernst, L.~Wehenkel,
+  \href{https://doi.org/10.1007/s10994-006-6226-1}{Extremely randomized trees},
+  Machine Learning 63~(1) (2006) 3--42.
+\newblock \href {https://doi.org/10.1007/s10994-006-6226-1}
+  {\path{doi:10.1007/s10994-006-6226-1}}.
+\newline\urlprefix\url{https://doi.org/10.1007/s10994-006-6226-1}
+
+\bibitem{horn2026randomdepth}
+D.~Horn, T.~M. Krabel, T.~N.~T. Tran, A.~Groll, C.~Jentsch,
+  \href{https://doi.org/10.1007/s00180-025-01697-0}{The impact of random tree
+  depth---a novel randomization process for ensemble methods}, Computational
+  Statistics 41 (2026) 25, article 25.
+\newblock \href {https://doi.org/10.1007/s00180-025-01697-0}
+  {\path{doi:10.1007/s00180-025-01697-0}}.
+\newline\urlprefix\url{https://doi.org/10.1007/s00180-025-01697-0}
+
+\bibitem{kuncheva2003diversity}
+L.~I. Kuncheva, C.~J. Whitaker,
+  \href{https://doi.org/10.1023/A:1022859003006}{Measures of diversity in
+  classifier ensembles and their relationship with the ensemble accuracy},
+  Machine Learning 51 (2003) 181--207.
+\newblock \href {https://doi.org/10.1023/A:1022859003006}
+  {\path{doi:10.1023/A:1022859003006}}.
+\newline\urlprefix\url{https://doi.org/10.1023/A:1022859003006}
+
+\bibitem{bertsimas2017optimal}
+D.~Bertsimas, J.~Dunn, Optimal classification trees, Machine Learning 106~(7)
+  (2017) 1039--1082.
+\newblock \href {https://doi.org/10.1007/s10994-017-5633-9}
+  {\path{doi:10.1007/s10994-017-5633-9}}.
+
+\bibitem{verwer2019learning}
+S.~Verwer, Y.~Zhang, Learning optimal classification trees using a binary
+  linear program formulation, in: Proceedings of the AAAI Conference on
+  Artificial Intelligence, Vol.~33, 2019, pp. 1625--1632.
+\newblock \href {https://doi.org/10.1609/aaai.v33i01.33011624}
+  {\path{doi:10.1609/aaai.v33i01.33011624}}.
+
+\bibitem{hu2019optimal}
+X.~Hu, C.~Rudin, M.~Seltzer, Optimal sparse decision trees, in: Advances in
+  Neural Information Processing Systems, Vol.~32, 2019, pp. 7265--7273.
+
+\bibitem{lin2020generalized}
+J.~Lin, C.~Zhong, D.~Hu, C.~Rudin, M.~Seltzer,
+  \href{https://proceedings.mlr.press/v119/lin20g.html}{Generalized and
+  scalable optimal sparse decision trees}, in: Proceedings of the 37th
+  International Conference on Machine Learning, Vol. 119 of Proceedings of
+  Machine Learning Research, 2020, pp. 6150--6160.
+\newline\urlprefix\url{https://proceedings.mlr.press/v119/lin20g.html}
+
+\bibitem{aglin2020caching}
+G.~Aglin, S.~Nijssen, P.~Schaus,
+  \href{https://ojs.aaai.org/index.php/AAAI/article/view/5711}{Learning optimal
+  decision trees using caching branch-and-bound search}, in: Proceedings of the
+  AAAI Conference on Artificial Intelligence, Vol.~34, 2020, pp. 3146--3153.
+\newblock \href {https://doi.org/10.1609/aaai.v34i04.5711}
+  {\path{doi:10.1609/aaai.v34i04.5711}}.
+\newline\urlprefix\url{https://ojs.aaai.org/index.php/AAAI/article/view/5711}
+
+\bibitem{demirovic2022murtree}
+E.~Demirovi{\'c}, A.~Lukina, E.~Hebrard, J.~Chan, J.~Bailey, C.~Leckie,
+  K.~Ramamohanarao, P.~J. Stuckey,
+  \href{https://jmlr.org/papers/v23/20-520.html}{{MurTree}: Optimal decision
+  trees via dynamic programming and search}, Journal of Machine Learning
+  Research 23~(26) (2022) 1--47.
+\newline\urlprefix\url{https://jmlr.org/papers/v23/20-520.html}
+
+\bibitem{vanderlinden2023separable}
+J.~G.~M. van~der Linden, M.~M. de~Weerdt, E.~Demirovi{\'c},
+  \href{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1d5fce9627e15c84db572a66e029b1fc-Abstract-Conference.html}{Necessary
+  and sufficient conditions for optimal decision trees using dynamic
+  programming}, in: Advances in Neural Information Processing Systems, Vol.~36,
+  2023, pp. 9173--9212.
+\newblock \href {https://doi.org/10.52202/075280-0404}
+  {\path{doi:10.52202/075280-0404}}.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1d5fce9627e15c84db572a66e029b1fc-Abstract-Conference.html}
+
+\bibitem{aghaei2025strong}
+S.~Aghaei, A.~G{\'o}mez, P.~Vayanos, Strong optimal classification trees,
+  Operations Research 73~(4) (2025) 2223--2241.
+\newblock \href {https://doi.org/10.1287/opre.2021.0034}
+  {\path{doi:10.1287/opre.2021.0034}}.
+
+\bibitem{mctavish2022reference}
+H.~McTavish, C.~Zhong, R.~Achermann, I.~Karimalis, J.~Chen, C.~Rudin,
+  M.~Seltzer,
+  \href{https://ojs.aaai.org/index.php/AAAI/article/view/21194}{Fast sparse
+  decision tree optimization via reference ensembles}, in: Proceedings of the
+  AAAI Conference on Artificial Intelligence, Vol.~36, 2022, pp. 9604--9613.
+\newblock \href {https://doi.org/10.1609/aaai.v36i9.21194}
+  {\path{doi:10.1609/aaai.v36i9.21194}}.
+\newline\urlprefix\url{https://ojs.aaai.org/index.php/AAAI/article/view/21194}
+
+\bibitem{babbar2025nearoptimal}
+V.~Babbar, H.~McTavish, C.~Rudin, M.~Seltzer,
+  \href{https://proceedings.mlr.press/v267/babbar25a.html}{Near-optimal
+  decision trees in a {SPLIT} second}, in: Proceedings of the 42nd
+  International Conference on Machine Learning, Vol. 267 of Proceedings of
+  Machine Learning Research, PMLR, 2025, pp. 2114--2175.
+\newline\urlprefix\url{https://proceedings.mlr.press/v267/babbar25a.html}
+
+\bibitem{vanderlinden2026optimalgreedy}
+J.~G.~M. van~der Linden, D.~Vos, M.~M. de~Weerdt, S.~Verwer, E.~Demirovi{\'c},
+  \href{https://openreview.net/forum?id=DvDOAtskXl}{Optimal or greedy decision
+  trees? revisiting their objectives, tuning, and performance}, Transactions on
+  Machine Learning Research (2026).
+\newline\urlprefix\url{https://openreview.net/forum?id=DvDOAtskXl}
+
+\bibitem{scornet2015consistency}
+E.~Scornet, G.~Biau, J.-P. Vert,
+  \href{https://doi.org/10.1214/15-AOS1321}{Consistency of random forests}, The
+  Annals of Statistics 43~(4) (2015) 1716--1741.
+\newblock \href {https://doi.org/10.1214/15-AOS1321}
+  {\path{doi:10.1214/15-AOS1321}}.
+\newline\urlprefix\url{https://doi.org/10.1214/15-AOS1321}
+
+\bibitem{olson2017pmlb}
+R.~S. Olson, W.~La~Cava, P.~Orzechowski, R.~J. Urbanowicz, J.~H. Moore, {PMLB}:
+  a large benchmark suite for machine learning evaluation and comparison,
+  BioData Mining 10 (2017) 36.
+\newblock \href {https://doi.org/10.1186/s13040-017-0154-4}
+  {\path{doi:10.1186/s13040-017-0154-4}}.
+
+\bibitem{cawley2010selection}
+G.~C. Cawley, N.~L.~C. Talbot,
+  \href{https://jmlr.org/papers/v11/cawley10a.html}{On over-fitting in model
+  selection and subsequent selection bias in performance evaluation}, Journal
+  of Machine Learning Research 11 (2010) 2079--2107.
+\newline\urlprefix\url{https://jmlr.org/papers/v11/cawley10a.html}
+
+\bibitem{demsar2006comparisons}
+J.~Dem{\v s}ar, \href{https://jmlr.org/papers/v7/demsar06a.html}{Statistical
+  comparisons of classifiers over multiple data sets}, Journal of Machine
+  Learning Research 7 (2006) 1--30.
+\newline\urlprefix\url{https://jmlr.org/papers/v7/demsar06a.html}
+
+\bibitem{holm1979sequential}
+S.~Holm, \href{https://www.jstor.org/stable/4615733}{A simple sequentially
+  rejective multiple test procedure}, Scandinavian Journal of Statistics 6~(2)
+  (1979) 65--70.
+\newline\urlprefix\url{https://www.jstor.org/stable/4615733}
+
+\end{thebibliography}
