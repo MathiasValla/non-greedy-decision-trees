@@ -73,6 +73,15 @@ Use only the command for the corresponding completed export. See
 `paper/array_revision_fair/analysis_audit.md` for required files, output schemas,
 and safeguards. The reproduction instructions do not certify an unfinished run.
 
+For a fresh replication on another machine, or after rebuilding the extension,
+use a separate output root. Retained results intentionally reject changed
+binary/environment identities, even when the algorithm source is unchanged.
+For example, add `--out /tmp/array_fair_reproduction` to every fixed and tuned
+shard command, and to the subsequent analyzer command. Keep that output root
+consistent across all ten invocations. Do not rebuild the scorer during an
+active run. Fresh clock measurements, and cost-based CV tie-breaking, can differ
+between machines; the retained records certify the original choices and costs.
+
 ## Preceding Repeated Evaluation (Superseded Protocol)
 
 The following completed experiment precedes the author's request for equally

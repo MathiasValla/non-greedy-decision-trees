@@ -85,3 +85,10 @@ After all five fixed shards finish, use the same five commands with
 `--stage tune`. Both stages share the frozen identity and resume compatible
 incremental checkpoints. Production uses `--include-triple` in every command.
 Never change the frozen runner, adapter, scorer, or build sources mid-run.
+
+On another machine, or after rebuilding the compiled extension, use a fresh
+output root such as `--out /tmp/array_fair_reproduction` on every shard and
+analysis command. The retained root checks binary/environment fingerprints and
+will not silently mix a new build with old fits. Do not rebuild while workers
+are active. Figure retrieval from validated CSVs uses `--plot-summaries` and
+does not require the original binary, caches, or fitting environment.
