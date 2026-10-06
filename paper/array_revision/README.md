@@ -14,18 +14,19 @@ in this directory precede that request; tuned-versus-fixed comparisons must not
 serve as the final fair-tuning conclusion. Remove draft warnings only after all
 required new records and analyses have passed validation.
 
-## Submission Files
+## Working Source Files
 
 - `main.tex`: revised two-column Elsevier manuscript, open in the native editor.
 - `response_to_reviewers.tex`: editable point-by-point reply.
 - `cover_letter.txt`: editable cover letter.
-- `Fig1_depth_sensitivity.pdf`, `Fig2_accuracy_cost.pdf`: separate data figures.
-- `highlights.txt`: editable highlights.
+- `Fig1_depth_sensitivity.pdf`, `Fig2_accuracy_cost.pdf`: preceding-protocol
+  figures, not the final fair-comparison figures.
+- `highlights.txt`: editable preceding-protocol highlights, to be replaced.
 - `references.bib`, `references_additions.bib`, `shallow_references.bib`, result/table `.tex` files,
   `elsarticle.cls`, `elsarticle-num.bst`: compilation sources.
 - `revision_results.csv`, `dataset_means.csv`, `paired_comparisons.csv`,
   `paired_dataset_deltas.csv`, `summary.csv`, `dataset_manifest.csv`,
-  `tuning_results.csv`, `validation.json`: new evidence and checks.
+  `tuning_results.csv`, `validation.json`: preceding-protocol evidence and checks.
 - `raw/`, `raw_cart/`, `manifest_shard_*.json`: checkpoint/provenance records.
 - `input_fingerprints.csv`, `inner_cv_manifest.csv`,
   `reproducibility_manifest.json`, `harness_checks.json`: reproducibility audit.
@@ -34,7 +35,41 @@ The old PRL and JOC documents are archived versions, not this revision.
 Historical 67-dataset summaries have no retained raw-fit evidence here and must
 not be treated as independently reconstructable inferential results. The old
 57-dataset grid retains scores, but mixtures reused some bootstrap slots and
-its times were allocated estimates. The revised claims rely on new fits.
+its times were allocated estimates. The final revised claims must rely on the
+matched and equally tuned fits under `../array_revision_fair/`, not these
+preceding numerical files.
+
+## Fair-Revision Readiness Gate
+
+The manuscript is not submission-ready until all of these checks are complete:
+
+1. All five fixed shards finish without an omitted dataset, repeat, structure,
+   horizon, composition, or tree count. Independent fixed-only validation must
+   pass before replacing Figure 2; that intermediate figure does not complete
+   the tuned comparison or permit removing the draft warning.
+2. All five tuning shards finish, with every training-only selection locked
+   before three separate final refits. Independent full validation must pass
+   for 285 outer tasks, 136,800 fixed forest rows, 5,130 single-tree rows, and
+   855 tuned-family rows. The inferential family contains eleven contrasts.
+3. Review the actual effects, uncertainty, selection costs, sensitivity results,
+   and selected settings. Replace every preceding-protocol numerical paragraph,
+   table, caption, figure and highlight, including the rebuttal's numerical
+   block. Do not use tuned-versus-untuned results as a fair tuning conclusion.
+4. Embed the checked results in the same `main.tex` open in the native editor
+   with `paper/scripts/finalize_fair_revision_source.py`. Check Figures 1--3
+   and supplementary plots visually, and compile the saved manuscript and
+   response with the native compiler. Compilation alone is not scientific
+   approval or an exported submission PDF.
+5. Resolve the two independent internal reviewer passes and the author's
+   substantive review. Only then remove the working-draft notices and confirm
+   public repository access, manuscript metadata, unchanged authorship, and
+   the current submission portal's required files.
+
+The final fair-analysis directory is `../array_revision_fair/analysis/full/`.
+Its figures, CSVs, protocol snapshot and validation report must travel together;
+the preceding PDFs listed above must not be included as final figures. Use the
+fair-run instructions in `../REPRODUCING_RESULTS.md` for fitting, analysis and
+CSV-only figure retrieval.
 
 ## Reproduce
 
@@ -65,6 +100,11 @@ outputs are required: 57 datasets x five seeds x three depth settings = 855
 tasks in each stage. Do not combine incomplete stages or change sources while
 reusing checkpoints. For a fresh experiment, move the old `raw/` and `raw_cart/`
 directories into a separately named archive before rerunning.
+
+The following assembly commands apply to the preceding protocol only. Do not
+run its inliner after embedding the fair results: it would restore old figures
+and numerical claims. The current fair inliner is
+`paper/scripts/finalize_fair_revision_source.py`.
 
 The existing manuscript source is self-contained: generated text, tables,
 numerical pgfplots, and the bibliography are inlined for the native LaTeX editor.
