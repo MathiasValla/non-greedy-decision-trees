@@ -912,7 +912,7 @@ def plot_pair_facets(summary, path, test_only=False):
     figure_style()
     subset = curve_subset(summary, 3, None)
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 4.5), sharey=True)
-    fig.subplots_adjust(left=.09, right=.985, bottom=.42, top=.88, wspace=.16)
+    fig.subplots_adjust(left=.10, right=.965, bottom=.45, top=.88, wspace=.20)
     for axis, (near, far) in zip(axes, ((1, 2), (1, 3), (2, 3))):
         handles = []
         for index, (name, weights) in enumerate(compositions()):
