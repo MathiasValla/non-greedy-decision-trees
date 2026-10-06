@@ -36,6 +36,7 @@ TUNE_COUNTS = COUNTS[:-1]
 FAMILIES = ("rf", "mixed_k2", "mixed")
 BOOTSTRAPS = 20000
 BOOTSTRAP_SEED = 41
+ANALYSIS_SCHEMA = "array-fair-analysis-v2"
 HEX = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -177,6 +178,37 @@ def family(name):
 def synthetic(name):
     return name.startswith(("GAMETES", "monk", "led", "parity5")) or name in {
         "prnn_synth", "mux6", "corral", "threeOf9", "mofn_3_7_10", "xd6", "tic_tac_toe"}
+
+
+def check_manifest_membership(metadata, names):
+    require({"dataset", "family_group", "named_synthetic"} <= set(metadata), "Data-manifest membership schema")
+    require(len(metadata) == 57 and not metadata.dataset.duplicated().any()
+            and set(metadata.dataset) == set(names), "Data-manifest membership cohort")
+    for record in metadata.to_dict("records"):
+        name = record["dataset"]
+        require(record["family_group"] == family(name), f"Data-manifest family classification: {name}")
+        require(type(record["named_synthetic"]) is bool and record["named_synthetic"] == synthetic(name),
+                f"Data-manifest synthetic classification: {name}")
+    require(metadata.family_group.nunique() == 48 and int(metadata.named_synthetic.sum()) == 19
+            and int((~metadata.named_synthetic).sum()) == 38, "Data-manifest sensitivity counts")
+
+
+def analysis_manifest(metadata, names):
+    metadata = metadata.copy()
+    metadata["family_group"] = metadata.dataset.map(family)
+    metadata["named_synthetic"] = metadata.dataset.map(synthetic)
+    check_manifest_membership(metadata, names)
+    return metadata
+
+
+def verification_scopes(fixed_only):
+    unchecked = "not_checked_fixed_only"
+    return {"fixed_bank_forest_scores": "bank_probability_reconstruction",
+            "fixed_selected_slot_fit_work": "bank_slot_sum_reconstruction",
+            "inner_cv_bank_forest_scores": unchecked if fixed_only else "bank_probability_reconstruction",
+            "inner_cv_selected_slot_fit_work": unchecked if fixed_only else "bank_slot_sum_reconstruction",
+            "single_tree_scores": "range_and_checkpoint_consistency_only",
+            "direct_refit_scores": unchecked if fixed_only else "range_and_checkpoint_consistency_only"}
 
 
 def ci(values):
@@ -1019,6 +1051,7 @@ def make_figures(summary, primary, directory, fixed_only):
 
 def export(out, fixed_only=False):
     protocol, fixed, trees, tuned, physical, metadata = load_results(out, fixed_only)
+    metadata = analysis_manifest(metadata, protocol["datasets"])
     frames = [fixed, trees] if fixed_only else [fixed, trees, tuned]
     means = dataset_means(pd.concat(frames, ignore_index=True))
     summary = summarize(means)
@@ -1041,17 +1074,17 @@ def export(out, fixed_only=False):
     atomic_json(directory / "protocol_snapshot.json", protocol)
     make_figures(summary, primary, directory, fixed_only)
     tex_tables(primary, tuning_table, directory)
-    audit = {"analysis_schema": "array-fair-analysis-v1", "validated_complete_cohort": True,
+    audit = {"analysis_schema": ANALYSIS_SCHEMA, "validated_complete_cohort": True,
              "protocol_fingerprint": protocol["protocol_fingerprint"], "analysis_source_sha256": file_hash(__file__),
              "fixed_only": fixed_only, "datasets": 57, "outer_tasks": 285, "fixed_blocks": 1710,
              "fixed_forest_rows": len(fixed), "fixed_single_rows": len(trees), "tuned_rows": len(tuned),
              "forest_rows_total": len(fixed) + len(tuned), "all_model_rows_total": sum(len(frame) for frame in frames),
              "primary_contrasts": len(primary), "holm_family_size": None if fixed_only else 11,
-             "known_family_groups": 48, "named_non_synthetic_datasets": 38,
+             "known_family_groups": 48, "named_synthetic_datasets": 19, "named_non_synthetic_datasets": 38,
              "bootstrap_resamples": BOOTSTRAPS, "bootstrap_seed": BOOTSTRAP_SEED,
              "analysis_versions": {"numpy": np.__version__, "pandas": pd.__version__, "scipy": scipy.__version__,
                                    "sklearn": sklearn.__version__, "matplotlib": matplotlib.__version__},
-             "all_repeat_counts": 5, "probabilities_and_selected_costs_reconstructed": True,
+             "all_repeat_counts": 5, "verification_scopes": verification_scopes(fixed_only),
              "cv_winners_independently_reconstructed": not fixed_only,
              "fixed_only_inference": "pending_full_11_family" if fixed_only else "complete_11_family",
              "missing_or_skipped_tasks": 0, "output_directory": str(directory),
@@ -1064,7 +1097,7 @@ def export(out, fixed_only=False):
 
 
 def read_analysis_csv(path):
-    frame = pd.read_csv(path, keep_default_na=False)
+    frame = pd.read_csv(path, keep_default_na=False, float_precision="round_trip")
     numeric = set(METRICS) | {"accuracy_ci_low", "accuracy_ci_high", "repeats", "n_datasets", "repeats_per_dataset",
                              "mean_delta", "median_delta", "ci_low", "ci_high", "wilcoxon_p", "holm_p", "holm_family_size"}
     for key in set(frame) & numeric:
@@ -1074,7 +1107,7 @@ def read_analysis_csv(path):
 
 def validate_retained(directory, fixed_only):
     audit = read_json(directory / "validation.json")
-    expected = {"analysis_schema": "array-fair-analysis-v1", "validated_complete_cohort": True,
+    expected = {"analysis_schema": ANALYSIS_SCHEMA, "validated_complete_cohort": True,
                 "fixed_only": fixed_only, "datasets": 57, "outer_tasks": 285, "fixed_blocks": 1710,
                 "fixed_forest_rows": 136800, "fixed_single_rows": 5130, "tuned_rows": 0 if fixed_only else 855,
                 "forest_rows_total": 136800 if fixed_only else 137655,
@@ -1082,13 +1115,14 @@ def validate_retained(directory, fixed_only):
                 "summary_rows": 498 if fixed_only else 501, "dataset_mean_rows": 28386 if fixed_only else 28557,
                 "primary_contrasts": 8 if fixed_only else 11, "holm_family_size": None if fixed_only else 11,
                 "all_repeat_counts": 5, "missing_or_skipped_tasks": 0,
-                "known_family_groups": 48, "named_non_synthetic_datasets": 38,
+                "known_family_groups": 48, "named_synthetic_datasets": 19, "named_non_synthetic_datasets": 38,
                 "bootstrap_resamples": 20000, "bootstrap_seed": 41,
-                "probabilities_and_selected_costs_reconstructed": True,
+                "verification_scopes": verification_scopes(fixed_only),
                 "cv_winners_independently_reconstructed": not fixed_only,
                 "fixed_only_inference": "pending_full_11_family" if fixed_only else "complete_11_family"}
     for key, value in expected.items():
         require(audit.get(key) == value, f"Retained analysis scope/count mismatch: {key}")
+    require("probabilities_and_selected_costs_reconstructed" not in audit, "Obsolete broad reconstruction certificate")
     files = ["summary.csv", "paired_primary_comparisons.csv", "dataset_means.csv", "dataset_manifest.csv", "protocol_snapshot.json"]
     if not fixed_only:
         files.append("fair_tuning_table.csv")
@@ -1102,7 +1136,7 @@ def validate_retained(directory, fixed_only):
     primary = read_analysis_csv(directory / "paired_primary_comparisons.csv")
     means = read_analysis_csv(directory / "dataset_means.csv")
     metadata = pd.read_csv(directory / "dataset_manifest.csv", keep_default_na=False)
-    require(len(metadata) == 57 and set(metadata.dataset) == set(protocol["datasets"]), "Retained metadata cohort")
+    check_manifest_membership(metadata, protocol["datasets"])
     metadata_fields = {"n_rows_raw", "n_rows_used", "n_rows_dropped_missing", "n_samples", "n_features", "n_classes",
                        "X_float32_sha256", "y_encoded_sha256", "source_tsv_gz_sha256", "used_source_row_index_sha256"}
     require(metadata_fields <= set(metadata), "Retained data-manifest schema")
@@ -1156,15 +1190,26 @@ def validate_retained(directory, fixed_only):
     require((primary.n_datasets == 57).all(), "Retained primary cohort")
     require(np.isfinite(primary[["mean_delta", "ci_low", "ci_high"]]).all().all()
             and (primary.ci_low <= primary.ci_high).all(), "Retained primary CI schema")
+    reconstructed_p = []
     for row, spec in zip(primary.to_dict("records"), specs):
         require(row["left"] == spec["left"] and row["right"] == spec["right"], "Retained primary pairing")
-        units = means[means.model_id == spec["left"]].set_index("dataset").accuracy
-        reference = means[means.model_id == spec["right"]].set_index("dataset").accuracy
-        require(np.isclose(row["mean_delta"], (units - reference).mean(), atol=1e-12, rtol=0), "Retained paired effect")
+        units = means[means.model_id == spec["left"]].set_index("dataset").sort_index().accuracy
+        reference = means[means.model_id == spec["right"]].set_index("dataset").sort_index().accuracy
+        require(units.index.equals(reference.index), "Retained paired dataset identities")
+        delta = units - reference
+        require(np.isclose(row["mean_delta"], delta.mean(), atol=1e-12, rtol=0), "Retained paired effect")
+        require(np.allclose([row["ci_low"], row["ci_high"]], ci(delta), atol=1e-12, rtol=0),
+                "Retained independently reconstructed paired CI")
+        if not fixed_only:
+            reconstructed_p.append(p_value(delta))
     if fixed_only:
         require("wilcoxon_p" not in primary and "holm_p" not in primary, "Fixed-only must not publish partial-family p values")
     else:
-        require((primary.holm_family_size == 11).all() and np.allclose(primary.holm_p, holm(primary.wilcoxon_p), rtol=0, atol=1e-12), "Retained 11-member Holm correction")
+        require(np.allclose(primary.wilcoxon_p, reconstructed_p, rtol=0, atol=1e-12),
+                "Retained independently reconstructed Wilcoxon p values")
+        require((primary.holm_family_size == 11).all()
+                and np.allclose(primary.holm_p, holm(reconstructed_p), rtol=0, atol=1e-12),
+                "Retained independently reconstructed 11-member Holm correction")
         tuning = read_analysis_csv(directory / "fair_tuning_table.csv")
         require(len(tuning) == 3 and set(tuning.model_id) == set(FAMILIES), "Retained tuned table")
     return summary, primary, audit
@@ -1358,6 +1403,12 @@ def _fixture_retained(directory, fixed_only, names):
     means = summary.drop(columns=["n_datasets", "repeats_per_dataset", "accuracy_ci_low", "accuracy_ci_high"]).merge(
         pd.DataFrame({"dataset": names}), how="cross")
     means["repeats"] = 5
+    dataset_index = means.dataset.map({name: i for i, name in enumerate(names)})
+    model_index = means.model_id.map({name: i for i, name in enumerate(sorted(summary.model_id))})
+    offset = .015 * np.sin(.7 * dataset_index + .31 * model_index)
+    for metric in ("accuracy", "balanced_accuracy"):
+        means[metric] += offset
+        summary[metric] = summary.model_id.map(means.groupby("model_id")[metric].mean())
     specs = primary_specs()[:8] if fixed_only else primary_specs()
     rows = []
     for spec in specs:
@@ -1383,6 +1434,7 @@ def _fixture_retained(directory, fixed_only, names):
                               "n_samples": 24, "n_features": 2, "n_classes": 2, **{key: "a" * 64 for key in
                               ("X_float32_sha256", "y_encoded_sha256", "source_tsv_gz_sha256", "used_source_row_index_sha256")}}
                              for name in names])
+    metadata = analysis_manifest(metadata, names)
     files = {"summary.csv": summary, "paired_primary_comparisons.csv": primary,
              "dataset_means.csv": means, "dataset_manifest.csv": metadata}
     if not fixed_only:
@@ -1390,7 +1442,7 @@ def _fixture_retained(directory, fixed_only, names):
     for name, frame in files.items():
         atomic_csv(directory / name, frame)
     atomic_json(directory / "protocol_snapshot.json", protocol)
-    audit = {"analysis_schema": "array-fair-analysis-v1", "validated_complete_cohort": True,
+    audit = {"analysis_schema": ANALYSIS_SCHEMA, "validated_complete_cohort": True,
              "fixed_only": fixed_only, "protocol_fingerprint": protocol["protocol_fingerprint"],
              "datasets": 57, "outer_tasks": 285, "fixed_blocks": 1710, "fixed_forest_rows": 136800,
              "fixed_single_rows": 5130, "tuned_rows": 0 if fixed_only else 855,
@@ -1399,8 +1451,9 @@ def _fixture_retained(directory, fixed_only, names):
              "summary_rows": len(summary), "dataset_mean_rows": len(means),
              "primary_contrasts": len(specs), "holm_family_size": None if fixed_only else 11,
              "all_repeat_counts": 5, "missing_or_skipped_tasks": 0, "known_family_groups": 48,
-             "named_non_synthetic_datasets": 38, "bootstrap_resamples": 20000, "bootstrap_seed": 41,
-             "probabilities_and_selected_costs_reconstructed": True,
+             "named_synthetic_datasets": 19, "named_non_synthetic_datasets": 38,
+             "bootstrap_resamples": 20000, "bootstrap_seed": 41,
+             "verification_scopes": verification_scopes(fixed_only),
              "cv_winners_independently_reconstructed": not fixed_only,
              "fixed_only_inference": "pending_full_11_family" if fixed_only else "complete_11_family",
              "TEST_ONLY": True,
@@ -1416,7 +1469,8 @@ def self_test(qa_dir=None):
     require(ci(np.ones(57)) == (1.0, 1.0), "Constant paired bootstrap")
     require(latex_escape("10%_test &") == r"10\%\_test \&", "TeX escaping")
     names = pd.read_csv(REPO / "paper/tables/mixed_sighted_dataset_sample.csv").dataset.tolist()
-    require(len({family(name) for name in names}) == 48 and sum(not synthetic(name) for name in names) == 38,
+    require(len({family(name) for name in names}) == 48 and sum(synthetic(name) for name in names) == 19
+            and sum(not synthetic(name) for name in names) == 38,
             "Sensitivity definitions")
     for seed in SEEDS:
         for _, weights in compositions():
@@ -1443,6 +1497,9 @@ def self_test(qa_dir=None):
     _expect_failure(lambda: summarize(means[means.dataset != names[0]]), "Missing dataset")
     with tempfile.TemporaryDirectory(prefix="TEST_array_fair_analysis_") as directory:
         root = Path(directory)
+        precision = pd.DataFrame({"accuracy": [np.nextafter(.8, 1.0), .12345678901234567, .0001220703125]})
+        atomic_csv(root / "TEST_float_round_trip.csv", precision)
+        np.testing.assert_array_equal(read_analysis_csv(root / "TEST_float_round_trip.csv").accuracy, precision.accuracy)
         _expect_failure(lambda: preflight(root, {"protocol_fingerprint": "f" * 64, "datasets": names}, True), "Incomplete fixed cohort")
         _expect_failure(lambda: preflight(root, {"protocol_fingerprint": "f" * 64, "datasets": names}, False), "Incomplete tuned cohort")
         params = {"max_depth": 3, "min_samples_leaf": 1, "max_features": None}
@@ -1512,11 +1569,95 @@ def self_test(qa_dir=None):
             require(len(validated_summary) == (498 if fixed_only else 501), "Retained summary count")
             require(len(validated_primary) == (8 if fixed_only else 11), "Retained primary count")
             _expect_failure(lambda: validate_retained(retained, not fixed_only), "Wrong fixed/full retrieval mode")
+            scopes = audit["verification_scopes"]
+            require(scopes["single_tree_scores"] == "range_and_checkpoint_consistency_only"
+                    and scopes["direct_refit_scores"] == ("not_checked_fixed_only" if fixed_only
+                                                         else "range_and_checkpoint_consistency_only"),
+                    "Scores without retained predictions must not claim reconstruction")
+            require(scopes["inner_cv_bank_forest_scores"] == ("not_checked_fixed_only" if fixed_only
+                                                            else "bank_probability_reconstruction"),
+                    "Inner-CV reconstruction scope follows analysis mode")
+            for key in ("fixed_bank_forest_scores", "fixed_selected_slot_fit_work", "inner_cv_bank_forest_scores",
+                        "inner_cv_selected_slot_fit_work", "single_tree_scores", "direct_refit_scores"):
+                broken = copy.deepcopy(audit)
+                broken["verification_scopes"][key] = "all_predictions_and_costs_reconstructed"
+                atomic_json(retained / "validation.json", broken)
+                _expect_failure(lambda: validate_retained(retained, fixed_only), f"Overclaimed scope: {key}")
+            broken = copy.deepcopy(audit)
+            broken.pop("verification_scopes")
+            broken["probabilities_and_selected_costs_reconstructed"] = True
+            atomic_json(retained / "validation.json", broken)
+            _expect_failure(lambda: validate_retained(retained, fixed_only), "Broad-only reconstruction certificate")
+            broken = copy.deepcopy(audit)
+            broken["probabilities_and_selected_costs_reconstructed"] = True
+            atomic_json(retained / "validation.json", broken)
+            _expect_failure(lambda: validate_retained(retained, fixed_only), "Broad claim alongside scoped certificate")
+            broken = copy.deepcopy(audit)
+            broken["analysis_schema"] = "array-fair-analysis-v1"
+            atomic_json(retained / "validation.json", broken)
+            _expect_failure(lambda: validate_retained(retained, fixed_only), "Obsolete analysis schema")
+            atomic_json(retained / "validation.json", audit)
+            manifest = pd.read_csv(retained / "dataset_manifest.csv", keep_default_na=False)
+            require(len(manifest) == 57 and manifest.family_group.nunique() == 48
+                    and int(manifest.named_synthetic.sum()) == 19 and int((~manifest.named_synthetic).sum()) == 38,
+                    "Retained explicit sensitivity membership")
+            swapped_labels = manifest.copy()
+            excluded, included = manifest.index[manifest.named_synthetic][0], manifest.index[~manifest.named_synthetic][0]
+            swapped_labels.loc[excluded, "named_synthetic"], swapped_labels.loc[included, "named_synthetic"] = False, True
+            swapped_groups = manifest.copy()
+            a, b = manifest.drop_duplicates("family_group").index[:2]
+            swapped_groups.loc[a, "family_group"], swapped_groups.loc[b, "family_group"] = (
+                manifest.loc[b, "family_group"], manifest.loc[a, "family_group"])
+            for label, broken_manifest in (
+                    ("missing family classification", manifest.drop(columns="family_group")),
+                    ("missing synthetic classification", manifest.drop(columns="named_synthetic")),
+                    ("wrong family classification", manifest.assign(family_group="TEST_wrong_family")),
+                    ("wrong synthetic classification", manifest.assign(named_synthetic=~manifest.named_synthetic)),
+                    ("same-count synthetic label swap", swapped_labels),
+                    ("same-count family label swap", swapped_groups),
+                    ("integer synthetic flag", manifest.assign(named_synthetic=manifest.named_synthetic.astype(int)))):
+                atomic_csv(retained / "dataset_manifest.csv", broken_manifest)
+                broken = copy.deepcopy(audit)
+                broken["output_sha256"]["dataset_manifest.csv"] = file_hash(retained / "dataset_manifest.csv")
+                atomic_json(retained / "validation.json", broken)
+                _expect_failure(lambda: validate_retained(retained, fixed_only), f"Refreshed-hash {label}")
+            atomic_csv(retained / "dataset_manifest.csv", manifest)
+            audit["output_sha256"]["dataset_manifest.csv"] = file_hash(retained / "dataset_manifest.csv")
+            atomic_json(retained / "validation.json", audit)
+            primary = read_analysis_csv(retained / "paired_primary_comparisons.csv")
+            broken_primary = primary.copy()
+            broken_primary.loc[0, "ci_low"] -= .001
+            atomic_csv(retained / "paired_primary_comparisons.csv", broken_primary)
+            broken = copy.deepcopy(audit)
+            broken["output_sha256"]["paired_primary_comparisons.csv"] = file_hash(retained / "paired_primary_comparisons.csv")
+            atomic_json(retained / "validation.json", broken)
+            _expect_failure(lambda: validate_retained(retained, fixed_only), "Refreshed-hash wrong bootstrap endpoint")
+            if not fixed_only:
+                broken_primary = primary.copy()
+                broken_primary.loc[0, "wilcoxon_p"] = .5 if primary.loc[0, "wilcoxon_p"] < .5 else .25
+                broken_primary["holm_p"] = holm(broken_primary.wilcoxon_p)
+                atomic_csv(retained / "paired_primary_comparisons.csv", broken_primary)
+                broken["output_sha256"]["paired_primary_comparisons.csv"] = file_hash(retained / "paired_primary_comparisons.csv")
+                atomic_json(retained / "validation.json", broken)
+                _expect_failure(lambda: validate_retained(retained, fixed_only), "Refreshed-hash wrong p with consistent Holm")
+                broken_primary = primary.copy()
+                broken_primary.loc[0, "holm_p"] = .5 if primary.loc[0, "holm_p"] < .5 else .25
+                atomic_csv(retained / "paired_primary_comparisons.csv", broken_primary)
+                broken["output_sha256"]["paired_primary_comparisons.csv"] = file_hash(retained / "paired_primary_comparisons.csv")
+                atomic_json(retained / "validation.json", broken)
+                _expect_failure(lambda: validate_retained(retained, fixed_only), "Refreshed-hash wrong Holm p")
+            atomic_csv(retained / "paired_primary_comparisons.csv", primary)
+            audit["output_sha256"]["paired_primary_comparisons.csv"] = file_hash(retained / "paired_primary_comparisons.csv")
+            reordered = read_analysis_csv(retained / "dataset_means.csv").sample(frac=1, random_state=41)
+            atomic_csv(retained / "dataset_means.csv", reordered)
+            audit["output_sha256"]["dataset_means.csv"] = file_hash(retained / "dataset_means.csv")
+            atomic_json(retained / "validation.json", audit)
+            validate_retained(retained, fixed_only)
             data = read_analysis_csv(retained / "summary.csv")
             data.loc[0, "accuracy"] += .01
             atomic_csv(retained / "summary.csv", data)
             _expect_failure(lambda: validate_retained(retained, fixed_only), "Changed retained summary hash")
-            _fixture_retained(retained, fixed_only, names)
+            audit = _fixture_retained(retained, fixed_only, names)
             incomplete = read_analysis_csv(retained / "dataset_means.csv").iloc[1:]
             atomic_csv(retained / "dataset_means.csv", incomplete)
             audit["output_sha256"]["dataset_means.csv"] = file_hash(retained / "dataset_means.csv")
@@ -1533,7 +1674,8 @@ def self_test(qa_dir=None):
         plot_pair_facets(summary, qa_dir / "TEST_pair_facets", True)
         plot_tuned(summary, primary, qa_dir / "TEST_tuned_families", True)
         print(f"TEST-only figure QA: {qa_dir}", flush=True)
-    print("Analyzer tests passed: completeness, bank reconstruction, costs, pairing, Holm and CV selection", flush=True)
+    print("Analyzer tests passed: completeness, scoped bank reconstruction, manifest membership, costs, pairing, "
+          "retained CI/Wilcoxon/Holm reconstruction and CV selection", flush=True)
 
 
 def main(argv=None):

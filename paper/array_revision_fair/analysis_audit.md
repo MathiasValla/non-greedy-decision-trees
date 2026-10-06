@@ -57,6 +57,8 @@ Independently verify:
 - All 80 fixed forest rows and three single trees per structure, including
   matching all/sqrt features, common parameters, exact integer compositions,
   scores in [0,1], finite nonnegative costs and independent single checkpoints.
+  Single-tree predictions are not retained: their scores receive range and
+  checkpoint-consistency checks only, not independent prediction reconstruction.
 - Full mode's inner splits, 12-setting grid, four counts through 100, 64
   records per fold/structure and three separate CV winners using accuracy,
   selected-fit-work and stable-ID ordering. k2-only excludes every k3 option;
@@ -70,6 +72,25 @@ Independently verify:
   combined physical bookkeeping and shared bank work counted once. Complete
   task JSON must literally match the six fixed records, tuned record and all
   11 paired accuracy differences.
+
+The `array-fair-analysis-v2` certificate records explicit `verification_scopes`:
+
+| Scope | Fixed-Only | Full |
+| --- | --- | --- |
+| `fixed_bank_forest_scores` | Bank-probability reconstruction | Same |
+| `fixed_selected_slot_fit_work` | Actual bank-slot sum reconstruction | Same |
+| `inner_cv_bank_forest_scores` | Not checked | Bank-probability reconstruction |
+| `inner_cv_selected_slot_fit_work` | Not checked | Actual bank-slot sum reconstruction |
+| `single_tree_scores` | Range/checkpoint consistency only | Same |
+| `direct_refit_scores` | Not checked | Range/checkpoint consistency only |
+
+Machine values are `bank_probability_reconstruction`,
+`bank_slot_sum_reconstruction`, `range_and_checkpoint_consistency_only`, and
+`not_checked_fixed_only`, respectively. These describe the original validation,
+not fresh bank reconstruction during CSV-only retrieval. The obsolete broad
+`probabilities_and_selected_costs_reconstructed` flag is no longer emitted or
+accepted, even alongside the scoped certificate. No claim of independent
+single-tree or direct-refit score reconstruction is made.
 
 No cost field is silently changed into an end-to-end timer. Total workflow
 fields are sums of measured stage wall times and exclude checkpoint I/O,
@@ -100,7 +121,8 @@ of equivalence. CIs are pointwise, not simultaneous intervals.
 
 Prespecified sensitivities use the same legacy naming rules: 48 known-family
 groups, each contributing its mean dataset difference, and 38 named
-non-synthetic datasets. Both receive paired bootstrap CIs but no additional
+non-synthetic datasets after excluding 19 named synthetic/constructed tasks.
+Both receive paired bootstrap CIs but no additional
 unadvertised significance-test family. There are no fixed-versus-tuned
 headline comparisons.
 
@@ -116,6 +138,11 @@ partial mode cannot overwrite or masquerade as a completed tuned analysis.
   `paired_primary_comparisons.csv`, `descriptive_paired_comparisons.csv`,
   `paired_dataset_deltas.csv` and `sensitivities.csv` keep units and scopes
   explicit.
+- The 57-row `dataset_manifest.csv` retains the source/complete-case metadata
+  and adds `family_group` and boolean `named_synthetic`. These use exactly the
+  existing sensitivity naming rules, not classifications inferred from scores:
+  48 groups, 19 excluded synthetic/constructed tasks and 38 retained tasks.
+  Every dataset's membership is independently rechecked during retrieval.
 - `shared_accounting.csv`, `physical_cost_dataset_means.csv` and
   `physical_cost_summary.json` count actual shared work once. Full mode also
   emits `fair_tuning_table.csv` with direct refit, selection fitting work and
@@ -157,9 +184,22 @@ Retain these files together for this mode:
 
 The retained dataset-mean cohort must have all 57 datasets and five-repeat
 certification for all 498/501 models. Summary means are checked against these
-dataset means, six complete 16-by-5 curve spaces are checked, and full mode's
-ordered 11-member Holm correction is verified. Wrong mode, changed files,
-truncated cohorts or partial-family inference raise before plotting. Hashes
+dataset means, and six complete 16-by-5 curve spaces are checked. The manifest
+must have exactly the deterministic family/synthetic labels and 57/48/19/38
+counts. Retrieval requires the v2 scoped certificate with exactly the fixed-only
+or full verification scope; old broad-only v1 certificates are not accepted.
+
+Retrieval also independently recomputes the eight fixed-only or eleven full
+primary paired bootstrap endpoints from alphabetically aligned dataset means,
+using the same 20,000 draws and seed 41. Full mode recomputes all eleven raw
+Wilcoxon p-values and their one-family Holm adjustment from those differences,
+with the same 12-decimal rounding and all-zero rule. CSV round-trip comparisons
+allow absolute tolerance 1e-12; round-trip float parsing preserves saved dataset
+means without introducing additional rounding at the Wilcoxon boundary.
+Fixed-only mode still forbids p-value columns.
+These inexpensive statistic checks do not require probabilities or refits.
+Wrong mode, changed files, truncated cohorts, incorrect memberships/statistics
+even with refreshed hashes, or partial-family inference raise before plotting. Hashes
 certify consistency with the original validated export, not a cryptographic
 signature from an external authority.
 
@@ -169,8 +209,8 @@ Use the parent-approved environment; no production analysis has been invoked
 during development:
 
 ```sh
-.venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --self-test
-.venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --self-test --qa-dir /tmp/TEST_array_fair_analysis_qa
+TMPDIR=/tmp .venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --self-test
+TMPDIR=/tmp .venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --self-test --qa-dir /tmp/TEST_array_fair_analysis_qa
 ```
 
 After **all fixed blocks for all five seeds** are complete:
@@ -195,12 +235,24 @@ Later, regenerate from published/retained analysis CSVs without local banks:
 
 `--out` changes the fair input/output root, not the cohort or statistical
 design. The older `array_revision` root is rejected in every mode.
+When integrating this change, generate analysis exports with this analyzer
+only after the applicable complete-cohort gate. An older analysis certificate
+must not be relabeled v2 or have classifications guessed by hand; regenerate
+through normal validation. Frozen benchmark outputs and protocol hashes are
+unchanged. Keep the manifest and dataset means with the certificate for later
+`--plot-summaries` retrieval.
 
 Synthetic tests cover complete and corrupted structure/bank records, missing
 or duplicate candidates, wrong scores/weights/features/costs, pending k3 banks,
 paired-repeat imbalance, independent CV winners and family eligibility, three
 tuned records, missing refits, shared-cost double counting, complete retained
 fixed/full schemas, altered hashes and refreshed-hash incomplete cohorts.
+Additional tests reject broad/overclaimed verification scopes, missing/wrong
+family labels, missing/wrong/nonboolean synthetic labels, and incorrect primary
+bootstrap endpoints or Wilcoxon/Holm values with refreshed hashes. Nonconstant
+synthetic dataset effects and shuffled retained mean rows verify that statistical
+reconstruction uses paired identities and stable dataset order. Same-count
+label swaps are rejected, and a float round-trip fixture checks exact parsing.
 TEST-only layout QA checks all six curve plots, pair facets and tuned panels;
 the main PDF is also rendered and visually inspected. The verified PDF page
 size is 518.4 x 324 points (7.2 x 4.5 inches). No synthetic figure is a final
