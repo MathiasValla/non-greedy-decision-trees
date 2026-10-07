@@ -43,18 +43,21 @@ preceding numerical files.
 
 The manuscript is not submission-ready until all of these checks are complete:
 
-1. All five fixed shards finish without an omitted dataset, repeat, structure,
-   horizon, composition, or tree count. Independent fixed-only validation must
-   pass before replacing Figure 2; that intermediate figure does not complete
-   the tuned comparison or permit removing the draft warning.
+1. **Complete, 7 October 2026:** all five fixed shards finished without an omitted
+   dataset, repeat, structure, horizon, composition, or tree count. Independent
+   fixed-only validation passed and Figure 2 was replaced in the existing
+   manuscript. That intermediate figure does not complete the tuned comparison
+   or permit removing the draft warning.
 2. All five tuning shards finish, with every training-only selection locked
    before three separate final refits. Independent full validation must pass
    for 285 outer tasks, 136,800 fixed forest rows, 5,130 single-tree rows, and
    855 tuned-family rows. The inferential family contains eleven contrasts.
 3. Review the actual effects, uncertainty, selection costs, sensitivity results,
    and selected settings. Replace every preceding-protocol numerical paragraph,
-   table, caption, figure and highlight, including the rebuttal's numerical
-   block. Do not use tuned-versus-untuned results as a fair tuning conclusion.
+   table, caption, figure and highlight. The rebuttal's superseded numerical
+   block has been removed and currently gives completion status only; replace
+   it with the validated final analysis. Do not use tuned-versus-untuned results
+   as a fair tuning conclusion.
 4. Embed the checked results in the same `main.tex` open in the native editor
    with `paper/scripts/finalize_fair_revision_source.py`. Check Figures 1--3
    and supplementary plots visually, and compile the saved manuscript and

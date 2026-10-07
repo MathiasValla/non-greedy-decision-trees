@@ -7,8 +7,9 @@ Project repository:
 <https://github.com/MathiasValla/non-greedy-decision-trees>
 
 Completed historical results can be retrieved directly from retained CSV files.
-The expanded fair revision below is still running: its final results must not
-be inferred from the preceding evaluation or incomplete checkpoints.
+The expanded fair revision's fixed-parameter stage is complete and validated;
+its equally tuned stage is still running. Final tuned results must not be
+inferred from the preceding evaluation or incomplete checkpoints.
 
 ## Matched and Equally Tuned Revision (In Progress)
 
@@ -18,6 +19,14 @@ outputs live separately in `paper/array_revision_fair/`; never merge them with
 preceding result records. See `README.md`, `PROTOCOL.md`, `launch_gates.json`, and
 `fairruntimeaudit.md` there for design, timing boundaries, retained passing tests,
 and scorer verification.
+
+The complete fixed export is `paper/array_revision_fair/analysis/fixed_only/`.
+Its validation certificate records all 57 datasets, five paired repetitions,
+136,800 forest scores, 5,130 single-tree scores, and zero missing tasks. Figure 2
+in the existing manuscript uses this new export. Other numerical sections are
+still marked as superseded pending the full analysis. Fixed-only paired effects
+and confidence intervals do not provide interim significance tests: all eleven
+prespecified contrasts are tested jointly once the tuned stage is complete.
 
 Both fixed and tuned experiments include one-, two-, and three-sighted members.
 Fixed comparisons match permitted final depth, common hyperparameters, and no
@@ -48,8 +57,9 @@ All source/environment/protocol identities are frozen. Do not edit induction or
 runner sources while a production run is active. NPZ prediction caches are local
 resumable work products, not article result tables, and are ignored by git.
 The analysis implementation has passed synthetic completeness, numerical,
-selection/accounting, and layout checks. Production analysis still requires the
-complete cohort. Once all fixed shards finish, run:
+selection/accounting, and layout checks. The completed fixed cohort also passed
+independent production validation. To repeat its analysis from retained raw
+records and local prediction caches, run:
 
 ```bash
 .venv310/bin/python paper/scripts/analyze_array_fair_benchmark.py --fixed-only

@@ -15,7 +15,7 @@
 \cortext[cor1]{Corresponding author.}
 \affiliation[1]{organization={Chaire DIALog, Institut Louis Bachelier},city={Paris},country={France}}
 \begin{abstract}
-\textbf{Working draft: the equally tuned, matched-stopping extension with three-sighted members is pending. The numerical results below describe the preceding evaluation and are not the final submission evidence.}
+\textbf{Working draft: the equally tuned evaluation is pending. Figure 2 now reports the validated matched fixed-architecture experiment with three-sighted members. The other numerical sections still describe the preceding evaluation and must be replaced before submission.}
 
 Greedy induction can miss interactions that become useful only after further splits. We study whether established bounded split optimization improves prediction enough to justify its fitting cost, and whether that computation helps when allocated to a minority of forest members. Local optimization horizon is distinguished from final tree depth. Repeated stratified partitions of a fixed PMLB sample compare shallow, deeper, and unrestricted unpruned learners. We separate fixed-architecture comparisons from training-only model selection applied to both conventional and mixed forests. Paired effects, uncertainty intervals, multiplicity-adjusted tests, and benchmark-family sensitivities replace single-split comparisons. Final fitting cost is distinguished from the cost of selecting a model. Aggregate accuracy--cost curves are descriptive, not evidence for a validated per-dataset time-budget policy. The completed equally tuned evaluation will determine the scope of any predictive advantage; no general superiority claim is made in this working draft.
 \end{abstract}
@@ -109,7 +109,7 @@ Two-sided Wilcoxon signed-rank tests use dataset-level differences, omit zero di
 Known related GAMETES, MONK, LED, parity, and Cy Young tasks are also averaged within families for a sensitivity analysis with equal family weighting. A second sensitivity removes the explicitly named synthetic/constructed tasks in the released manifest. Both change the weighting or sample; neither selects favourable results. Dataset dependence beyond those known groups remains possible. Failure to detect a difference is not evidence of equivalence.
 
 \section{Results}
-\textbf{Draft transition notice: this section, its tables and figures, and the discussion below still retain the preceding protocol's results. They are not results of the matched and equally tuned protocol specified above and must be replaced before submission.}
+\textbf{Draft transition notice: Figure 2 reports the completed, independently validated matched fixed-architecture experiment. The remaining numerical text, tables, Figure 1, and discussion still retain the preceding protocol's results. They must be replaced after the equally tuned experiment is complete; the manuscript is not ready for submission.}
 % BEGIN GENERATED results_text
 \subsection{Complete evaluation}
 Both stages completed all 855 dataset--seed--depth tasks, yielding 16,245 model score records on 57 datasets. No planned dataset or repetition is removed. The sample spans 32--12,958 observations and 2--43 predictors. All five outer partitions of \texttt{lymphography} require the documented singleton-class inner-CV fallback. Table~\ref{tab:performance} reports the main models; complete mixture-grid and tuning records are released separately. Unless stated otherwise, differences below are percentage points of accuracy and intervals are unadjusted dataset-bootstrap intervals.
@@ -247,98 +247,167 @@ x y
 
 \begin{figure*}[t]
 \centering% BEGIN GENERATED figure2
+\definecolor{fairC0}{HTML}{222222}
+\definecolor{fairC1}{HTML}{1F77B4}
+\definecolor{fairC2}{HTML}{D62728}
+\definecolor{fairC3}{HTML}{2B8C55}
+\definecolor{fairC4}{HTML}{66A61E}
+\definecolor{fairC5}{HTML}{C59A00}
+\definecolor{fairC6}{HTML}{8C6D31}
+\definecolor{fairC7}{HTML}{7B3294}
+\definecolor{fairC8}{HTML}{A64C9C}
+\definecolor{fairC9}{HTML}{DC74AB}
+\definecolor{fairC10}{HTML}{B35806}
+\definecolor{fairC11}{HTML}{008B8B}
+\definecolor{fairC12}{HTML}{17A8BD}
+\definecolor{fairC13}{HTML}{527A9C}
+\definecolor{fairC14}{HTML}{7F7F7F}
+\definecolor{fairC15}{HTML}{9D8F11}
 \begin{tikzpicture}
-\begin{groupplot}[group style={group size=3 by 1,horizontal sep=0.85cm},
-width=0.285\textwidth,height=5.0cm,xmode=log,
-ymin=0.66300315,ymax=0.84436750,
-tick label style={font=\scriptsize},label style={font=\small},
-title style={font=\small},xlabel={Mean fitting cost (s)}]
-\nextgroupplot[title={Depth 3},ylabel={Mean test accuracy},legend to name=revisionTradeoffLegend,legend columns=3,legend style={font=\scriptsize,draw=none}]
-\addplot+[only marks,mark=*,color=black!55,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.07486186 0.72627476 0.05004736 0.04740820
-};
-\addlegendentry{CART bagging (100)}
-\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.86762453 0.73693396 0.05045626 0.04711055
-};
-\addlegendentry{CART + 10\% two-sighted}
-\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.07771087 0.72220298 0.05248264 0.04984934
-};
-\addlegendentry{Random forest ($\sqrt p$)}
-\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-2.05360076 0.74461342 0.05067633 0.04736742
-};
-\addlegendentry{Custom 25\% mixture}
-\addplot+[only marks,mark=*,color=violet!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.14933932 0.72689552 0.04990173 0.04669041
-};
-\addlegendentry{CART bagging (200)}
-\addplot+[only marks,mark=star,color=black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.10056143 0.78960568 0.05075568 0.04804461
-};
-\addlegendentry{Tuned random forest}
-\nextgroupplot[title={Depth 6}]
-\addplot+[only marks,mark=*,color=black!55,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.09438863 0.76649855 0.05507105 0.05143986
-};
-\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-1.52734958 0.77133841 0.05457501 0.05060709
-};
-\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.08073096 0.75594454 0.05826145 0.05424469
-};
-\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-3.81256240 0.77297001 0.05437573 0.05013077
-};
-\addplot+[only marks,mark=*,color=violet!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.18748234 0.76496869 0.05525298 0.05165550
-};
-\addplot+[only marks,mark=star,color=black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.10056143 0.78960568 0.05075568 0.04804461
-};
-\nextgroupplot[title={Unlimited depth}]
-\addplot+[only marks,mark=*,color=black!55,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.11709103 0.77488791 0.05676300 0.05231888
-};
-\addplot+[only marks,mark=*,color=green!45!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-2.78670219 0.77828753 0.05625186 0.05165585
-};
-\addplot+[only marks,mark=*,color=blue!65!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.09391535 0.76390864 0.05931316 0.05560074
-};
-\addplot+[only marks,mark=*,color=red!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-7.38365203 0.77852380 0.05591336 0.05149956
-};
-\addplot+[only marks,mark=*,color=violet!70!black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.23649546 0.77412509 0.05668270 0.05233608
-};
-\addplot+[only marks,mark=star,color=black,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
-x y low high
-0.10056143 0.78960568 0.05075568 0.04804461
-};
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=0.95cm},
+width=0.445\textwidth,height=5.5cm,grid=major,grid style={gray!15},
+tick label style={font=\scriptsize},label style={font=\small},title style={font=\small},
+ymin=0.71739365,ymax=0.760297207]
+\nextgroupplot[title={(a) Accuracy versus tree count},xlabel={Number of trees $T$},
+ylabel={Mean test accuracy},xtick={20,40,60,100,200},
+legend to name=fairCurveLegend,legend columns=4,legend style={font=\scriptsize,draw=none,
+/tikz/every even column/.append style={column sep=3pt}}]
+\addplot[color=fairC0,solid,line width=0.8pt] coordinates {(20,0.721545607) (40,0.723651816) (60,0.726046376) (100,0.728771678) (200,0.7302036)};
+\addlegendentry{100/0/0\% ($\bar k=1.00$)}
+\addplot[color=fairC1,solid,line width=0.8pt] coordinates {(20,0.747903819) (40,0.742645826) (60,0.746474541) (100,0.747768532) (200,0.747574262)};
+\addlegendentry{0/100/0\% ($\bar k=2.00$)}
+\addplot[color=fairC2,solid,line width=0.8pt] coordinates {(20,0.747405173) (40,0.749170056) (60,0.749182263) (100,0.752152887) (200,0.751334756)};
+\addlegendentry{0/0/100\% ($\bar k=3.00$)}
+\addplot[color=fairC3,dashed,line width=0.8pt] coordinates {(20,0.727836685) (40,0.730346837) (60,0.731547385) (100,0.732862107) (200,0.734478762)};
+\addlegendentry{95/5/0\% ($\bar k=1.05$)}
+\addplot[color=fairC4,dashed,line width=0.8pt] coordinates {(20,0.73372712) (40,0.733684112) (60,0.735872107) (100,0.739348705) (200,0.738455662)};
+\addlegendentry{90/10/0\% ($\bar k=1.10$)}
+\addplot[color=fairC5,dashed,line width=0.8pt] coordinates {(20,0.740635782) (40,0.741210166) (60,0.743275942) (100,0.745725947) (200,0.745488267)};
+\addlegendentry{75/25/0\% ($\bar k=1.25$)}
+\addplot[color=fairC6,dashed,line width=0.8pt] coordinates {(20,0.745330488) (40,0.744510459) (60,0.746347685) (100,0.746511975) (200,0.74711451)};
+\addlegendentry{50/50/0\% ($\bar k=1.50$)}
+\addplot[color=fairC7,dotted,line width=0.8pt] coordinates {(20,0.72920301) (40,0.729911507) (60,0.733761174) (100,0.735299154) (200,0.736343946)};
+\addlegendentry{95/0/5\% ($\bar k=1.10$)}
+\addplot[color=fairC8,dotted,line width=0.8pt] coordinates {(20,0.735337287) (40,0.736434512) (60,0.738485017) (100,0.74149888) (200,0.740500232)};
+\addlegendentry{90/0/10\% ($\bar k=1.20$)}
+\addplot[color=fairC9,dotted,line width=0.8pt] coordinates {(20,0.744060427) (40,0.7439027) (60,0.749229192) (100,0.75051225) (200,0.751564251)};
+\addlegendentry{75/0/25\% ($\bar k=1.50$)}
+\addplot[color=fairC10,dotted,line width=0.8pt] coordinates {(20,0.748269825) (40,0.752342111) (60,0.753202605) (100,0.75614525) (200,0.755750931)};
+\addlegendentry{50/0/50\% ($\bar k=2.00$)}
+\addplot[color=fairC11,dashdotted,line width=0.8pt] coordinates {(20,0.746804221) (40,0.743163816) (60,0.746639317) (100,0.749152299) (200,0.748870817)};
+\addlegendentry{0/95/5\% ($\bar k=2.05$)}
+\addplot[color=fairC12,dashdotted,line width=0.8pt] coordinates {(20,0.747569298) (40,0.746086328) (60,0.747994449) (100,0.749595989) (200,0.749198589)};
+\addlegendentry{0/90/10\% ($\bar k=2.10$)}
+\addplot[color=fairC13,dashdotted,line width=0.8pt] coordinates {(20,0.746483461) (40,0.74645805) (60,0.750293248) (100,0.751281199) (200,0.751260101)};
+\addlegendentry{0/75/25\% ($\bar k=2.25$)}
+\addplot[color=fairC14,dashdotted,line width=0.8pt] coordinates {(20,0.746690633) (40,0.746641789) (60,0.751333666) (100,0.753466409) (200,0.752436573)};
+\addlegendentry{0/50/50\% ($\bar k=2.50$)}
+\addplot[color=fairC15,solid,line width=0.8pt] coordinates {(20,0.736136319) (40,0.738008505) (60,0.741285904) (100,0.742355309) (200,0.744086104)};
+\addlegendentry{85/10/5\% ($\bar k=1.20$)}
+\nextgroupplot[title={(b) Accuracy versus fitting work},xmode=log,xlabel={Mean fitting work (s)}]
+\addplot[color=fairC0,solid,line width=0.8pt] coordinates {(0.0142270907,0.721545607) (0.0280359555,0.723651816) (0.0413890441,0.726046376) (0.067713161,0.728771678) (0.13382634,0.7302036)};
+\addplot[only marks,color=fairC0,mark=*,mark size=1.5pt] coordinates {(0.0142270907,0.721545607)};
+\addplot[only marks,color=fairC0,mark=square*,mark size=1.5pt] coordinates {(0.0280359555,0.723651816)};
+\addplot[only marks,color=fairC0,mark=triangle*,mark size=1.5pt] coordinates {(0.0413890441,0.726046376)};
+\addplot[only marks,color=fairC0,mark=diamond*,mark size=1.5pt] coordinates {(0.067713161,0.728771678)};
+\addplot[only marks,color=fairC0,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.13382634,0.7302036)};
+\addplot[color=fairC1,solid,line width=0.8pt] coordinates {(0.338133776,0.747903819) (0.672754496,0.742645826) (1.00855898,0.746474541) (1.68070227,0.747768532) (3.37126361,0.747574262)};
+\addplot[only marks,color=fairC1,mark=*,mark size=1.5pt] coordinates {(0.338133776,0.747903819)};
+\addplot[only marks,color=fairC1,mark=square*,mark size=1.5pt] coordinates {(0.672754496,0.742645826)};
+\addplot[only marks,color=fairC1,mark=triangle*,mark size=1.5pt] coordinates {(1.00855898,0.746474541)};
+\addplot[only marks,color=fairC1,mark=diamond*,mark size=1.5pt] coordinates {(1.68070227,0.747768532)};
+\addplot[only marks,color=fairC1,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(3.37126361,0.747574262)};
+\addplot[color=fairC2,solid,line width=0.8pt] coordinates {(16.0787606,0.747405173) (32.0231208,0.749170056) (48.0579232,0.749182263) (80.2307394,0.752152887) (160.047967,0.751334756)};
+\addplot[only marks,color=fairC2,mark=*,mark size=1.5pt] coordinates {(16.0787606,0.747405173)};
+\addplot[only marks,color=fairC2,mark=square*,mark size=1.5pt] coordinates {(32.0231208,0.749170056)};
+\addplot[only marks,color=fairC2,mark=triangle*,mark size=1.5pt] coordinates {(48.0579232,0.749182263)};
+\addplot[only marks,color=fairC2,mark=diamond*,mark size=1.5pt] coordinates {(80.2307394,0.752152887)};
+\addplot[only marks,color=fairC2,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(160.047967,0.751334756)};
+\addplot[color=fairC3,dashed,line width=0.8pt] coordinates {(0.0306203155,0.727836685) (0.0605526971,0.730346837) (0.0900091164,0.731547385) (0.148517737,0.732862107) (0.296049975,0.734478762)};
+\addplot[only marks,color=fairC3,mark=*,mark size=1.5pt] coordinates {(0.0306203155,0.727836685)};
+\addplot[only marks,color=fairC3,mark=square*,mark size=1.5pt] coordinates {(0.0605526971,0.730346837)};
+\addplot[only marks,color=fairC3,mark=triangle*,mark size=1.5pt] coordinates {(0.0900091164,0.731547385)};
+\addplot[only marks,color=fairC3,mark=diamond*,mark size=1.5pt] coordinates {(0.148517737,0.732862107)};
+\addplot[only marks,color=fairC3,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.296049975,0.734478762)};
+\addplot[color=fairC4,dashed,line width=0.8pt] coordinates {(0.0470039114,0.73372712) (0.0927971859,0.733684112) (0.138473448,0.735872107) (0.229333711,0.739348705) (0.457367181,0.738455662)};
+\addplot[only marks,color=fairC4,mark=*,mark size=1.5pt] coordinates {(0.0470039114,0.73372712)};
+\addplot[only marks,color=fairC4,mark=square*,mark size=1.5pt] coordinates {(0.0927971859,0.733684112)};
+\addplot[only marks,color=fairC4,mark=triangle*,mark size=1.5pt] coordinates {(0.138473448,0.735872107)};
+\addplot[only marks,color=fairC4,mark=diamond*,mark size=1.5pt] coordinates {(0.229333711,0.739348705)};
+\addplot[only marks,color=fairC4,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.457367181,0.738455662)};
+\addplot[color=fairC5,dashed,line width=0.8pt] coordinates {(0.0954602178,0.740635782) (0.18909406,0.741210166) (0.283582023,0.743275942) (0.470881029,0.745725947) (0.940747376,0.745488267)};
+\addplot[only marks,color=fairC5,mark=*,mark size=1.5pt] coordinates {(0.0954602178,0.740635782)};
+\addplot[only marks,color=fairC5,mark=square*,mark size=1.5pt] coordinates {(0.18909406,0.741210166)};
+\addplot[only marks,color=fairC5,mark=triangle*,mark size=1.5pt] coordinates {(0.283582023,0.743275942)};
+\addplot[only marks,color=fairC5,mark=diamond*,mark size=1.5pt] coordinates {(0.470881029,0.745725947)};
+\addplot[only marks,color=fairC5,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.940747376,0.745488267)};
+\addplot[color=fairC6,dashed,line width=0.8pt] coordinates {(0.176918393,0.745330488) (0.350482679,0.744510459) (0.525248146,0.746347685) (0.874283224,0.746511975) (1.75110832,0.74711451)};
+\addplot[only marks,color=fairC6,mark=*,mark size=1.5pt] coordinates {(0.176918393,0.745330488)};
+\addplot[only marks,color=fairC6,mark=square*,mark size=1.5pt] coordinates {(0.350482679,0.744510459)};
+\addplot[only marks,color=fairC6,mark=triangle*,mark size=1.5pt] coordinates {(0.525248146,0.746347685)};
+\addplot[only marks,color=fairC6,mark=diamond*,mark size=1.5pt] coordinates {(0.874283224,0.746511975)};
+\addplot[only marks,color=fairC6,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(1.75110832,0.74711451)};
+\addplot[color=fairC7,dotted,line width=0.8pt] coordinates {(0.834736148,0.72920301) (1.65236755,0.729911507) (2.4583099,0.733761174) (4.09098873,0.735299154) (8.16412016,0.736343946)};
+\addplot[only marks,color=fairC7,mark=*,mark size=1.5pt] coordinates {(0.834736148,0.72920301)};
+\addplot[only marks,color=fairC7,mark=square*,mark size=1.5pt] coordinates {(1.65236755,0.729911507)};
+\addplot[only marks,color=fairC7,mark=triangle*,mark size=1.5pt] coordinates {(2.4583099,0.733761174)};
+\addplot[only marks,color=fairC7,mark=diamond*,mark size=1.5pt] coordinates {(4.09098873,0.735299154)};
+\addplot[only marks,color=fairC7,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(8.16412016,0.736343946)};
+\addplot[color=fairC8,dotted,line width=0.8pt] coordinates {(1.6538738,0.735337287) (3.2623439,0.736434512) (4.85912989,0.738485017) (8.09331208,0.74149888) (16.0749614,0.740500232)};
+\addplot[only marks,color=fairC8,mark=*,mark size=1.5pt] coordinates {(1.6538738,0.735337287)};
+\addplot[only marks,color=fairC8,mark=square*,mark size=1.5pt] coordinates {(3.2623439,0.736434512)};
+\addplot[only marks,color=fairC8,mark=triangle*,mark size=1.5pt] coordinates {(4.85912989,0.738485017)};
+\addplot[only marks,color=fairC8,mark=diamond*,mark size=1.5pt] coordinates {(8.09331208,0.74149888)};
+\addplot[only marks,color=fairC8,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(16.0749614,0.740500232)};
+\addplot[color=fairC9,dotted,line width=0.8pt] coordinates {(4.05238885,0.744060427) (7.99827919,0.7439027) (12.0238662,0.749229192) (20.0641795,0.75051225) (39.9434322,0.751564251)};
+\addplot[only marks,color=fairC9,mark=*,mark size=1.5pt] coordinates {(4.05238885,0.744060427)};
+\addplot[only marks,color=fairC9,mark=square*,mark size=1.5pt] coordinates {(7.99827919,0.7439027)};
+\addplot[only marks,color=fairC9,mark=triangle*,mark size=1.5pt] coordinates {(12.0238662,0.749229192)};
+\addplot[only marks,color=fairC9,mark=diamond*,mark size=1.5pt] coordinates {(20.0641795,0.75051225)};
+\addplot[only marks,color=fairC9,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(39.9434322,0.751564251)};
+\addplot[color=fairC10,dotted,line width=0.8pt] coordinates {(8.05545022,0.748269825) (16.0055676,0.752342111) (24.0578125,0.753202605) (40.1054761,0.75614525) (79.8751982,0.755750931)};
+\addplot[only marks,color=fairC10,mark=*,mark size=1.5pt] coordinates {(8.05545022,0.748269825)};
+\addplot[only marks,color=fairC10,mark=square*,mark size=1.5pt] coordinates {(16.0055676,0.752342111)};
+\addplot[only marks,color=fairC10,mark=triangle*,mark size=1.5pt] coordinates {(24.0578125,0.753202605)};
+\addplot[only marks,color=fairC10,mark=diamond*,mark size=1.5pt] coordinates {(40.1054761,0.75614525)};
+\addplot[only marks,color=fairC10,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(79.8751982,0.755750931)};
+\addplot[color=fairC11,dashdotted,line width=0.8pt] coordinates {(1.14224961,0.746804221) (2.26456935,0.743163816) (3.37685976,0.746639317) (5.62317326,0.749152299) (11.2393338,0.748870817)};
+\addplot[only marks,color=fairC11,mark=*,mark size=1.5pt] coordinates {(1.14224961,0.746804221)};
+\addplot[only marks,color=fairC11,mark=square*,mark size=1.5pt] coordinates {(2.26456935,0.743163816)};
+\addplot[only marks,color=fairC11,mark=triangle*,mark size=1.5pt] coordinates {(3.37685976,0.746639317)};
+\addplot[only marks,color=fairC11,mark=diamond*,mark size=1.5pt] coordinates {(5.62317326,0.749152299)};
+\addplot[only marks,color=fairC11,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(11.2393338,0.748870817)};
+\addplot[color=fairC12,dashdotted,line width=0.8pt] coordinates {(1.94500366,0.747569298) (3.84230121,0.746086328) (5.72921542,0.747994449) (9.54468063,0.749595989) (18.9888579,0.749198589)};
+\addplot[only marks,color=fairC12,mark=*,mark size=1.5pt] coordinates {(1.94500366,0.747569298)};
+\addplot[only marks,color=fairC12,mark=square*,mark size=1.5pt] coordinates {(3.84230121,0.746086328)};
+\addplot[only marks,color=fairC12,mark=triangle*,mark size=1.5pt] coordinates {(5.72921542,0.747994449)};
+\addplot[only marks,color=fairC12,mark=diamond*,mark size=1.5pt] coordinates {(9.54468063,0.749595989)};
+\addplot[only marks,color=fairC12,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(18.9888579,0.749198589)};
+\addplot[color=fairC13,dashdotted,line width=0.8pt] coordinates {(4.29506241,0.746483461) (8.48193963,0.74645805) (12.7488432,0.750293248) (21.2740008,0.751281199) (42.3739484,0.751260101)};
+\addplot[only marks,color=fairC13,mark=*,mark size=1.5pt] coordinates {(4.29506241,0.746483461)};
+\addplot[only marks,color=fairC13,mark=square*,mark size=1.5pt] coordinates {(8.48193963,0.74645805)};
+\addplot[only marks,color=fairC13,mark=triangle*,mark size=1.5pt] coordinates {(12.7488432,0.750293248)};
+\addplot[only marks,color=fairC13,mark=diamond*,mark size=1.5pt] coordinates {(21.2740008,0.751281199)};
+\addplot[only marks,color=fairC13,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(42.3739484,0.751260101)};
+\addplot[color=fairC14,dashdotted,line width=0.8pt] coordinates {(8.2166656,0.746690633) (16.3278395,0.746641789) (24.5411234,0.751333666) (40.9118952,0.753466409) (81.4953535,0.752436573)};
+\addplot[only marks,color=fairC14,mark=*,mark size=1.5pt] coordinates {(8.2166656,0.746690633)};
+\addplot[only marks,color=fairC14,mark=square*,mark size=1.5pt] coordinates {(16.3278395,0.746641789)};
+\addplot[only marks,color=fairC14,mark=triangle*,mark size=1.5pt] coordinates {(24.5411234,0.751333666)};
+\addplot[only marks,color=fairC14,mark=diamond*,mark size=1.5pt] coordinates {(40.9118952,0.753466409)};
+\addplot[only marks,color=fairC14,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(81.4953535,0.752436573)};
+\addplot[color=fairC15,solid,line width=0.8pt] coordinates {(0.861274561,0.736136319) (1.67963983,0.738008505) (2.54369129,0.741285904) (4.22603385,0.742355309) (8.42151473,0.744086104)};
+\addplot[only marks,color=fairC15,mark=*,mark size=1.5pt] coordinates {(0.861274561,0.736136319)};
+\addplot[only marks,color=fairC15,mark=square*,mark size=1.5pt] coordinates {(1.67963983,0.738008505)};
+\addplot[only marks,color=fairC15,mark=triangle*,mark size=1.5pt] coordinates {(2.54369129,0.741285904)};
+\addplot[only marks,color=fairC15,mark=diamond*,mark size=1.5pt] coordinates {(4.22603385,0.742355309)};
+\addplot[only marks,color=fairC15,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(8.42151473,0.744086104)};
+\addplot[black!55,dashed] coordinates {(0.7,0.71739365) (0.7,0.760297207)};
 \end{groupplot}
 \end{tikzpicture}
-\par\smallskip\pgfplotslegendfromname{revisionTradeoffLegend}
+\par\smallskip\scriptsize Composition: \% one-/two-/three-sighted members ($\bar k$: mean horizon).
+\par\pgfplotslegendfromname{fairCurveLegend}
 % END GENERATED figure2
-\caption{Descriptive accuracy--cost points at each final-depth setting. Dataset-bootstrap bars describe mean accuracy, not paired differences; Table~\ref{tab:comparisons} provides the paired analysis. The same training-only tuned random-forest reference is shown in each panel. Fitting boundaries differ between prepared-slot ensembles and library forest refits as explained in the protocol. This plot is not a validated per-dataset fixed-budget selection rule.}
+\caption{Fixed-architecture forests at depth three with all features: every composition spans 20, 40, 60, 100, and 200 members on the complete 57-dataset cohort, averaged over five paired repetitions and then equally across datasets. Circle, square, upward triangle, diamond, and downward triangle mark these sizes in the right panel. The dashed line denotes a 0.7 s mean-fitting-work reference, not a validated per-dataset budget. Composition is stated explicitly because equal average horizons can describe different mixtures. These descriptive curves do not include model-selection cost or show paired confidence intervals.}
 \label{fig:tradeoff}
 \end{figure*}
 

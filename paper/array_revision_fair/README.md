@@ -6,6 +6,23 @@ with its outputs: bootstrap sample-count semantics, zero-gain stopping, and the
 compiled scorer are changing for a closer comparison with library CART/RF.
 This directory is not completed evidence until its validation gate passes.
 
+## Completion Status
+
+The fixed-parameter stage completed on 7 October 2026 and passed independent
+validation on all 57 datasets and five paired repetitions. Its validated export
+is `analysis/fixed_only/`: 136,800 forest scores and 5,130 single-tree scores,
+with no missing or skipped tasks. Figure 2 in the existing manuscript now uses
+these results. The forest scores and included-tree fitting costs were
+independently reconstructed from retained bank predictions and per-tree times;
+single-tree scores were checked for range and checkpoint consistency only.
+
+All five tuning shards are running. The eight fixed primary contrasts have
+effect estimates and confidence intervals, but no interim p-values: the
+prespecified joint Holm family requires the three completed tuned comparisons.
+Remaining numerical sections of the manuscript are explicitly marked as
+preceding-protocol material pending replacement. Neither the manuscript nor
+the response letter is submission-ready at this stage.
+
 ## Shared Attributes
 
 Matched comparisons use Gini, the same allowed final depth, minimum split size
