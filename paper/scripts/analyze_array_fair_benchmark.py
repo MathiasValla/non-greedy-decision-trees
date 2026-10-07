@@ -764,7 +764,9 @@ def paired(means, left, right, label, primary=False, inferential=False):
     stage = a.stage.iloc[0]
     require(stage == b.stage.iloc[0], "Cross fixed/tuned comparisons are not allowed")
     cost = "fit_work_s" if stage == "fixed_forest" else "direct_fit_time_s"
-    row["comparison_cost_kind"] = "selected_tree_fit_work" if stage == "fixed_forest" else "direct_refit_wall"
+    row["comparison_cost_kind"] = {"fixed_forest": "selected_tree_fit_work",
+                                   "fixed_tree": "single_tree_fit_wall",
+                                   "tuned_forest": "direct_refit_wall"}[stage]
     denom = float(b[cost].mean())
     row["ratio_of_mean_fitting_costs"] = float(a[cost].mean()) / denom if denom > 0 else None
     if inferential:
@@ -1492,6 +1494,13 @@ def self_test(qa_dir=None):
     require(len(means) == 114 and (means.repeats == 5).all(), "Repeat-first dataset means")
     row, deltas = paired(means, "a", "b", "TEST_only")
     require(abs(row["mean_delta"] + .01) < 1e-12 and "wilcoxon_p" not in row, "Descriptive paired CI, no p")
+    require(row["comparison_cost_kind"] == "selected_tree_fit_work", "Fixed forest cost scope")
+    for stage, kind in (("fixed_tree", "single_tree_fit_wall"), ("tuned_forest", "direct_refit_wall")):
+        scoped = means.assign(stage=stage, direct_fit_time_s=means.fit_work_s)
+        cost_row, _ = paired(scoped, "a", "b", "TEST_only_cost_scope")
+        require(cost_row["comparison_cost_kind"] == kind, f"Matching cost scope: {stage}")
+        require(cost_row["ratio_of_mean_fitting_costs"] == row["ratio_of_mean_fitting_costs"],
+                "Scope label must not change fitting ratios")
     require(len(deltas) == 57 and len(summarize(means)) == 2, "Equal-dataset summaries")
     _expect_failure(lambda: dataset_means(frame.iloc[1:]), "Missing seed")
     _expect_failure(lambda: summarize(means[means.dataset != names[0]]), "Missing dataset")

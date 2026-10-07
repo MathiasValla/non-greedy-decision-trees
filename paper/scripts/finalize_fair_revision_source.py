@@ -131,7 +131,7 @@ def figure1(data, directory):
             lines.append(f"{row.horizon+(index-1)*.06:.3f} {row.delta:.8g} {row.delta-row.ci_low:.8g} {row.ci_high-row.delta:.8g}")
         lines.extend(["};", r"\addlegendentry{" + ("Unlimited depth" if depth == "None" else "Depth " + depth) + "}"])
     lines.extend([r"\addplot[black!40,dashed,forget plot] coordinates {(0.8,0) (3.2,0)};",
-                  r"\nextgroupplot[title={(b) Single-tree fitting cost},ymode=log,ylabel={Mean direct fitting time (s)}]"])
+                  r"\nextgroupplot[title={(b) Single-tree fitting cost},ymode=log,ylabel={Mean fitting time (s)}]"])
     for index, depth in enumerate(DEPTHS):
         rows = data[data.depth == depth]
         lines.append(r"\addplot+[mark=*,color=fairC" + str(colors[index]) + "] coordinates {"
@@ -150,7 +150,7 @@ def figure1(data, directory):
         axes[1].plot(rows.horizon, rows.fit_s, "o-", color=color, ms=3)
     axes[0].axhline(0, color=".5", ls="--", lw=.6)
     axes[0].set(ylabel="Accuracy difference (percentage points)", title="(a) Paired single-tree differences")
-    axes[1].set(ylabel="Mean direct fitting time (s)", title="(b) Single-tree fitting cost", yscale="log")
+    axes[1].set(ylabel="Mean fitting time (s)", title="(b) Single-tree fitting cost", yscale="log")
     for axis in axes:
         axis.set(xlabel="Sight horizon k", xticks=[1, 2, 3])
         axis.grid(color=".9", lw=.5)
@@ -215,7 +215,7 @@ def main():
     text = replace_caption(text, "figure2", r"Fixed-architecture forests at depth three with all features: every composition spans 20, 40, 60, 100, and 200 members on the complete 57-dataset cohort, averaged over five paired repetitions and then equally across datasets. Circle, square, upward triangle, diamond, and downward triangle mark these sizes in the right panel. The dashed line denotes a 0.7 s mean-fitting-work reference, not a validated per-dataset budget. Composition is stated explicitly because equal average horizons can describe different mixtures. These descriptive curves do not include model-selection cost or show paired confidence intervals.")
     if not args.fixed_only:
         text = block(text, "figure1", "", figure1(single_data(summary, descriptive), directory))
-        text = replace_caption(text, "figure1", r"Depth-matched unpruned single trees with all features. Left: paired accuracy differences from CART, with unadjusted dataset-bootstrap intervals; these single-tree effects are descriptive, not members of the eleven-test primary family. Right: measured mean direct fitting time. Sight horizon is varied independently of permitted final depth.")
+        text = replace_caption(text, "figure1", r"Depth-matched unpruned single trees with all features. Left: paired accuracy differences from CART, with unadjusted dataset-bootstrap intervals; these single-tree effects are descriptive, not members of the eleven-test primary family. Right: measured mean single-tree fit duration, excluding construction and prediction. Sight horizon is varied independently of permitted final depth.")
         plot3 = figure3(summary, primary)
         if "% BEGIN GENERATED figure3" not in text:
             figure = "\n".join([r"\begin{figure*}[t]", r"\centering",

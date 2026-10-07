@@ -97,6 +97,11 @@ fields are sums of measured stage wall times and exclude checkpoint I/O,
 startup, downloading and idle time. Physical accounting also records actual
 fixed bank/single work separately and combines stages once, never sums
 per-composition costs or all three families' overlapping attributed costs.
+Although fixed single-tree records use the field name `direct_fit_time_s`,
+their timer surrounds `fit` alone, excluding construction and prediction.
+Their paired cost label is therefore `single_tree_fit_wall`, not the tuned
+family's `direct_refit_wall` (which includes construction/bootstrap preparation).
+Ratios always compare matching stages and measurement boundaries.
 
 ## Aggregation and Inference
 
