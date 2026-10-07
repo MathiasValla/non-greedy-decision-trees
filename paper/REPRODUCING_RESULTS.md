@@ -21,6 +21,25 @@ preceding result records. See `README.md`, `PROTOCOL.md`, `launch_gates.json`, a
 and scorer verification.
 
 The complete fixed export is `paper/array_revision_fair/analysis/fixed_only/`.
+Its portable, versioned bundle is `paper/array_revision_fair_exports/fixed/`;
+the former path is the original local working export. To retrieve the retained
+scores, provenance and figures on a fresh checkout without refitting:
+
+```bash
+.venv310/bin/python -B paper/scripts/package_fair_revision_results.py verify paper/array_revision_fair_exports/fixed
+.venv310/bin/python -B paper/scripts/package_fair_revision_results.py restore paper/array_revision_fair_exports/fixed --destination /tmp/fair_fixed_retained
+.venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --out /tmp/fair_fixed_retained --plot-summaries --fixed-only
+```
+
+The destination must be new. Keep the bundle immutable; regenerate figures in
+the restored directory only. Bulk scores and JSON provenance are compressed,
+with original plaintext hashes preserved. See
+`paper/array_revision_fair_exports/README.md` and
+`paper/array_revision_fair/PACKAGING.md` for file scopes and restoration checks.
+The retrieval command does not require NPZ banks, the compiled scorer, a data
+download or model fitting; it validates retained summaries and statistics, not
+raw bank predictions. Full raw validation requires the original local banks.
+
 Its validation certificate records all 57 datasets, five paired repetitions,
 136,800 forest scores, 5,130 single-tree scores, and zero missing tasks. Figure 2
 in the existing manuscript uses this new export. Other numerical sections are
@@ -71,8 +90,9 @@ costs, and CV winners before exporting to `paper/array_revision_fair/analysis/`.
 The `fixed_only/` export has no partial-family p-values; the `full/` export
 requires all eleven contrasts and all three separate tuned refits.
 
-When the completed analysis files are available in the repository, regenerate
-figures directly from the retained hashed CSVs, without NPZ caches or refitting:
+After restoring the applicable bundle, or when original completed local analysis
+files are available, regenerate figures from the retained hashed CSVs without
+NPZ caches or refitting. For the original local working export:
 
 ```bash
 .venv310/bin/python paper/scripts/analyze_array_fair_benchmark.py --plot-summaries --fixed-only

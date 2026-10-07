@@ -1,0 +1,113 @@
+% Include-ready fragment, not a standalone document.
+% Internal provisional fixed-only draft; not final article approval.
+% Source: paper/array_revision_fair/analysis/fixed_only (validated complete).
+% No inferential decisions: the joint eleven-contrast analysis remains pending.
+% No selected-family outcomes or comparisons are included.
+
+\subsection{Complete fixed-architecture evaluation}
+The fixed experiment contains all 57 datasets and five paired repetitions:
+285 dataset--partition tasks and 1,710 depth--feature blocks, with no skipped
+tasks. It records 5,130 single-tree scores and 136,800 forest scores. Each
+reported mean first averages repetitions within a dataset and then weights
+datasets equally. Differences below are percentage points of accuracy;
+bracketed intervals are pointwise, unadjusted $95\%$ paired dataset-bootstrap
+intervals. These results are descriptive: joint analysis of the eight fixed
+anchors within the prespecified eleven-contrast family remains pending.
+Single-tree times measure \texttt{fit} alone. Forest fitting work sums the
+measured fits of the selected constituent slots; neither measure includes
+constructor/bootstrap preparation or prediction, and forest fitting work is
+not a separately measured whole-forest refit time.
+
+\subsection{All-feature single trees}
+At $D=3$, mean accuracies for $k=1,2,3$ are $67.82\%,70.59\%,71.36\%$.
+Relative to CART, horizons two and three give paired mean differences of
+$2.77$ points [$0.68$, $5.22$] and $3.54$ points [$1.45$, $6.01$]. The
+corresponding medians are only $0.13$ and $0.40$ points, with dataset
+win/tie/loss counts $29/3/25$ and $31/3/23$. Thus the mean gains do not
+describe improvement on every task. Mean fit-only times are $0.00103$,
+$0.0282$, and $1.684$ s, respectively: the farther-sighted fits cost about
+$27.4$ and $1,637.5$ times the CART fit in this implementation.
+
+At $D=6$, the mean differences shrink to $0.39$ points [$-1.90$, $2.99$]
+and $0.59$ points [$-1.92$, $3.53$], while the medians are $-0.48$ and
+$-1.27$ points. Without a depth limit, the differences become $-5.13$
+points [$-8.69$, $-1.84$] and $-8.29$ points [$-12.45$, $-4.39$], with
+$17/2/38$ and $15/2/40$ wins/ties/losses. Mean realized depths are $10.1$
+for CART, $15.1$ for horizon two, and $17.0$ for horizon three. These
+observations distinguish search horizon from final capacity: the shallow
+mean advantage does not extend to these unrestricted all-feature trees.
+The coincident changes in realized size and test accuracy do not identify
+a causal mechanism.
+
+\subsection{Pure and sparse mixed forests}
+At a common $T=100$, $D=3$, and all-feature setting, pure horizons one,
+two, and three attain mean accuracies $72.88\%,74.78\%,75.22\%$.
+The paired differences from the pure CART forest are $1.90$ points
+[$0.54$, $3.43$] and $2.34$ points [$0.73$, $4.12$]. Mean selected-slot
+fitting work is $0.0677$, $1.6807$, and $80.2307$ s, respectively.
+At the same tree count and feature setting, the pure horizon-two/three
+mean differences are $-0.58/-1.09$ points at $D=6$ and
+$-6.84/-9.68$ points without a depth limit. Increasing every member's
+horizon therefore does not give a uniform depth-independent prediction gain.
+
+Replacing ten of the 100 shallow CART members with horizon-two or
+horizon-three members gives mean accuracy differences of $1.06$ points
+[$0.45$, $1.77$] and $1.27$ points [$0.61$, $2.02$]. Both median
+differences are zero; wins/ties/losses are $27/21/9$ and $28/14/15$.
+Balanced-accuracy differences are $1.15$ and $1.33$ points. Mean fitting
+work rises to $0.2293$ and $8.0933$ s, or $3.39$ and $119.52$ times
+the matched CART forest. The $85/10/5\%$ three-horizon composition has
+a descriptive mean gain of $1.36$ points [$0.52$, $2.30$] at $4.2260$ s.
+These are matched-architecture comparisons, not equal-computation gains.
+For the ten-member replacements, the all-feature mean differences at
+$D=6$ are $0.27/0.58$ points and those without a depth limit are
+$0.05$ [$-0.27$, $0.44$] and $-0.02$ [$-0.49$, $0.55$] points.
+All four medians are zero. The unrestricted mixtures still require
+$1.1200$ and $38.5187$ s of mean fitting work, versus $0.1466$ s for
+their CART control; the small mean differences are not evidence of
+equivalence.
+
+\subsection{Feature policy and sensitivities}
+The pure-forest depth pattern depends on the feature policy. With
+square-root feature subsampling and $T=100$, horizon-two/three mean
+differences from their own matched CART forest are $2.38/2.85$ points
+at $D=3$, $1.27/1.96$ points at $D=6$, and $1.08/0.78$ points without
+a depth limit. For the last two differences, the intervals are
+[$0.35$, $1.88$] and [$-0.75$, $2.44$], and medians are $0.29$ and
+zero points. These contrasts use a different CART baseline from the
+all-feature contrasts; they do not establish that feature subsampling
+universally improves absolute accuracy or explain a diversity mechanism.
+The shallow ten-member replacements under square-root subsampling have
+mean gains of $0.42$ and $1.04$ points, rather than the all-feature
+$1.06$ and $1.27$ points.
+
+For the two all-feature shallow ten-member replacements, equal weighting
+of the 48 known dataset families gives mean gains of $0.77$ and $0.91$
+points, with intervals [$0.25$, $1.45$] and [$0.32$, $1.63$]. On the
+38 tasks outside the named synthetic/constructed set, the gains are
+$0.53$ and $0.63$ points, with intervals [$0.06$, $1.22$] and
+[$0.07$, $1.35$]. These prespecified sensitivities reduce the estimated
+mean gains for these anchors. They neither remove all dataset dependence
+nor turn this previously explored convenience sample into an independent,
+representative collection.
+
+\subsection{Descriptive mean-cost curves}
+Figure~\ref{fig:tradeoff} shows the evaluated depth-three, all-feature
+forests at $T=20,40,60,100,200$. Neither increasing tree count nor
+increasing a farther-horizon fraction produces uniformly monotone mean
+accuracy. Among the plotted configurations with mean fitting work at
+most $0.7$ s, the highest observed mean accuracy is the pure horizon-two
+$T=20$ forest: $74.79\%$ at $0.3381$ s. A $T=100$ forest with
+$25\%$ horizon-two members has $74.57\%$ accuracy at $0.4709$ s;
+sparse mixtures therefore do not necessarily improve on a smaller pure
+farther-sighted forest. Mixtures also supply other observed tradeoffs:
+the $T=20$, $25\%$ horizon-two forest has $74.06\%$ accuracy at
+$0.0955$ s. Every evaluated composition containing horizon-three
+members lies above the $0.7$ s mean-cost reference in this panel.
+This is a retrospective description of benchmark-mean coordinates,
+not a training-selected resource policy or a per-dataset budget guarantee.
+The figure displays no paired uncertainty, and lines between markers
+do not correspond to evaluated intermediate models or certified
+equal-cost comparisons. Its fitting axis excludes preparation,
+prediction, and model-selection work; the recorded times also depend on
+implementation and shared hardware load.

@@ -1,3 +1,10 @@
 # Large resumable prediction banks stay local; all article scores are exported.
 *.npz
 *.lock
+
+# Working exports and checkpoints are distributed in verified compressed bundles.
+/analysis/
+/raw/
+/data_manifest/
+/launches/
+/protocol.json

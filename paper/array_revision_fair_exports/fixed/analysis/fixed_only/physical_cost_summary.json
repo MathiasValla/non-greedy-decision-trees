@@ -1,0 +1,11 @@
+{
+  "accounting": "physical_shared_banks_once_not_sum_of_family_attributions",
+  "n_datasets": 57,
+  "physical_fixed_bank_fit_work_s": 2359.700114161075,
+  "physical_fixed_bank_prediction_work_s": 1.5716161624119993,
+  "physical_fixed_bank_wall_s": 2362.5734729401734,
+  "physical_fixed_single_fit_wall_s": 23.070599577231174,
+  "physical_fixed_single_prediction_wall_s": 0.00871547318896965,
+  "physical_fixed_stage_wall_s": 2386.1233443298147,
+  "repeats_per_dataset": 5
+}
