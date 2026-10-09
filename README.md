@@ -24,13 +24,21 @@ lookahead decision trees and bootstrap forests:
 
 The implementation lives mainly in `treeple/tree/_lookahead.py`,
 `treeple/tree/_lookahead_fast.pyx`, and
-`treeple/ensemble/_lookahead_forest.py`. The PMLB benchmark scripts, result
-tables, and Pattern Recognition Letters submission draft are in `paper/`.
+`treeple/ensemble/_lookahead_forest.py`. The current revised article is
+`paper/array_revision/main.tex`, titled *Bounded split optimization in decision
+trees and forests: gains, costs, and limits*. Its complete matched and
+training-selected benchmark uses 57 datasets and five paired repetitions,
+including three-sighted members, deeper controls and unpruned CART baselines.
+The frozen benchmark adapter and isolated runtime are documented under
+`paper/array_revision_fair/`; installing upstream treeple from PyPI is not a
+substitute for this research snapshot. Historical submission drafts and
+superseded numerical protocols remain separate in `paper/`.
 The public project repository is
 <https://github.com/MathiasValla/non-greedy-decision-trees>. See
 `paper/REPRODUCING_RESULTS.md` for the exact CSV files and commands needed to
 retrieve every result reported in the article without rerunning the expensive
-benchmarks.
+benchmarks. The full retained bundle is `paper/array_revision_fair_exports/full/`,
+with scores, selected settings, provenance, validation and numerical figures.
 
 treeple is a scikit-learn compatible API for building state-of-the-art decision trees. These include unsupervised trees, oblique trees, uncertainty trees, quantile trees and causal trees.
 

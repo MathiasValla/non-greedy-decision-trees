@@ -1,7 +1,3 @@
-WORKING DRAFT FOR AUTHOR REVIEW: the expanded matched and equally tuned
-evaluation is running. Do not send this letter until its complete evidence and
-the final manuscript have been checked.
-
 Dear Dr Hazarika,
 
 Please find the revised manuscript ARRAY-D-26-03529, previously titled
@@ -18,6 +14,15 @@ It corrects bootstrap-slot and timing issues,
 removes the ad hoc utility heuristic, and positions bounded search as established
 prior work rather than a new induction algorithm. The accompanying response
 details every change and the remaining limitations.
+
+Both stages have now completed on all 57 datasets and five paired repetitions,
+without omitting a planned task. The independent analysis checks all 142,785
+score records, reconstructs the inner-validation winners, and applies the
+complete eleven-contrast multiplicity adjustment. The expanded selected family
+has higher estimated mean accuracy than selected RF, but its heterogeneous
+effects, benchmark sensitivities and much larger computation qualify the
+practical interpretation. Its choices include pure forests; the conclusion
+does not attribute the entire gain to sparse mixing or claim equivalence.
 
 Reviewer 2's attached report appears to concern a numerical-aware LogBERT
 telecommunications manuscript rather than this decision-tree submission. I

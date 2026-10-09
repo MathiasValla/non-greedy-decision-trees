@@ -1,0 +1,35 @@
+% COMPLETE table environment: replace the old table, not only its row markers.
+% Exactly the eleven rows of full/paired_primary_comparisons.csv, in file order.
+\begin{table*}[t]
+\centering\small
+\caption{All eleven prespecified primary paired comparisons. Fixed rows
+replace ten of 100 CART members with the indicated horizon, at minimum
+leaf size one and the stated feature setting. Effects and pointwise,
+unadjusted $95\%$ mean-effect intervals are in percentage points.
+$p_H$ is the two-sided Wilcoxon signed-rank value Holm-adjusted jointly
+over these eleven contrasts, not a test of the same mean as the interval.
+W/T/L counts dataset-mean wins/ties/losses for the first model. Cost ratios
+divide equal-dataset mean costs: selected-constituent fitting work for
+the eight fixed rows, direct selected-model refit wall time for the three
+selected-family rows. They exclude selection work and have different
+timing boundaries. Extra precision retains the near-zero interval endpoint
+in the unrestricted square-root-feature horizon-three row.}
+\label{tab:comparisons}
+\begin{tabular}{@{}lrlrrr@{}}\toprule
+Comparison & $D$ & Mean difference [95\% interval] & $p_H$ & W/T/L & Cost ratio\\
+\midrule
+10\% $k=2$ vs. CART (all) & 3 & $1.06$ [$0.45$, $1.77$] & 0.00996 & 27/21/9 & 3.39 \\
+10\% $k=3$ vs. CART (all) & 3 & $1.27$ [$0.61$, $2.02$] & 0.02066 & 28/14/15 & 119.52 \\
+10\% $k=2$ vs. CART (sqrt) & 3 & $0.42$ [$0.07$, $0.78$] & 0.09539 & 27/22/8 & 4.84 \\
+10\% $k=3$ vs. CART (sqrt) & 3 & $1.04$ [$0.46$, $1.74$] & 0.00150 & 32/19/6 & 106.73 \\
+10\% $k=2$ vs. CART (all) & $\infty$ & $0.05$ [$-0.27$, $0.44$] & 1.00000 & 19/20/18 & 7.64 \\
+10\% $k=3$ vs. CART (all) & $\infty$ & $-0.02$ [$-0.49$, $0.55$] & 1.00000 & 16/20/21 & 262.81 \\
+10\% $k=2$ vs. CART (sqrt) & $\infty$ & $0.22$ [$-0.02$, $0.47$] & 0.75287 & 23/18/16 & 18.90 \\
+10\% $k=3$ vs. CART (sqrt) & $\infty$ & $0.28$ [$0.00047$, $0.59$] & 0.34732 & 25/16/16 & 367.04 \\
+\midrule
+Selected $k\leq2$ vs. RF & selected & $0.97$ [$-0.07$, $2.30$] & 1.00000 & 29/8/20 & 15.20 \\
+Selected inclusive vs. RF & selected & $1.57$ [$0.30$, $3.28$] & 0.48838 & 28/11/18 & 206.61 \\
+Selected inclusive vs. $k\leq2$ & selected & $0.60$ [$-0.11$, $1.63$] & 1.00000 & 18/23/16 & 13.59 \\
+\bottomrule
+\end{tabular}
+\end{table*}

@@ -1,0 +1,162 @@
+% First complete-results writing pass, for independent scientific review.
+% Source: paper/array_revision_fair/analysis/full; no new inference or fits.
+% Replace the Results body, not the Methods. Table fragments are complete tables.
+% Place the existing validated Figure 2 at the insertion marker below.
+% Figure 3 below references the existing full-analysis PDF; do not regenerate it.
+
+\subsection{Complete evaluation}
+Both stages completed all 57 datasets and five paired outer partitions,
+with no missing or skipped task. The fixed stage contains 1,710
+depth--feature blocks, 5,130 single-tree scores, and 136,800 forest
+scores. The selected stage adds 855 separately refitted forests, three
+families for each of the 285 outer tasks. Table~\ref{tab:performance}
+reports representative fixed architectures and all selected families.
+Differences below are percentage points of accuracy. Intervals are
+pointwise, unadjusted $95\%$ paired dataset-bootstrap intervals for
+the mean effect. Table~\ref{tab:comparisons} gives the eleven primary
+contrasts with one joint Holm adjustment; other comparisons are descriptive.
+Scores and costs first average repetitions within datasets, then weight
+datasets equally.
+
+\subsection{All-feature single trees and pure forests}
+At $D=3$, mean accuracies for single trees with $k=1,2,3$ are
+$67.82\%,70.59\%,71.36\%$. The paired horizon-two/three gains over
+CART are $2.77$ points [$0.68$, $5.22$] and $3.54$ points [$1.45$,
+$6.01$], but medians are only $0.13$ and $0.40$ points, with
+$29/3/25$ and $31/3/23$ wins/ties/losses. Mean fit-only times are
+$0.00103$, $0.0282$, and $1.684$ s, respectively. At $D=6$, mean
+differences shrink to $0.39/0.59$ points and medians become
+$-0.48/-1.27$ points. Without a depth limit, mean differences are
+$-5.13$ [$-8.69$, $-1.84$] and $-8.29$ [$-12.45$, $-4.39$]
+points. Mean realized depths then increase from $10.1$ for CART to
+$15.1/17.0$ for horizons two/three. Larger realized trees and poorer
+test scores coincide here, without identifying their cause.
+
+For pure $T=100$ forests with all features, horizon-two/three mean
+differences from the matched CART forest are $1.90/2.34$ points at
+$D=3$, $-0.58/-1.09$ at $D=6$, and $-6.84/-9.68$ without a depth
+limit. Shallow mean fitting work is $0.0677$, $1.6807$, and $80.2307$
+s for the three pure horizons. With square-root feature subsampling,
+the corresponding mean differences are $2.38/2.85$, $1.27/1.96$,
+and $1.08/0.78$ points. The last two intervals are [$0.35$, $1.88$]
+and [$-0.75$, $2.44$], with medians $0.29$ and zero points.
+These are contrasts with each feature policy's own CART control,
+not a formal interaction test or evidence that subsampling universally
+improves absolute accuracy. The unrestricted all-feature losses must
+not be extrapolated to the square-root-feature setting.
+
+\subsection{Sparse horizon replacements}
+At $T=100$, $D=3$, with all features, replacing ten CART members with
+horizon-two or horizon-three members gives mean gains of $1.06$ points
+[$0.45$, $1.77$] and $1.27$ points [$0.61$, $2.02$]. Both medians
+are zero; wins/ties/losses are $27/21/9$ and $28/14/15$.
+Their joint-Holm signed-rank values are $p_H=0.00996$ and $0.02066$.
+Balanced-accuracy gains are $1.15/1.33$ points. Mean selected-slot
+fitting work rises from $0.0677$ s for CART to $0.2293/8.0933$ s,
+or $3.39/119.52$ times the control. These are architecture-matched,
+not equal-computation gains. The descriptive $85/10/5\%$ composition
+has a mean gain of $1.36$ points [$0.52$, $2.30$] at $4.2260$ s.
+
+With square-root features, the two shallow replacement gains are
+$0.42$ [$0.07$, $0.78$] and $1.04$ [$0.46$, $1.74$] points,
+with $p_H=0.09539$ and $0.00150$. Their medians are zero and
+$0.13$ points. Without a depth limit, all four primary replacement
+means are small: $0.05/-0.02$ points with all features and
+$0.22/0.28$ points with square-root features. All four medians are
+zero; adjusted values range from $0.34732$ to $1$. This is not
+equivalence evidence. At the descriptive depth-six all-feature
+setting, the replacement mean differences are $0.27/0.58$ points,
+again with zero medians.
+
+For the two shallow all-feature anchors, equal weighting of the 48
+known dataset families reduces the means to $0.77/0.91$ points,
+with intervals [$0.25$, $1.45$] and [$0.32$, $1.63$]. On the 38
+tasks outside the named synthetic/constructed set, the means are
+$0.53/0.63$ points, with intervals [$0.06$, $1.22$] and [$0.07$,
+$1.35$]. These sensitivities concern these anchors and do not make
+the previously explored convenience sample independent or representative.
+
+\subsection{Descriptive mean-cost curves}
+% PARENT FIGURE2 INSERTION: put the validated Figure 2 environment here.
+% BEGIN FIGURE2_POSTPLOT_TEXT: retain directly after that environment.
+Figure~\ref{fig:tradeoff} shows all sixteen depth-three, all-feature
+compositions at $T=20,40,60,100,200$. Neither tree count nor the
+farther-horizon fraction gives uniformly monotone observed mean
+accuracy. Among plotted points with mean fitting work at most $0.7$
+s, the pure horizon-two $T=20$ forest has the highest observed mean:
+$74.79\%$ at $0.3381$ s. A $T=100$ forest with $25\%$ horizon-two
+members has $74.57\%$ accuracy at $0.4709$ s. Sparse mixtures
+therefore do not necessarily improve on smaller pure farther-sighted
+forests. They offer other tradeoffs: the $T=20$, $25\%$ horizon-two
+forest has $74.06\%$ accuracy at $0.0955$ s. Every plotted composition
+containing horizon-three members has mean fitting work above $0.7$ s.
+This reference is a retrospective comparison of benchmark means, not
+a selected budget policy or a per-dataset feasibility guarantee.
+Connecting lines do not represent evaluated intermediate models or
+certified equal-cost comparisons, and the figure contains no paired
+uncertainty. Its fitting-work axis excludes preparation, prediction,
+and selection cost.
+% END FIGURE2_POSTPLOT_TEXT
+
+\subsection{Training-selected families}
+% New figure environment: paths are relative to paper/array_revision/main.tex.
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{../array_revision_fair/analysis/full/Fig3_tuned_families.pdf}
+\caption{Training-only selected families on the complete 57-dataset sample and five paired repetitions. Family 1/2 allows horizons one and two; Family 1/2/3 allows all three. Both can select pure forests. Left: mean paired accuracy differences with pointwise, unadjusted $95\%$ dataset-bootstrap intervals, not intervals for the Holm-adjusted signed-rank tests. Right: standalone cross-validation constituent fitting work, direct selected-model refit wall time, and the sum of measured workflow stage wall times. The last measure excludes checkpoint I/O, startup, downloads, and idle gaps; it is not an uninterrupted end-to-end stopwatch. Common validation-bank work is fully charged to every family requiring it.}
+\label{fig:tuned}
+\end{figure*}
+
+Mean accuracy is $78.99\%$ for the RF family, $79.96\%$ for the
+one-/two-sighted family, and $80.56\%$ for the inclusive family
+(Figure~\ref{fig:tuned}). Relative to selected RF, the one-/two-sighted
+family has a mean gain of $0.97$ points [$-0.07$, $2.30$], median
+$0.00617$ points, $29/8/20$ wins/ties/losses, and $p_H=1$.
+The inclusive family gains $1.57$ points [$0.30$, $3.28$], with
+median zero, $28/11/18$ wins/ties/losses, and $p_H=0.48838$.
+Its balanced-accuracy gain is $1.60$ points. Inclusive versus
+one-/two-sighted gives $0.60$ points [$-0.11$, $1.63$], median
+zero, and $p_H=1$. The positive inclusive mean interval and the
+non-rejected signed-rank location null concern different estimands,
+not contradictory decisions about one hypothesis. Neither supports
+calling the methods equivalent or saying that no mean improvement
+was observed.
+
+Selection does not always choose a mixed model. Among the 285
+inclusive choices, 133 are pure forests ($61/28/44$ at horizons
+one/two/three) and 152 are mixed (146 use two horizons and six use all three).
+The one-/two-sighted family selects 168 pure forests and 117
+mixtures. Thus the aggregate selected-family gain cannot be
+attributed solely to sparse replacement or heterogeneity.
+Depth-three/six/unrestricted selection counts are $66/87/132$ for RF,
+$90/106/89$ for the one-/two-sighted family, and $104/103/78$ for
+the inclusive family. Both all-feature and square-root-feature
+settings are selected in every family. The RF label therefore
+denotes a library-estimator candidate space including all-feature
+bagged CART, not exclusively square-root-feature ensembles.
+
+\subsection{Selection costs and sensitivity of the selected-family effects}
+Standalone cross-validation fitting work averages $2.271$, $112.079$,
+and $2,671.049$ s for RF, one-/two-sighted, and inclusive families.
+These charges include all banks required by each search space,
+even when a pure CART forest is ultimately selected. Direct refit
+wall times, including construction/bootstrap preparation but not
+test prediction, are $0.0626$, $0.9518$, and $12.9374$ s. Their
+ratios to RF are $15.20$ and $206.61$ for the two expanded families;
+these are refit ratios, not selection-cost ratios. Mean sums of
+measured workflow stage wall times are $3.405$, $118.035$, and
+$2,693.803$ s. They are not uninterrupted end-to-end times.
+Shared banks are fully attributed to each standalone family but
+counted only once in the separate physical accounting. Fixed-forest
+constituent work and selected-model direct refit wall time have
+different boundaries and are not interchangeable.
+
+The inclusive-versus-RF mean effect becomes $1.03$ points
+[$-0.27$, $2.90$] with equal weighting of the 48 known families
+and $0.53$ points [$-0.91$, $2.77$] on the 38 tasks outside the named
+synthetic/constructed set. Both intervals cross zero. The corresponding one-/two-sighted
+effects are $0.61$ [$-0.32$, $2.02$] and $0.38$ [$-0.66$, $2.09$]
+points. These prespecified analyses show that the estimated tuned
+mean benefits are sensitive to benchmark weighting and membership;
+they do not establish an absence of benefit or a broadly transferable
+accuracy--cost advantage.

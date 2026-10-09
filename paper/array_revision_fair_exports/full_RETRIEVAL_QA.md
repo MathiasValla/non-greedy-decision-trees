@@ -193,7 +193,8 @@ or cross-platform/fresh-environment test was performed.
 
 The cohort table's ordered 57 names match the protocol. The retained
 `dataset_manifest.csv` has 57 distinct rows, 48 deterministic family groups,
-19 named synthetic and 38 retained non-synthetic datasets. Retrieval checked
+19 named synthetic/constructed tasks and 38 tasks outside that named set.
+The complement is not an exhaustive provenance classification. Retrieval checked
 classification identities, complete-case row accounting and dataset/source
 fingerprints. Frozen fitting-source hashes were retained as provenance and
 validated as declared identifiers, not resolved against external local source

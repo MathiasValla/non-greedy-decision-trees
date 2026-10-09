@@ -4,7 +4,7 @@ This is a separately versioned extension requested after the first repeated
 revision evaluation. Results in `../array_revision/` must not be silently mixed
 with its outputs: bootstrap sample-count semantics, zero-gain stopping, and the
 compiled scorer are changing for a closer comparison with library CART/RF.
-This directory is not completed evidence until its validation gate passes.
+Its full validation gate passed on 9 October 2026.
 
 ## Completion Status
 
@@ -16,12 +16,16 @@ these results. The forest scores and included-tree fitting costs were
 independently reconstructed from retained bank predictions and per-tree times;
 single-tree scores were checked for range and checkpoint consistency only.
 
-All five tuning shards are running. The eight fixed primary contrasts have
-effect estimates and confidence intervals, but no interim p-values: the
-prespecified joint Holm family requires the three completed tuned comparisons.
-Remaining numerical sections of the manuscript are explicitly marked as
-preceding-protocol material pending replacement. Neither the manuscript nor
-the response letter is submission-ready at this stage.
+All five tuning shards completed successfully on 9 October 2026. The complete
+`analysis/full/` export contains all 285 outer tasks and 855 separate
+selected-family refits, for 142,785 fixed and tuned score records in total.
+Independent analysis reconstructed fixed and inner-CV bank probabilities,
+included-member costs and all CV winners. Direct-refit and single-tree scores
+have range/checkpoint checks, not independent prediction reconstruction.
+The single eleven-contrast Holm adjustment is now complete. Portable results
+and provenance are retained under `../array_revision_fair_exports/full/`.
+The existing manuscript and response now use this full evaluation; author
+review and submission approval remain required.
 
 ## Shared Attributes
 
@@ -52,7 +56,7 @@ shared by every family and explicitly recorded; it removes 11 rows of penguins.
   leaf size one/five, and all-feature/square-root feature settings. Both may
   select 20, 40, 60, or 100 members. The 200-member curves are descriptive,
   not candidates secretly made available to only one tuned family.
-- A two-sighted-only mixed family and a one-/two-/three-sighted mixed family
+- A one-/two-sighted mixed-capable family and a one-/two-/three-sighted family
   can be selected from the same validation banks; each selected configuration
   requires its own outer-training refit before test evaluation.
 
@@ -77,8 +81,8 @@ a configuration was chosen without consulting test scores. Such a prospective
 budget claim would require a separate training-only feasibility policy.
 
 The source remains in the existing editor at `../array_revision/main.tex`.
-Methods are updated in place; final numerical claims, tables, and figures must
-be replaced only after complete new results have been checked. The transfer request asks for a suitable journal
+Methods and checked numerical claims, tables and figures are updated in place.
+The transfer request asks for a suitable journal
 with no mandatory APC and confirmation of publication terms before consent.
 
 ## Run and Verify

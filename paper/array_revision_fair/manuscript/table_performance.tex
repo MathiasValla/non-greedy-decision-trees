@@ -1,0 +1,55 @@
+% COMPLETE table environment: replace the old table, not only its row markers.
+% 24 fixed rows (all features, leaf minimum one) and three selected-family rows.
+% Source row IDs and timing fields are documented in full_interpretation_notes.md.
+\begin{table*}[t]
+\centering\small
+\caption{Performance on 57 datasets and five paired repetitions. Scores,
+costs, and realized depths first average within datasets, then equally
+across datasets. Fixed rows use all features and minimum leaf size one;
+all fixed forests have 100 members. Replacement forests contain 90\%
+CART and 10\% of the indicated horizon. Fixed-tree fit measures are
+fit-only wall times; fixed-forest measures are selected-constituent fit
+sums, both excluding construction/bootstrap preparation and prediction.
+Selected-family rows choose depth, leaf size, features (all or square-root),
+ensemble size, and admissible composition using training-only validation.
+Their fit measure is direct refit wall time including construction/bootstrap
+preparation but excluding test prediction and selection. The differing
+timing scopes are not interchangeable or total learning costs. Accuracy
+and balanced accuracy are proportions.}
+\label{tab:performance}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+Model & $D$ & Accuracy & Balanced accuracy & Fit measure (s) & Realized depth\\
+\midrule
+CART tree & 3 & 0.6782 & 0.6241 & 0.0010 & 3.0 \\
+Tree $k=2$ & 3 & 0.7059 & 0.6543 & 0.0282 & 3.0 \\
+Tree $k=3$ & 3 & 0.7136 & 0.6647 & 1.6845 & 3.0 \\
+Pure $k=1$ forest & 3 & 0.7288 & 0.6721 & 0.0677 & 2.9 \\
+Pure $k=2$ forest & 3 & 0.7478 & 0.6931 & 1.6807 & 3.0 \\
+Pure $k=3$ forest & 3 & 0.7522 & 0.6959 & 80.2307 & 3.0 \\
+10\% $k=2$ replacement & 3 & 0.7393 & 0.6835 & 0.2293 & 2.9 \\
+10\% $k=3$ replacement & 3 & 0.7415 & 0.6853 & 8.0933 & 2.9 \\
+\addlinespace
+CART tree & 6 & 0.7282 & 0.6947 & 0.0011 & 5.6 \\
+Tree $k=2$ & 6 & 0.7321 & 0.6977 & 0.0569 & 5.9 \\
+Tree $k=3$ & 6 & 0.7341 & 0.7009 & 3.7724 & 5.9 \\
+Pure $k=1$ forest & 6 & 0.7665 & 0.7297 & 0.0797 & 5.4 \\
+Pure $k=2$ forest & 6 & 0.7606 & 0.7201 & 3.7387 & 5.9 \\
+Pure $k=3$ forest & 6 & 0.7556 & 0.7166 & 200.3026 & 5.9 \\
+10\% $k=2$ replacement & 6 & 0.7692 & 0.7321 & 0.4463 & 5.4 \\
+10\% $k=3$ replacement & 6 & 0.7723 & 0.7350 & 20.1196 & 5.4 \\
+\addlinespace
+CART tree & $\infty$ & 0.7451 & 0.7194 & 0.0017 & 10.1 \\
+Tree $k=2$ & $\infty$ & 0.6938 & 0.6578 & 0.1592 & 15.1 \\
+Tree $k=3$ & $\infty$ & 0.6622 & 0.6208 & 7.9657 & 17.0 \\
+Pure $k=1$ forest & $\infty$ & 0.7752 & 0.7450 & 0.1466 & 8.9 \\
+Pure $k=2$ forest & $\infty$ & 0.7069 & 0.6615 & 9.7728 & 13.2 \\
+Pure $k=3$ forest & $\infty$ & 0.6784 & 0.6302 & 387.2398 & 14.9 \\
+10\% $k=2$ replacement & $\infty$ & 0.7758 & 0.7442 & 1.1200 & 9.4 \\
+10\% $k=3$ replacement & $\infty$ & 0.7750 & 0.7430 & 38.5187 & 9.5 \\
+\midrule
+Selected RF family & selected & 0.7899 & 0.7533 & 0.0626 & 6.5 \\
+Selected $k\leq2$ family & selected & 0.7996 & 0.7642 & 0.9518 & 5.5 \\
+Selected inclusive family & selected & 0.8056 & 0.7693 & 12.9374 & 5.4 \\
+\bottomrule
+\end{tabular}
+\end{table*}

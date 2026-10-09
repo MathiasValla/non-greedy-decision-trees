@@ -1,0 +1,15 @@
+{
+  "protocol_fingerprint": "d8999e02a5ad8a1398996fd3c851f5a68fd17d697f37cd048e2258a418475d7b",
+  "input_sha256": {
+    "summary.csv": "51c0db3c2ad933ad79058963e6f3322c6b04f79502cf7d6c0ee02d97cfcd5c81",
+    "paired_primary_comparisons.csv": "b3991e718b04aff40439ffdc59c02edb9d4a4b8e52ec734f4b4a8cb5c9286e23",
+    "fair_tuning_table.csv": "b83249f8e824da205a0b9653a88c476b226a8a2c93e9a4fb30cce394492c098f"
+  },
+  "matplotlib": "3.10.9",
+  "numpy": "1.26.4",
+  "pandas": "2.3.3",
+  "drawing_method": "Direct data-derived Matplotlib plots; no image-generation model",
+  "cost_scope": "Standalone CV constituent-fit sums and direct selected-model refit wall times; not equal budgets",
+  "interval_scope": "Pointwise unadjusted mean-effect intervals, not signed-rank confidence intervals",
+  "author_approval_required": true
+}

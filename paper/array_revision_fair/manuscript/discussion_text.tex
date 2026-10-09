@@ -1,0 +1,71 @@
+% Replace the entire Discussion body, including text outside old generated markers.
+% First complete-results scientific writing pass; independent review still required.
+
+The completed comparison supports conditional predictive benefits rather
+than general mixed-forest superiority. Several shallow fixed replacement
+contrasts retain small joint-Holm signed-rank values, including both
+all-feature replacements and the square-root-feature horizon-three
+replacement. Their positive means coexist with zero or small medians
+and substantial extra fitting work. Uniformly increasing horizon is
+especially unfavorable for the unrestricted all-feature models, whereas
+square-root-feature forests show a different pattern. Better local
+terminal training impurity is not a certificate of better prediction,
+and neither this depth pattern nor a difference between feature policies
+identifies a causal mechanism.
+
+Training-only selection changes the practical comparison. The inclusive
+family has a positive estimated mean advantage over selected RF, with a
+pointwise mean-effect interval above zero. Such a mean gain may be practically
+relevant, but its adjusted signed-rank test
+does not reject the location null, its median effect is zero, and the
+family-weighted intervals and those for the 38 tasks outside the named
+synthetic/constructed set cross zero. These summaries answer different questions. They permit a heterogeneous mean
+benefit on the full cohort, not a claim of no improvement, equivalence,
+or reliable improvement for a typical future task. Because the expanded
+families often select pure forests, their aggregate effects evaluate
+larger training-selected candidate spaces, not the isolated benefit of
+sparse mixtures. Both mixed-capable spaces contain the entire RF space,
+but this nesting does not guarantee a held-out improvement. Their larger
+selection spaces and search work are part of the comparison.
+
+The shallow experiment remains a capacity-constrained question, not a
+recommended universal forest depth. Tree-size regularization studies
+motivate conditional benefits of smaller members, particularly in noisy
+regression settings \cite{zhou2023trees,duroux2018impact}; they do not
+identify depth three as optimal for these bootstrap Gini classifiers.
+The fixed CART forests have higher mean accuracy at deeper capacities,
+and selected RF chooses depth six or unrestricted depth in most outer
+tasks. Thus deeper forests remain relevant and often useful controls.
+Growing-tree consistency results do not establish consistency at fixed
+depth three \cite{scornet2015consistency}, and shallow boosting results
+do not justify an independently fitted bootstrap forest.
+
+Computation remains a substantial limitation. Full standalone selection
+work is much larger for the expanded families than for RF, particularly
+when horizon-three banks are required, even if the selected refit is
+relatively cheap. The observed costs characterize the implementation,
+candidate space, and shared hardware load, not every non-greedy method.
+Local lookahead is established \cite{murthy1995lookahead,donick2021stepwise};
+the additive child recursion gives a worst-case candidate-evaluation
+bound exponential in local horizon, rather than the number of complete
+split assignments. Final fitting also sums searches over committed
+nodes. Fixed horizon is distinct from final depth. Prefix-count reuse
+and Cython improve execution without introducing a new optimization
+principle or a global certificate. Cached, bounded, and hybrid solvers,
+including SPLIT, require objective- and constraint-aligned comparisons
+before an accuracy or efficiency ranking is justified
+\cite{aglin2020caching,demirovic2022murtree,vanderlinden2023separable,babbar2025nearoptimal}.
+
+The sample is small, previously explored, and includes related and
+constructed tasks. Repeated overlapping holdouts are not independent
+datasets; known-family weighting addresses only documented dependence.
+Complete-case deletion, supplied numeric encodings, rare-class validation
+fallbacks, and bounded tuning grids limit the conclusions. Matching common
+hyperparameters does not create equal computational budgets, and remaining
+threshold, tie, and random-feature-order differences preclude bitwise
+algorithmic identity. The descriptive mean-cost curves neither enforce a
+per-dataset budget nor account for selection work. No causal diversity
+effect, validated resource frontier, large-data scalability, or production
+readiness has been established. A prospective resource-constrained study
+would need training-only budget selection, final-fit feasibility checks,
+complete cost accounting, and larger independent tasks.

@@ -6,13 +6,14 @@ mandatory APC, with publication terms confirmed before agreement. It also
 politely asks the editor to verify Reviewer 2's apparent manuscript mismatch.
 Nothing is submitted and no editor/reviewer is contacted by these scripts.
 
-**Working draft, not ready for submission:** the author has requested a further
-matched-stopping extension including three-sighted members, equally tuned greedy
-and mixed forests, and new forest-size curves. That extension is separately
-versioned under `paper/array_revision_fair/`. The completed 855+855-task records
-in this directory precede that request; tuned-versus-fixed comparisons must not
-serve as the final fair-tuning conclusion. Remove draft warnings only after all
-required new records and analyses have passed validation.
+**Complete numerical revision; author approval still required.** The matched
+extension including three-sighted members, equally tuned conventional and
+mixed-capable families, and complete forest-size curves finished on
+9 October 2026. It is separately versioned under `paper/array_revision_fair/`,
+with portable evidence in `paper/array_revision_fair_exports/full/`. The current
+manuscript and response use these checked full results. The preceding 855+855
+task records stored in this directory are historical and must not be reused
+as the final fair-tuning evidence.
 
 ## Working Source Files
 
@@ -21,7 +22,9 @@ required new records and analyses have passed validation.
 - `cover_letter.txt`: editable cover letter.
 - `Fig1_depth_sensitivity.pdf`, `Fig2_accuracy_cost.pdf`: preceding-protocol
   figures, not the final fair-comparison figures.
-- `highlights.txt`: editable preceding-protocol highlights, to be replaced.
+- `highlights.txt`: updated, editable five-bullet highlights.
+- `graphical_abstract_fair.pdf/.tiff`: updated data-derived visual summary;
+  see `SUBMISSION_ASSETS.md` for scope, dimensions and regeneration.
 - `references.bib`, `references_additions.bib`, `shallow_references.bib`, result/table `.tex` files,
   `elsarticle.cls`, `elsarticle-num.bst`: compilation sources.
 - `revision_results.csv`, `dataset_means.csv`, `paired_comparisons.csv`,
@@ -48,31 +51,46 @@ The manuscript is not submission-ready until all of these checks are complete:
    fixed-only validation passed and Figure 2 was replaced in the existing
    manuscript. That intermediate figure does not complete the tuned comparison
    or permit removing the draft warning.
-2. All five tuning shards finish, with every training-only selection locked
-   before three separate final refits. Independent full validation must pass
-   for 285 outer tasks, 136,800 fixed forest rows, 5,130 single-tree rows, and
-   855 tuned-family rows. The inferential family contains eleven contrasts.
-3. Review the actual effects, uncertainty, selection costs, sensitivity results,
-   and selected settings. Replace every preceding-protocol numerical paragraph,
-   table, caption, figure and highlight. The rebuttal's superseded numerical
-   block has been removed and currently gives completion status only; replace
-   it with the validated final analysis. Do not use tuned-versus-untuned results
-   as a fair tuning conclusion.
-4. Embed the checked results in the same `main.tex` open in the native editor
-   with `paper/scripts/finalize_fair_revision_source.py`. Check Figures 1--3
-   and supplementary plots visually, and compile the saved manuscript and
-   response with the native compiler. Compilation alone is not scientific
-   approval or an exported submission PDF.
-5. Resolve the two independent internal reviewer passes and the author's
-   substantive review. Only then remove the working-draft notices and confirm
-   public repository access, manuscript metadata, unchanged authorship, and
-   the current submission portal's required files.
+2. **Complete, 9 October 2026:** all five tuning shards finished, with every
+   training-only selection locked before three separate final refits.
+   Independent full validation passed for 285 outer tasks, 136,800 fixed forest
+   rows, 5,130 single-tree rows and 855 tuned-family rows. All eleven primary
+   contrasts share one Holm adjustment. No dataset or task was omitted.
+3. **Integrated:** preceding-protocol prose, tables, figures, abstract,
+   conclusion, rebuttal numerical block and highlights were replaced using
+   the complete fair evidence. Selection/refit costs, mean-versus-location
+   inference, sensitivities and pure-versus-mixed selections are distinguished.
+4. **Compiled:** Figures 1--3 are embedded in the same `main.tex` open in the
+   native editor. Exported figures and the graphical summary were inspected.
+   Manuscript and response compiled successfully with the native compiler.
+   Recompile after review edits. Compilation alone is not scientific approval
+   or an exported submission PDF.
+5. **Internal agreement complete, 9 October 2026:** both requested scientific/
+   editorial reviewers agree on the current source and response, with no
+   unresolved actionable major blocker. Reviews and the final source hashes
+   are in `../array_revision_fair/manuscript/full_manuscript_review.md` and
+   `full_writer_final_review.md`. These AI-assisted checks are not external
+   peer review, human author approval or editorial acceptance.
+6. **Author gate remains:** approve the scientific interpretation and
+   disclosures, inspect the final page layout in the compiled previews,
+   confirm public release links and portal requirements, and consent to any
+   submission or transfer. Publication without a mandatory APC is requested,
+   not guaranteed. The historical Codex tool/model identifier is unrecorded;
+   confirm whether the receiving journal needs further documentation.
 
 The final fair-analysis directory is `../array_revision_fair/analysis/full/`.
 Its figures, CSVs, protocol snapshot and validation report must travel together;
 the preceding PDFs listed above must not be included as final figures. Use the
 fair-run instructions in `../REPRODUCING_RESULTS.md` for fitting, analysis and
 CSV-only figure retrieval.
+
+The full evidence and retrieval scripts were committed as `d67a9061`; all
+63 bundle files and five retrieval/cohort dependencies passed a true Git-index
+export/restoration check before that commit. The full numerical figures and
+graphical summary were visually checked. The main article and response passed
+native compilation, but full-page preview inspection was not accessible to
+the automation and remains an author check. No replacement document or separate
+main-article PDF was compiled/exported; the existing editor stays open.
 
 ## Reproduce
 

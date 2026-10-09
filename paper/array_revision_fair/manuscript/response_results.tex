@@ -1,0 +1,82 @@
+% Replace the obsolete response_results status block; integrate the additional
+% completion/tense corrections listed in full_interpretation_notes.md.
+% First scientific writing pass, not a journal acceptance assessment.
+
+The fixed and training-selected stages are now complete on all 57 datasets
+and five paired outer partitions, with no missing or skipped task. The fixed
+stage comprises 1,710 structural blocks, 5,130 single-tree scores, and 136,800
+forest scores. The selected stage provides three separately refitted models
+for each of 285 outer tasks, adding 855 scores. Independent full analysis
+reconstructed stored fixed and inner-validation forest predictions and
+constituent fitting costs and independently reconstructed the validation
+winners. Single-tree and direct-refit scores received range and checkpoint
+consistency checks, not independent prediction reconstruction. The complete
+analysis now applies the single prespecified eleven-contrast Holm adjustment.
+Figures 2--3 and Tables 1--2 use these completed records, rather than the
+preceding tuned-versus-untuned evaluation.
+
+The deeper controls materially qualify the shallow result. For all-feature
+single trees, horizons two/three have descriptive mean differences from CART
+of $2.77/3.54$ points at depth three, $0.39/0.59$ at depth six, and
+$-5.13/-8.29$ without a depth limit. At 100 members, pure all-feature
+horizon-two/three forests have mean differences of $1.90/2.34$ points
+at depth three but $-6.84/-9.68$ without a depth limit. The square-root
+feature setting differs: its unrestricted pure-forest mean differences
+are $1.08/0.78$ points. We therefore do not generalize the all-feature
+depth pattern to conventional feature-subsampled forests or claim that
+shallow members are universally preferable. Selected RF chooses final
+depth six or unrestricted depth in 219 of the 285 tasks. The conditional
+tree-size literature motivates the shallow question, not depth three as
+a general optimum, and boosting results are not treated as bootstrap-forest
+evidence.
+
+For the primary depth-three all-feature comparison, replacing ten of 100
+CART members with horizon-two/three trees gives mean gains of $1.06$
+[$0.45$, $1.77$] and $1.27$ [$0.61$, $2.02$] points. Both medians
+are zero, with $27/21/9$ and $28/14/15$ wins/ties/losses, and joint
+$p_H=0.00996/0.02066$. With square-root features, gains are $0.42/1.04$
+points and $p_H=0.09539/0.00150$. The unrestricted replacement medians
+are all zero and no corresponding adjusted signed-rank value is below
+$0.05$. These facts are not interpreted as equivalence. Mean effects and
+their pointwise bootstrap intervals are distinguished from the signed-rank
+location hypothesis throughout.
+
+Crucially, selected families are compared with selected RF. The inclusive
+family's mean accuracy gain is $1.5693$ points [$0.2991$, $3.2767$],
+with median zero, $28/11/18$ wins/ties/losses, and joint $p_H=0.48838$.
+The one-/two-sighted family's gain is $0.9674$ points [$-0.0668$, $2.2979$],
+with median $0.00617$ points, $29/8/20$ wins/ties/losses, and $p_H=1$.
+The positive inclusive mean interval is not contradicted by its non-rejected
+signed-rank location null; these summaries have different estimands. We do
+not describe the result as no improvement or equivalence. However, the
+inclusive mean gain becomes $1.03$ points [$-0.27$, $2.90$] under the
+48-family weighting and $0.53$ [$-0.91$, $2.77$] on the 38 tasks outside
+the named synthetic/constructed set. These intervals cross zero and limit a broad
+generalization claim. Moreover, 133 of 285 inclusive selections are pure
+forests and 152 are mixed (146 two-horizon and six three-horizon mixtures).
+The selected-family effect cannot be attributed solely to sparse mixtures.
+
+All families receive the same common structural and ensemble-size grid,
+not equal computation: their candidate spaces contain 48, 288, and 768
+configurations. Standalone cross-validation fitting work averages $2.271$,
+$112.079$, and $2,671.049$ s for RF, one-/two-sighted, and inclusive
+families, including banks not represented in the eventual selected model.
+Direct refit wall times are $0.0626$, $0.9518$, and $12.9374$ s, including
+construction/bootstrap preparation but excluding prediction. The sums of
+measured workflow stage wall times are $3.405$, $118.035$, and $2,693.803$
+s. These exclude checkpoint I/O, startup, downloads, and idle gaps and are
+not uninterrupted end-to-end measurements. Physical shared-bank accounting
+counts common work once, rather than summing the standalone family charges.
+The much larger search costs remain a central limitation despite positive
+estimated tuned mean effects.
+
+Figure 2 is discussed immediately after the plot as a descriptive mean-cost
+comparison. At the $0.7$ s mean-work reference, the highest observed mean
+accuracy among plotted points below the line is the pure horizon-two,
+20-member forest ($74.79\%$ at $0.3381$ s). Sparse mixtures do not
+necessarily improve on smaller pure farther-sighted forests. The line is
+not a per-dataset budget guarantee, and interpolation is not an evaluated
+model. The ad hoc utility is not reinstated. The revised conclusion is a
+conditional empirical assessment of established bounded search, not a new
+algorithm, a causal diversity explanation, or a general accuracy--cost
+superiority claim.

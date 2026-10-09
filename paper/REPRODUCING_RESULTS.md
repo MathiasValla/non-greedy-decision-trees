@@ -6,29 +6,31 @@ assets, and manuscript sources for the bounded split-optimization article.
 Project repository:
 <https://github.com/MathiasValla/non-greedy-decision-trees>
 
-Completed historical results can be retrieved directly from retained CSV files.
-The expanded fair revision's fixed-parameter stage is complete and validated;
-its equally tuned stage is still running. Final tuned results must not be
-inferred from the preceding evaluation or incomplete checkpoints.
+The expanded fair revision is complete and independently validated as of
+9 October 2026. All 57 datasets and five paired repetitions are retained in
+both the fixed and training-selected stages. Historical results remain
+separate and are not the revised article's evidence.
 
-## Matched and Equally Tuned Revision (In Progress)
+## Matched and Equally Tuned Revision (Complete)
 
-The existing manuscript remains `paper/array_revision/main.tex`, with explicit
-working-draft warnings until the new results are complete. The new protocol and
+The existing manuscript remains `paper/array_revision/main.tex`. The new protocol and
 outputs live separately in `paper/array_revision_fair/`; never merge them with
 preceding result records. See `README.md`, `PROTOCOL.md`, `launch_gates.json`, and
 `fairruntimeaudit.md` there for design, timing boundaries, retained passing tests,
 and scorer verification.
 
-The complete fixed export is `paper/array_revision_fair/analysis/fixed_only/`.
-Its portable, versioned bundle is `paper/array_revision_fair_exports/fixed/`;
-the former path is the original local working export. To retrieve the retained
-scores, provenance and figures on a fresh checkout without refitting:
+The complete portable bundle for the current article is
+`paper/array_revision_fair_exports/full/`. The original local working export
+is `paper/array_revision_fair/analysis/full/` and is not needed for retrieval.
+The earlier `fixed/` bundle retains the fixed-only milestone without interim
+joint-family p-values. On a fresh checkout, retrieve the full scores, JSON
+provenance and all numerical figures without refitting:
 
 ```bash
-.venv310/bin/python -B paper/scripts/package_fair_revision_results.py verify paper/array_revision_fair_exports/fixed
-.venv310/bin/python -B paper/scripts/package_fair_revision_results.py restore paper/array_revision_fair_exports/fixed --destination /tmp/fair_fixed_retained
-.venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --out /tmp/fair_fixed_retained --plot-summaries --fixed-only
+.venv310/bin/python -B paper/scripts/package_fair_revision_results.py verify paper/array_revision_fair_exports/full
+.venv310/bin/python -B paper/scripts/package_fair_revision_results.py restore paper/array_revision_fair_exports/full --destination /tmp/fair_full_retained
+.venv310/bin/python -B paper/scripts/analyze_array_fair_benchmark.py --out /tmp/fair_full_retained --plot-summaries
+.venv310/bin/python -B paper/scripts/finalize_fair_revision_source.py --out /tmp/fair_full_retained --export-single-figure
 ```
 
 The destination must be new. Keep the bundle immutable; regenerate figures in
@@ -38,14 +40,49 @@ with original plaintext hashes preserved. See
 `paper/array_revision_fair/PACKAGING.md` for file scopes and restoration checks.
 The retrieval command does not require NPZ banks, the compiled scorer, a data
 download or model fitting; it validates retained summaries and statistics, not
-raw bank predictions. Full raw validation requires the original local banks.
+raw bank predictions. The final command exports Figure 1 only and does not
+edit the manuscript. Full raw validation requires the original local NPZ banks;
+these large resumable prediction caches are not distributed in the bundle.
 
-Its validation certificate records all 57 datasets, five paired repetitions,
-136,800 forest scores, 5,130 single-tree scores, and zero missing tasks. Figure 2
-in the existing manuscript uses this new export. Other numerical sections are
-still marked as superseded pending the full analysis. Fixed-only paired effects
-and confidence intervals do not provide interim significance tests: all eleven
-prespecified contrasts are tested jointly once the tuned stage is complete.
+The full validation certificate records 1,710 fixed structural blocks,
+136,800 fixed-forest scores, 5,130 single-tree scores, 855 selected-family
+refits, and zero missing tasks: 142,785 score records in total. It includes
+the complete eleven-contrast Holm family. Fixed and inner-validation forest
+probabilities and constituent fitting costs were reconstructed from local
+banks, and every inner-CV winner was independently reconstructed. Single-tree
+and direct selected-refit scores received range/checkpoint consistency checks,
+not independent reconstruction of their predictions. Restoring the bundle
+preserves this certificate and its verification boundaries; CSV retrieval does
+not repeat those raw-bank checks.
+
+| Current article item | Restored path under `analysis/full/` |
+| --- | --- |
+| Fixed and selected repeat scores | `fixed_trees.csv`, `fixed_forests.csv`, `tuned_forests.csv` |
+| Dataset means and model summaries | `dataset_means.csv`, `summary.csv` |
+| Eleven primary contrasts and sensitivities | `paired_primary_comparisons.csv`, `sensitivities.csv` |
+| Other fixed-grid paired effects | `descriptive_paired_comparisons.csv`, `paired_dataset_deltas.csv` |
+| Selection and physical cost accounting | `fair_tuning_table.csv`, `shared_accounting.csv`, `physical_cost_summary.json` |
+| Figure 1: matched single trees | `Fig1_single_trees.pdf` and `.png` |
+| Figure 2: all sixteen shallow compositions | `Fig2_main_D3_Fall.pdf` and `.png` |
+| Figure 3: selected-family effects and costs | `Fig3_tuned_families.pdf` and `.png` |
+| Other depth/feature curves and pairwise facets | `FigS_curves_D*_F*.pdf/.png`, `FigS_pair_facets_D3_Fall.pdf/.png` |
+| Data, protocol and validation | `dataset_manifest.csv`, `protocol_snapshot.json`, `validation.json` |
+
+The six reviewed manuscript fragments under
+`paper/array_revision_fair/manuscript/` supply article prose and tables; the
+existing `main.tex` embeds the checked numerical plots and bibliography for
+native-editor compilation. Running the fair inliner without a figure-only
+flag updates that source and response, so it is not a retrieval command.
+
+An optional assembly check uses an isolated copy of the article sources and
+the restored tables. It does not fit models or edit the open manuscript:
+
+```bash
+FAIR_ANALYSIS_ROOT=/tmp/fair_full_retained .venv310/bin/python -B paper/scripts/test_finalize_fair_revision_source.py
+```
+
+Without a local/restored complete analysis, the data-dependent integration
+case is explicitly skipped; the two small source-helper tests still run.
 
 Both fixed and tuned experiments include one-, two-, and three-sighted members.
 Fixed comparisons match permitted final depth, common hyperparameters, and no
@@ -76,15 +113,15 @@ All source/environment/protocol identities are frozen. Do not edit induction or
 runner sources while a production run is active. NPZ prediction caches are local
 resumable work products, not article result tables, and are ignored by git.
 The analysis implementation has passed synthetic completeness, numerical,
-selection/accounting, and layout checks. The completed fixed cohort also passed
-independent production validation. To repeat its analysis from retained raw
+selection/accounting, and layout checks. The complete fixed and tuned cohort
+also passed independent production validation. To repeat fixed analysis from retained raw
 records and local prediction caches, run:
 
 ```bash
 .venv310/bin/python paper/scripts/analyze_array_fair_benchmark.py --fixed-only
 ```
 
-After all tuned shards also finish, run the same command without `--fixed-only`.
+For complete fixed and tuned analysis, run the same command without `--fixed-only`.
 The analyzer independently verifies raw identities, split indices, bank scores,
 costs, and CV winners before exporting to `paper/array_revision_fair/analysis/`.
 The `fixed_only/` export has no partial-family p-values; the `full/` export
@@ -101,7 +138,8 @@ NPZ caches or refitting. For the original local working export:
 
 Use only the command for the corresponding completed export. See
 `paper/array_revision_fair/analysis_audit.md` for required files, output schemas,
-and safeguards. The reproduction instructions do not certify an unfinished run.
+and safeguards. Numerical completion does not substitute for the author's
+scientific review or approval to submit.
 
 For a fresh replication on another machine, or after rebuilding the extension,
 use a separate output root. Retained results intentionally reject changed
@@ -111,6 +149,21 @@ shard command, and to the subsequent analyzer command. Keep that output root
 consistent across all ten invocations. Do not rebuild the scorer during an
 active run. Fresh clock measurements, and cost-based CV tie-breaking, can differ
 between machines; the retained records certify the original choices and costs.
+
+For a clean environment, install the recorded versions before retrieval or
+fitting. For example, with `uv` already installed:
+
+```bash
+uv venv --python 3.10.18 .venv310
+uv pip install --python .venv310/bin/python numpy==1.26.4 scipy==1.15.3 scikit-learn==1.7.2 pandas==2.3.3 matplotlib==3.10.9 pmlb==1.0.1.post3 Cython==3.3.0 setuptools==84.0.0
+```
+
+Package verification/restoration itself uses only Python's standard library.
+CSV plotting needs NumPy, pandas, SciPy, scikit-learn and Matplotlib; the isolated
+scorer build and fresh benchmark additionally need Cython, setuptools, a working
+C compiler and PMLB access. Never use an existing evidence root to mix outputs
+from a different build. Version identities and clock-based selection tie-breaks
+are intentionally checked.
 
 ## Preceding Repeated Evaluation (Superseded Protocol)
 
