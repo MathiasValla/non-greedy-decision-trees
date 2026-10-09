@@ -173,25 +173,38 @@ def replace_caption(text, figure_key, caption):
     return result
 
 
+def figure_environment(text, key):
+    marker_at = text.index(f"% BEGIN GENERATED {key}")
+    start = text.rfind(r"\begin{figure*}", 0, marker_at)
+    end = text.index(r"\end{figure*}", marker_at) + len(r"\end{figure*}")
+    if start < 0:
+        raise ValueError(f"Missing figure environment: {key}")
+    return text[start:end]
+
+
+def marked_fragment(key, value):
+    return f"% BEGIN GENERATED {key}\n{value.strip()}\n% END GENERATED {key}\n"
+
+
 def figure3(summary, primary):
     rows = primary[primary.stage == "tuned"]
     if len(rows) != 3:
         raise ValueError("Figure 3 requires all three primary tuned contrasts")
     selected = summary[summary.stage == "tuned_forest"].set_index("model_id").loc[["rf", "mixed_k2", "mixed"]]
-    labels = [r"Mixed (1,2) -- RF", r"Inclusive -- RF", r"Inclusive -- mixed (1,2)"]
+    labels = [r"Family 1/2 -- RF", r"Family 1/2/3 -- RF", r"Family 1/2/3 -- 1/2"]
     lines = [palette(), r"\begin{tikzpicture}",
              r"\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.35cm},",
              r"width=0.42\textwidth,height=5.2cm,grid=major,grid style={gray!15},",
              r"tick label style={font=\scriptsize},label style={font=\small},title style={font=\small}]",
-             r"\nextgroupplot[title={(a) Paired tuned-family differences},xlabel={Accuracy difference (pp)},",
-             r"ytick={0,1,2},yticklabels={" + ",".join("{" + label + "}" for label in labels) + r"},ydir=reverse,ymin=-0.4,ymax=2.4]"]
+             r"\nextgroupplot[title={(a) Accuracy differences},xlabel={Accuracy difference (pp)},",
+             r"ytick={0,1,2},yticklabels={" + ",".join("{" + label + "}" for label in labels) + r"},y dir=reverse,ymin=-0.4,ymax=2.4]"]
     for index, row in enumerate(rows.itertuples()):
         lines.extend([r"\addplot+[only marks,mark=*,color=fairC" + str((3, 2, 7)[index]) +
                       r",error bars/.cd,x dir=both,x explicit] table[x=x,y=y,x error minus=low,x error plus=high] {",
                       "x y low high", f"{100*row.mean_delta:.9g} {index} {100*(row.mean_delta-row.ci_low):.9g} {100*(row.ci_high-row.mean_delta):.9g}", "};"])
     lines.extend([r"\addplot[black!40,dashed] coordinates {(0,-0.4) (0,2.4)};",
-                  r"\nextgroupplot[title={(b) Selection work and direct refit},ymode=log,ylabel={Mean time or work (s)},",
-                  r"xtick={0,1,2},xticklabels={RF,{Mixed (1,2)},Inclusive},",
+                  r"\nextgroupplot[title={(b) Selection and refit costs},ymode=log,ylabel={Mean time or work (s)},",
+                  r"xtick={0,1,2},xticklabels={RF,{Family 1/2},{Family 1/2/3}},",
                   r"legend to name=fairTunedLegend,legend columns=1,legend style={font=\scriptsize,draw=none}]"])
     for column, color, mark, label in (
             ("selection_fitting_work_s", 1, "square*", "Selection: tree-fit work"),
@@ -206,16 +219,25 @@ def figure3(summary, primary):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--fixed-only", action="store_true")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--fixed-only", action="store_true")
+    modes.add_argument("--export-single-figure", action="store_true",
+                       help="Export Figure 1 from validated full tables without editing manuscript sources")
+    parser.add_argument("--out", type=Path, default=FAIR,
+                        help="Fair-analysis root; use a restored bundle for figure-only retrieval")
     args = parser.parse_args()
-    directory = FAIR / "analysis" / ("fixed_only" if args.fixed_only else "full")
+    directory = args.out.resolve() / "analysis" / ("fixed_only" if args.fixed_only else "full")
     summary, primary, descriptive = validate(directory, args.fixed_only)
+    if args.export_single_figure:
+        figure1(single_data(summary, descriptive), directory)
+        print(f"Exported Fig1_single_trees.pdf and .png in {directory}; no manuscript edited or model fitted.")
+        return
     text = MANUSCRIPT.read_text()
     text = block(text, "figure2", "", figure2(summary))
     text = replace_caption(text, "figure2", r"Fixed-architecture forests at depth three with all features: every composition spans 20, 40, 60, 100, and 200 members on the complete 57-dataset cohort, averaged over five paired repetitions and then equally across datasets. Circle, square, upward triangle, diamond, and downward triangle mark these sizes in the right panel. The dashed line denotes a 0.7 s mean-fitting-work reference, not a validated per-dataset budget. Composition is stated explicitly because equal average horizons can describe different mixtures. These descriptive curves do not include model-selection cost or show paired confidence intervals.")
     if not args.fixed_only:
         text = block(text, "figure1", "", figure1(single_data(summary, descriptive), directory))
-        text = replace_caption(text, "figure1", r"Depth-matched unpruned single trees with all features. Left: paired accuracy differences from CART, with unadjusted dataset-bootstrap intervals; these single-tree effects are descriptive, not members of the eleven-test primary family. Right: measured mean single-tree fit duration, excluding construction and prediction. Sight horizon is varied independently of permitted final depth.")
+        text = replace_caption(text, "figure1", r"Depth-matched unpruned single trees with all features. Left: mean paired accuracy differences from CART, with pointwise, unadjusted $95\%$ dataset-bootstrap intervals; these single-tree effects are descriptive, not members of the eleven-test primary family. Right: measured mean single-tree fit duration, excluding construction and prediction. Sight horizon is varied independently of permitted final depth.")
         plot3 = figure3(summary, primary)
         if "% BEGIN GENERATED figure3" not in text:
             figure = "\n".join([r"\begin{figure*}[t]", r"\centering",
@@ -225,9 +247,32 @@ def main():
             text = text.replace(r"\section{Discussion}", figure + "\n" + r"\section{Discussion}", 1)
         else:
             text = block(text, "figure3", "", plot3)
+        text = replace_caption(text, "figure3", r"Training-only selected families on the complete 57-dataset sample and five paired repetitions. Family 1/2 allows horizons one and two; Family 1/2/3 allows all three. Both can select pure forests. Left: mean paired accuracy differences with pointwise, unadjusted $95\%$ dataset-bootstrap intervals, not intervals for the Holm-adjusted signed-rank tests. Right: standalone cross-validation constituent fitting work, direct selected-model refit wall time, and the sum of measured workflow stage wall times. The last measure excludes checkpoint I/O, startup, downloads, and idle gaps; it is not an uninterrupted end-to-end stopwatch. Common validation-bank work is fully charged to every family requiring it.")
         fragments = FAIR / "manuscript"
-        for name in ("results_text", "discussion_text", "conclusion_text", "table_performance", "table_comparisons"):
-            text = block(text, name, "", (fragments / (name + ".tex")).read_text())
+        results = (fragments / "results_text.tex").read_text()
+        # Replace the writer's external artwork with the native-editor plots.
+        results, count = re.subn(r"\\begin\{figure\*\}.*?\\end\{figure\*\}",
+                                lambda _: figure_environment(text, "figure3"),
+                                results, count=1, flags=re.DOTALL)
+        if count != 1:
+            raise ValueError("Expected one selected-family figure in the results fragment")
+        insertion = "% PARENT FIGURE2 INSERTION: put the validated Figure 2 environment here."
+        if results.count(insertion) != 1:
+            raise ValueError("Missing Figure 2 insertion point")
+        results = results.replace(insertion, figure_environment(text, "figure2"))
+        single_end = r"\subsection{Sparse horizon replacements}"
+        results = results.replace(single_end, figure_environment(text, "figure1") + "\n\n" + single_end, 1)
+        first_subsection = r"\subsection{All-feature single trees and pure forests}"
+        tables = "\n".join(marked_fragment(name, (fragments / (name + ".tex")).read_text())
+                           for name in ("table_performance", "table_comparisons"))
+        results = results.replace(first_subsection, tables + "\n" + first_subsection, 1)
+        start, end = text.index(r"\section{Results}"), text.index(r"\section{Discussion}")
+        text = text[:start] + r"\section{Results}" + "\n" + marked_fragment("results_text", results) + "\n" + text[end:]
+        for name, section, next_section in (
+                ("discussion_text", r"\section{Discussion}", r"\section{Conclusion}"),
+                ("conclusion_text", r"\section{Conclusion}", r"\section*{CRediT")):
+            start, end = text.index(section), text.index(next_section)
+            text = text[:start] + section + "\n" + marked_fragment(name, (fragments / (name + ".tex")).read_text()) + "\n" + text[end:]
         response = PAPER / "array_revision/response_to_reviewers.tex"
         response_text = block(response.read_text(), "response_results", "", (fragments / "response_results.tex").read_text())
         response.write_text(response_text)

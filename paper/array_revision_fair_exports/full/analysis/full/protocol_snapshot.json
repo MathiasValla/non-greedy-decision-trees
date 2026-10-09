@@ -1,0 +1,440 @@
+{
+  "bootstrap": "RandomState(seed).randint(INT32MAX,200); bincount full-X weights",
+  "ccp_alpha": 0.0,
+  "checkpoint_every_slots": 20,
+  "compositions": [
+    {
+      "id": "pure_k1",
+      "twentieths": [
+        20,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "pure_k2",
+      "twentieths": [
+        0,
+        20,
+        0
+      ]
+    },
+    {
+      "id": "pure_k3",
+      "twentieths": [
+        0,
+        0,
+        20
+      ]
+    },
+    {
+      "id": "pair_k1_k2_q05",
+      "twentieths": [
+        19,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "pair_k1_k2_q10",
+      "twentieths": [
+        18,
+        2,
+        0
+      ]
+    },
+    {
+      "id": "pair_k1_k2_q25",
+      "twentieths": [
+        15,
+        5,
+        0
+      ]
+    },
+    {
+      "id": "pair_k1_k2_q50",
+      "twentieths": [
+        10,
+        10,
+        0
+      ]
+    },
+    {
+      "id": "pair_k1_k3_q05",
+      "twentieths": [
+        19,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "pair_k1_k3_q10",
+      "twentieths": [
+        18,
+        0,
+        2
+      ]
+    },
+    {
+      "id": "pair_k1_k3_q25",
+      "twentieths": [
+        15,
+        0,
+        5
+      ]
+    },
+    {
+      "id": "pair_k1_k3_q50",
+      "twentieths": [
+        10,
+        0,
+        10
+      ]
+    },
+    {
+      "id": "pair_k2_k3_q05",
+      "twentieths": [
+        0,
+        19,
+        1
+      ]
+    },
+    {
+      "id": "pair_k2_k3_q10",
+      "twentieths": [
+        0,
+        18,
+        2
+      ]
+    },
+    {
+      "id": "pair_k2_k3_q25",
+      "twentieths": [
+        0,
+        15,
+        5
+      ]
+    },
+    {
+      "id": "pair_k2_k3_q50",
+      "twentieths": [
+        0,
+        10,
+        10
+      ]
+    },
+    {
+      "id": "triple_85_10_05",
+      "twentieths": [
+        17,
+        2,
+        1
+      ]
+    }
+  ],
+  "counts": [
+    20,
+    40,
+    60,
+    100,
+    200
+  ],
+  "criterion": "gini",
+  "datasets": [
+    "prnn_synth",
+    "analcatdata_happiness",
+    "confidence",
+    "analcatdata_asbestos",
+    "lupus",
+    "analcatdata_boxing1",
+    "analcatdata_boxing2",
+    "haberman",
+    "analcatdata_aids",
+    "iris",
+    "hayes_roth",
+    "analcatdata_lawsuit",
+    "balance_scale",
+    "analcatdata_dmft",
+    "parity5",
+    "tae",
+    "new_thyroid",
+    "bupa",
+    "analcatdata_germangss",
+    "irish",
+    "analcatdata_bankruptcy",
+    "analcatdata_creditscore",
+    "mux6",
+    "corral",
+    "monk3",
+    "monk1",
+    "monk2",
+    "appendicitis",
+    "cloud",
+    "ecoli",
+    "penguins",
+    "led7",
+    "postoperative_patient_data",
+    "analcatdata_japansolvent",
+    "breast_cancer",
+    "threeOf9",
+    "tic_tac_toe",
+    "xd6",
+    "analcatdata_cyyoung9302",
+    "analcatdata_cyyoung8092",
+    "parity5+5",
+    "mofn_3_7_10",
+    "analcatdata_fraud",
+    "labor",
+    "lymphography",
+    "spect",
+    "dermatology",
+    "soybean",
+    "flags",
+    "GAMETES_Epistasis_2_Way_20atts_0.1H_EDM_1_1",
+    "GAMETES_Epistasis_2_Way_20atts_0.4H_EDM_1_1",
+    "GAMETES_Epistasis_3_Way_20atts_0.2H_EDM_1_1",
+    "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_50_EDM_2_001",
+    "GAMETES_Heterogeneity_20atts_1600_Het_0.4_0.2_75_EDM_2_001",
+    "car_evaluation",
+    "led24",
+    "nursery"
+  ],
+  "documentation_sha256": "debfd341b3402a41e4f3c80911cc349e0cd9bcb043cf2ed5c38007d29a022836",
+  "fit_timeout": null,
+  "fixed_depths": [
+    3,
+    6,
+    null
+  ],
+  "fixed_feature_modes": [
+    null,
+    "sqrt"
+  ],
+  "fixed_leaf": 1,
+  "fixed_max_features": null,
+  "horizons": [
+    1,
+    2,
+    3
+  ],
+  "inner_cv": "stratified min(3,minclass), ordinary3 rare/single",
+  "inner_seed_offset": 7,
+  "min_samples_split": 2,
+  "missingness": "explicit complete-case rows, raw and used row counts frozen",
+  "numpy": "1.26.4",
+  "outer_seeds": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004
+  ],
+  "pandas": "2.3.3",
+  "platform": "macOS-15.2-arm64-arm-64bit",
+  "pmlb": "1.0.1.post3",
+  "predictor_dtype": "float32",
+  "primary_contrasts": [
+    {
+      "contrast_id": "fixed__D3_L1_Fall__k2_vs_k1",
+      "left": "D3_L1_Fall__T100__pair_k1_k2_q10",
+      "params": {
+        "max_depth": 3,
+        "max_features": null,
+        "min_samples_leaf": 1
+      },
+      "right": "D3_L1_Fall__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__D3_L1_Fall__k3_vs_k1",
+      "left": "D3_L1_Fall__T100__pair_k1_k3_q10",
+      "params": {
+        "max_depth": 3,
+        "max_features": null,
+        "min_samples_leaf": 1
+      },
+      "right": "D3_L1_Fall__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__D3_L1_Fsqrt__k2_vs_k1",
+      "left": "D3_L1_Fsqrt__T100__pair_k1_k2_q10",
+      "params": {
+        "max_depth": 3,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1
+      },
+      "right": "D3_L1_Fsqrt__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__D3_L1_Fsqrt__k3_vs_k1",
+      "left": "D3_L1_Fsqrt__T100__pair_k1_k3_q10",
+      "params": {
+        "max_depth": 3,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1
+      },
+      "right": "D3_L1_Fsqrt__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__DNone_L1_Fall__k2_vs_k1",
+      "left": "DNone_L1_Fall__T100__pair_k1_k2_q10",
+      "params": {
+        "max_depth": null,
+        "max_features": null,
+        "min_samples_leaf": 1
+      },
+      "right": "DNone_L1_Fall__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__DNone_L1_Fall__k3_vs_k1",
+      "left": "DNone_L1_Fall__T100__pair_k1_k3_q10",
+      "params": {
+        "max_depth": null,
+        "max_features": null,
+        "min_samples_leaf": 1
+      },
+      "right": "DNone_L1_Fall__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__DNone_L1_Fsqrt__k2_vs_k1",
+      "left": "DNone_L1_Fsqrt__T100__pair_k1_k2_q10",
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1
+      },
+      "right": "DNone_L1_Fsqrt__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "fixed__DNone_L1_Fsqrt__k3_vs_k1",
+      "left": "DNone_L1_Fsqrt__T100__pair_k1_k3_q10",
+      "params": {
+        "max_depth": null,
+        "max_features": "sqrt",
+        "min_samples_leaf": 1
+      },
+      "right": "DNone_L1_Fsqrt__T100__pure_k1",
+      "stage": "fixed"
+    },
+    {
+      "contrast_id": "tuned__mixed_k2_vs_rf",
+      "left": "mixed_k2",
+      "right": "rf",
+      "stage": "tuned"
+    },
+    {
+      "contrast_id": "tuned__mixed_vs_rf",
+      "left": "mixed",
+      "right": "rf",
+      "stage": "tuned"
+    },
+    {
+      "contrast_id": "tuned__mixed_vs_mixed_k2",
+      "left": "mixed",
+      "right": "mixed_k2",
+      "stage": "tuned"
+    }
+  ],
+  "priorities": "successive RandomState(seed+130363).permutation(20) blocks",
+  "protocol_fingerprint": "d8999e02a5ad8a1398996fd3c851f5a68fd17d697f37cd048e2258a418475d7b",
+  "python": "3.10.18",
+  "schema": "array-fair-v1",
+  "selection_bank_size": 100,
+  "selection_counts": [
+    20,
+    40,
+    60,
+    100
+  ],
+  "selection_families": [
+    "rf",
+    "mixed_k2",
+    "mixed"
+  ],
+  "shards": "one outer seed per shard; metadata n*p descending task order",
+  "sklearn": "1.7.2",
+  "source_hashes": {
+    "paper/array_revision_fair/.cache/runtime/fair_tree/_sighted_fast.cpython-310-darwin.so": "656d4fbaaeb67d3734c80ec96ed4f8733368567e77b06ea3111922136f107d6b",
+    "paper/array_revision_fair/runtime/_sighted_fast.pyx": "c6a339c64819e27b5a7738383e7508a02ecb16cfee14f9b2aeb46d6665eec255",
+    "paper/scripts/build_fair_revision_runtime.py": "2a00bd0102604c318fc504eef46ba26a64cccdb11597799100b107a57a856b30",
+    "paper/scripts/fair_revision_runtime.py": "6b5f61a01967b0f21442527489dd47c81e6bdde8d346938f0f5571b0659afbce",
+    "paper/scripts/run_array_fair_benchmark.py": "b81b34aa10aecb075a617ed3aa64c0ddcd6c60047651d8ca7f4e63f6a0bde999",
+    "paper/tables/mixed_sighted_dataset_sample.csv": "fbd3c74a1acebb8a2eb46a355487315339e21bafc1744a61ccf639daef8582ef",
+    "treeple/tree/_lookahead.py": "2b9e31b28ceb896d7a8c08358cc286fac0262928f5966942c28d74d7d14a7e34",
+    "treeple/tree/_lookahead_fast.pyx": "86725b4fcc7176bb096612aba4a98e583997c4cafd13339d90894d6f8e6c30c9"
+  },
+  "structural_grid": [
+    {
+      "max_depth": 3,
+      "max_features": "sqrt",
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": 3,
+      "max_features": null,
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": 3,
+      "max_features": "sqrt",
+      "min_samples_leaf": 5
+    },
+    {
+      "max_depth": 3,
+      "max_features": null,
+      "min_samples_leaf": 5
+    },
+    {
+      "max_depth": 6,
+      "max_features": "sqrt",
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": 6,
+      "max_features": null,
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": 6,
+      "max_features": "sqrt",
+      "min_samples_leaf": 5
+    },
+    {
+      "max_depth": 6,
+      "max_features": null,
+      "min_samples_leaf": 5
+    },
+    {
+      "max_depth": null,
+      "max_features": "sqrt",
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": null,
+      "max_features": null,
+      "min_samples_leaf": 1
+    },
+    {
+      "max_depth": null,
+      "max_features": "sqrt",
+      "min_samples_leaf": 5
+    },
+    {
+      "max_depth": null,
+      "max_features": null,
+      "min_samples_leaf": 5
+    }
+  ],
+  "test_size": 0.25,
+  "tie_break": [
+    "accuracy_desc",
+    "fit_work_asc",
+    "id_asc"
+  ]
+}

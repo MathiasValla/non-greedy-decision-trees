@@ -1,0 +1,20 @@
+{
+  "accounting": "physical_shared_banks_once_not_sum_of_family_attributions",
+  "n_datasets": 57,
+  "physical_all_stages_workflow_wall_s": 5080.961533073727,
+  "physical_fixed_bank_fit_work_s": 2359.700114161075,
+  "physical_fixed_bank_prediction_work_s": 1.5716161624119993,
+  "physical_fixed_bank_wall_s": 2362.5734729401734,
+  "physical_fixed_single_fit_wall_s": 23.070599577231174,
+  "physical_fixed_single_prediction_wall_s": 0.00871547318896965,
+  "physical_fixed_stage_wall_s": 2386.1233443298147,
+  "physical_selection_compute_wall_s": 2680.840624475342,
+  "physical_selection_fit_work_s": 2671.049488741846,
+  "physical_total_workflow_wall_s": 2694.838188743913,
+  "repeats_per_dataset": 5,
+  "shared_k1_bank_wall_s": 3.1906688728222723,
+  "shared_k1_fit_work_s": 2.2714167188853027,
+  "shared_k1_prediction_work_s": 0.28985050515549493,
+  "shared_k1_schedule_wall_s": 0.14762594418992336,
+  "shared_k2_fit_work_s": 109.80780217703597
+}

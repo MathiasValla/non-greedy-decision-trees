@@ -975,7 +975,7 @@ def plot_tuned(summary, primary, path, test_only=False):
     selected = summary[summary.stage == "tuned_forest"].set_index("model_id").loc[list(FAMILIES)]
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 4.5))
     fig.subplots_adjust(left=.17, right=.99, bottom=.23, top=.88, wspace=.35)
-    labels = ("k2-only - RF", "Inclusive - RF", "Inclusive - k2-only")
+    labels = ("Family 1/2 - RF", "Family 1/2/3 - RF", "Family 1/2/3 - 1/2")
     colors = ("#25874b", "#b83c3c", "#724694")
     for index, ((_, row), color) in enumerate(zip(target.iterrows(), colors)):
         x, low, high = 100 * row.mean_delta, 100 * row.ci_low, 100 * row.ci_high
@@ -984,23 +984,27 @@ def plot_tuned(summary, primary, path, test_only=False):
     axes[0].set_yticks(range(3), labels)
     axes[0].invert_yaxis()
     axes[0].set_xlabel("Accuracy difference (percentage points)")
-    axes[0].set_title("(a) Paired tuned-family differences")
+    axes[0].set_title("(a) Accuracy differences")
     positions = np.arange(3)
     require((selected.selection_fitting_work_s > 0).all() and (selected.direct_fit_time_s > 0).all(), "Nonpositive tuned plotting costs")
     axes[1].bar(positions - .18, selected.selection_fitting_work_s, width=.32, color="#628eab", label="Selection: tree-fit work")
     axes[1].bar(positions + .18, selected.direct_fit_time_s, width=.32, color="#ce825b", label="Refit: direct wall time")
     axes[1].plot(positions, selected.total_workflow_wall_s, "D", color="0.2", ms=4,
                  label="Sum of measured stage wall times")
-    axes[1].set_xticks(positions, ("RF", "k2-only", "Inclusive"))
+    axes[1].set_xticks(positions, ("RF", "Family 1/2", "Family 1/2/3"))
     axes[1].set_yscale("log")
     axes[1].set_ylabel("Mean time or work (s)")
-    axes[1].set_title("(b) Selection work and direct refit time")
+    axes[1].set_title("(b) Selection and refit costs")
     for axis in axes:
         axis.grid(color="0.9", lw=.5)
         axis.set_axisbelow(True)
     handles, labels = axes[1].get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", ncol=2, fontsize=7, frameon=False, bbox_to_anchor=(.5, .025))
     fig.suptitle(("TEST ONLY - synthetic fixture; " if test_only else "") + "Training-only tuned families: 57 datasets, five paired repeats", fontsize=8, y=.99)
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    require(not axes[0].title.get_window_extent(renderer).overlaps(
+        axes[1].title.get_window_extent(renderer)), "Tuned panel titles overlap")
     save_figure(fig, path)
 
 

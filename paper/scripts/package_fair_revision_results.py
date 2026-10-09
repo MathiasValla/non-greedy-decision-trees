@@ -187,7 +187,7 @@ def extra_analysis_paths(fixed_only):
     extra = ["protocol.json", "PROTOCOL.md", prefix + "validation.json", prefix + "physical_cost_summary.json",
              prefix + "table_primary_comparisons.tex"]
     if not fixed_only:
-        stems.append("Fig3_tuned_families")
+        stems += ["Fig1_single_trees", "Fig3_tuned_families"]
         extra.append(prefix + "table_tuned_performance.tex")
     return extra + [prefix + stem + suffix for stem in stems for suffix in (".pdf", ".png")]
 
@@ -747,7 +747,7 @@ def _test_fixture(root, full=False):
     stems += [f"FigS_curves_D{depth}_F{feature}" for depth in (3, 6, None) for feature in ("all", "sqrt")
               if (depth, feature) != (3, "all")]
     if full:
-        stems.append("Fig3_tuned_families")
+        stems += ["Fig1_single_trees", "Fig3_tuned_families"]
         (directory / "table_tuned_performance.tex").write_bytes(b"% TEST ONLY\r\n")
     for stem in stems:
         for suffix in (".pdf", ".png"):
@@ -889,6 +889,13 @@ def self_test():
                     "Single JSON above 64 MiB")
     _expect_failure(lambda: partition_provenance(unit_records, 4), "Single JSON above chosen small limit")
     _expect_failure(lambda: partition_provenance(unit_records, VOLUME_PAYLOAD_LIMIT + 1), "Oversized volume limit")
+    fixed_figures = {name for name in extra_analysis_paths(True) if name.endswith((".pdf", ".png"))}
+    full_figures = {name for name in extra_analysis_paths(False) if name.endswith((".pdf", ".png"))}
+    require(len(fixed_figures) == 14 and not any("Fig1_single_trees" in name for name in fixed_figures),
+            "Fixed-only figure requirements changed")
+    require(len(full_figures) == 18 and {
+        f"analysis/full/{stem}{suffix}" for stem in ("Fig1_single_trees", "Fig3_tuned_families")
+        for suffix in (".pdf", ".png")} <= full_figures, "Full nine-pair figure requirements")
     with tempfile.TemporaryDirectory(prefix="TEST_fair_packaging_", dir="/tmp") as temporary:
         base = Path(temporary)
         size_root = base / "TEST_output_size_limit"
@@ -1014,6 +1021,14 @@ def self_test():
         (task / "inner/active.json").unlink()
         (task / "tuned.json").unlink()
         _test_fixture(root, True)
+        for suffix in (".pdf", ".png"):
+            single_figure = root / "analysis/full" / ("Fig1_single_trees" + suffix)
+            figure_bytes = single_figure.read_bytes()
+            single_figure.unlink()
+            rejected = base / ("missing_full_single_figure_" + suffix[1:])
+            _expect_failure(lambda: package_results(root, rejected, False, small_limit), "Missing full Fig1 " + suffix)
+            require(not rejected.exists(), "Missing Fig1 exposed a package destination")
+            single_figure.write_bytes(figure_bytes)
         full = base / "full_package"
         package_results(root, full, False, small_limit)
         full_manifest = verify_package(full)
@@ -1038,7 +1053,8 @@ def self_test():
         (task / "refit_mixed.json").unlink()
         _expect_failure(lambda: package_results(root, base / "incomplete_full", False), "Missing selected refit")
         print("TEST-only packaging passed: fixed/full deterministic multivolume payload/file caps, legacy v1 verification/restoration, "
-              "exact bytes including parity5+5, v2 analysis gates, missing/extra/corrupt/unsafe volumes and fixed-only isolation", flush=True)
+              "exact bytes including parity5+5, v2 analysis gates, full Fig1 PDF/PNG requirements, "
+              "missing/extra/corrupt/unsafe volumes and unchanged fixed-only isolation", flush=True)
 
 
 def main(argv=None):

@@ -6,8 +6,13 @@ it does not fit, analyze scores, select methods, regenerate figures, publish,
 run Git commands, or modify source artifacts. Run it only after the applicable
 analysis has passed. New packages use `array-fair-package-v2` with independent
 provenance volumes; the existing single-archive `array-fair-package-v1` format
-remains supported by verify/restore. This document does not certify a completed
-full run, and the existing exported v1 package must not be rewritten in place.
+remains supported by verify/restore. The completed full bundle passed bounded
+verify/restore/CSV-only retrieval QA on 9 October 2026; see
+`../array_revision_fair_exports/full_RETRIEVAL_QA.md` for its exact identity,
+figure comparisons and completed Git-index-only release check (not a new
+committed release). These packaging checks
+do not extend the scientific certificate's verification scopes. Existing
+exported packages, including the legacy v1 package, must not be rewritten in place.
 
 ## Gates and Scope
 
@@ -78,8 +83,14 @@ SHA256SUMS
 The figure-retrieval files stay plain even if `dataset_means.csv` is sizable.
 Only the four named bulk CSVs are gzipped; every other exported CSV remains
 plain. Original plaintext filenames are recorded, not renamed in validation.
-All seven fixed or eight full PDF/PNG figure pairs and relevant TeX fragments
-are required and copied without rewriting.
+All seven fixed or nine full PDF/PNG figure pairs and relevant TeX fragments
+are required and copied without rewriting. Full mode additionally requires
+both `Fig1_single_trees.pdf/.png` and `Fig3_tuned_families.pdf/.png` in
+`analysis/full`. Generate the final Fig1 pair before full packaging using the
+parent-approved finalizer's `--export-single-figure --out ROOT` path, which
+validates the complete full CSVs and exports only Fig1 without manuscript edits
+or fits. Fixed-only mode does not require or collect Fig1; its v1/v2 package
+requirements remain unchanged.
 
 `manifest.json` records each original input's portable relative path, byte
 size and SHA256, its stored path/encoding, and its tar member if applicable.
@@ -228,7 +239,9 @@ CSV and JSON byte round-trips (including synthetic `parity5+5` dataset paths in
 fixed and full modes), deterministic repeated packaging despite mtime
 changes, portable relative tar paths, existing destinations, source links,
 unsafe paths, archive links/nonzero trailing payloads, and corrupted/unsafe
-archives even with refreshed transfer hashes.
+archives even with refreshed transfer hashes. Full fixtures include all nine
+figure pairs and reject a missing Fig1 PDF or PNG before exposing a package
+destination; fixed-only fixtures retain exactly seven figure pairs.
 Multivolume tests force 1 MiB partitions for both fixed/full modes, check exact
 greedy boundaries and determinism, compare all restored original hashes/bytes,
 and reject missing/extra/corrupt volumes, unsafe volume paths/members and
