@@ -57,6 +57,7 @@ visualization assistance, while excluding general-purpose generative-image
 tools for graphical abstracts. This document does not certify portal-specific
 requirements or replace the author's confirmation of applicable journal rules.
 
-The native compiler confirms compilation but does not export a disk PDF of
-the main article or response. Their compiled previews remain in the editor;
-do not mistake a historical PDF elsewhere in the repository for this revision.
+The native compiler confirms compilation but does not export a disk PDF.
+The author's annotated `output/pdf/revised_manuscript.pdf` is the review copy
+exported on 9 October, not the subsequent author-comment revision. Preserve
+it; read the current revision in the existing editor's compiled preview.

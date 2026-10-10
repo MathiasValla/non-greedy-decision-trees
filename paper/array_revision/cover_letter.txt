@@ -2,40 +2,51 @@ Dear Dr Hazarika,
 
 Please find the revised manuscript ARRAY-D-26-03529, previously titled
 "Sparse farther-sighted trees can improve forest accuracy-time tradeoffs" and
-now titled "Bounded split optimization in decision trees and forests: gains,
-costs, and limits".
+now titled "A few farther-sighted trees can improve shallow forests".
 
-I agree with Reviewer 1's methodological concerns. The revised study adds
-repeated stratified outer partitions, deeper and unrestricted tree settings,
-matched, unpruned CART and sighted controls, training-only selection for both
-conventional and mixed forests, and paired statistical analysis. The new grid
-includes three-sighted members, with separate fixed and tuned comparisons.
-It corrects bootstrap-slot and timing issues,
-removes the ad hoc utility heuristic, and positions bounded search as established
-prior work rather than a new induction algorithm. The accompanying response
-details every change and the remaining limitations.
+The article has been substantially improved in both evidence and presentation.
+Its clearer storyline asks whether a few farther-sighted trees can improve a
+shallow forest without requiring every member to search farther. Sparse
+replacements improve mean accuracy under both feature policies studied. In
+Figure 2, a 20-member forest with 15 CART and five two-sighted members reaches
+74.06% mean accuracy, compared with 73.02% for 200 greedy members, with about
+29% less benchmark-mean member-fitting work. Training-only tuning of both
+conventional and expanded families also gives the inclusive family higher
+benchmark-mean accuracy (80.56% versus 78.99%). The revised article develops
+these positive findings more directly, reduces execution detail, and brings
+the main limitations together in Section 6.1.
 
-Both stages have now completed on all 57 datasets and five paired repetitions,
-without omitting a planned task. The independent analysis checks all 142,785
-score records, reconstructs the inner-validation winners, and applies the
-complete eleven-contrast multiplicity adjustment. The expanded selected family
-has higher estimated mean accuracy than selected RF, but its heterogeneous
-effects, benchmark sensitivities and much larger computation qualify the
-practical interpretation. Its choices include pure forests; the conclusion
-does not attribute the entire gain to sparse mixing or claim equivalence.
+Reviewer 1's methodological concerns have been addressed through five paired
+stratified outer partitions on all 57 datasets, deeper and unrestricted tree
+settings, matched-depth unpruned CART and farther-sighted controls, training-only
+selection for both conventional and mixed-capable families, and paired
+statistical analysis with one eleven-contrast Holm adjustment. Three-sighted
+members are included in the completed fixed and tuned evaluations. The study
+also corrects bootstrap-slot and timing issues, removes the ad hoc utility,
+and treats bounded split search as established prior work.
+
+The accompanying response retains the detailed numerical results, validation
+scope, and methodological safeguards. The Figure 2 example compares observed
+benchmark means, not exact equal-time fits or a validated per-dataset budget;
+its fitting work excludes preparation, prediction, and selection. The tuned
+inclusive mean gain is 1.57 percentage points [0.30, 3.28], alongside a zero
+median and a Holm-adjusted signed-rank p-value of 0.48838. Heterogeneous effects,
+benchmark sensitivities, and much higher selection and refit costs qualify the
+interpretation. The expanded family can select pure forests as well as
+mixtures, so its entire gain is not attributed to sparse mixing.
 
 Reviewer 2's attached report appears to concern a numerical-aware LogBERT
 telecommunications manuscript rather than this decision-tree submission. I
 respectfully request confirmation that the report was assigned correctly and
 would welcome any corrected feedback intended for this paper.
 
-Having considered your suggestion, I would now welcome the possibility of a
-transfer to another suitable journal offering publication without a mandatory
-article processing charge (APC), including a subscription publication route if
-available. I would appreciate your guidance and confirmation of the applicable
-publication terms before agreeing to a transfer. My preference is for a no-APC
-route rather than paid open access. I understand that a transfer remains subject
-to independent editorial assessment and does not imply acceptance.
+Following your suggestion, I would welcome your guidance on an editor-approved
+transfer, possibly to Pattern Recognition Letters, whose concise format suits
+this study. An earlier version was declined there; I would therefore seek the
+receiving editor's agreement to reconsider this substantially revised manuscript.
+I would also consider other suitable journals offering publication without a
+mandatory article processing charge (APC), including a subscription route,
+with the applicable terms confirmed before I consent to transfer.
 
 The sole-author list is unchanged. The revised sources, complete new results,
 figures, and reproducibility documentation accompany the revision.

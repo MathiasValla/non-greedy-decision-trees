@@ -68,11 +68,15 @@ not repeat those raw-bank checks.
 | Other depth/feature curves and pairwise facets | `FigS_curves_D*_F*.pdf/.png`, `FigS_pair_facets_D3_Fall.pdf/.png` |
 | Data, protocol and validation | `dataset_manifest.csv`, `protocol_snapshot.json`, `validation.json` |
 
-The six reviewed manuscript fragments under
-`paper/array_revision_fair/manuscript/` supply article prose and tables; the
-existing `main.tex` embeds the checked numerical plots and bibliography for
-native-editor compilation. Running the fair inliner without a figure-only
-flag updates that source and response, so it is not a retrieval command.
+The author-edited `paper/array_revision/main.tex` is the current article,
+including the revision following the annotated PDF on 10 October 2026. It
+embeds the checked numerical plots and bibliography for native-editor
+compilation. The fragments under `paper/array_revision_fair/manuscript/`
+record the preceding scientific-review pass. Do not run the fair inliner
+without a figure-only flag on the current source: it would restore that
+earlier prose and response. Figure retrieval does not require reassembling
+or editing the manuscript. `array_revision/ANNOTATION_REVISION.md` records
+how the author's comments were handled; the numerical results are unchanged.
 
 An optional assembly check uses an isolated copy of the article sources and
 the restored tables. It does not fit models or edit the open manuscript:

@@ -25,8 +25,8 @@ lookahead decision trees and bootstrap forests:
 The implementation lives mainly in `treeple/tree/_lookahead.py`,
 `treeple/tree/_lookahead_fast.pyx`, and
 `treeple/ensemble/_lookahead_forest.py`. The current revised article is
-`paper/array_revision/main.tex`, titled *Bounded split optimization in decision
-trees and forests: gains, costs, and limits*. Its complete matched and
+`paper/array_revision/main.tex`, titled *A few farther-sighted trees can improve
+shallow forests*. Its complete matched and
 training-selected benchmark uses 57 datasets and five paired repetitions,
 including three-sighted members, deeper controls and unpruned CART baselines.
 The frozen benchmark adapter and isolated runtime are documented under

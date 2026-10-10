@@ -1,5 +1,5 @@
-- Sparse farther-sighted replacements improve specific shallow forest settings.
-- Predictive effects depend on tree capacity, feature policy and model selection.
-- Expanded selection has higher benchmark-mean accuracy at far greater cost.
-- Selected-family gains are heterogeneous and cannot be attributed only to mixing.
-- Repeated paired evaluation separates fixed architectures from tuned families.
+- A few farther-sighted members improve mean accuracy in shallow forests.
+- Small mixed forests can beat larger greedy forests with less fitting work.
+- The gains depend on final tree depth and the split-feature policy.
+- Fair tuning raises mean accuracy when farther-sighted candidates are allowed.
+- Selection and refit costs grow substantially with the search horizon.

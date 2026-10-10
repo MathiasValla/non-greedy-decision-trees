@@ -6,6 +6,28 @@ mandatory APC, with publication terms confirmed before agreement. It also
 politely asks the editor to verify Reviewer 2's apparent manuscript mismatch.
 Nothing is submitted and no editor/reviewer is contacted by these scripts.
 
+## Author-Annotated Revision, 10 October 2026
+
+The current title is **A few farther-sighted trees can improve shallow
+forests**. `main.tex` is the authoritative author-edited source. The 34
+comments in the author's annotated review PDF are addressed in
+`ANNOTATION_REVISION.md`, with separate primary-source bibliography audits.
+The numerical evidence and plotted coordinates are unchanged. The response
+and cover letter are aligned with the clearer positive framing and request
+an editor-approved no-mandatory-APC transfer, including possible consideration
+by Pattern Recognition Letters despite its rejection of an earlier version.
+All 32 references have an existence, metadata and cited-support audit; access
+limits and electronic-versus-printed pagination are documented rather than
+claimed away. Both native sources compile. The annotation log records the
+final source hashes and preservation checks.
+
+The standalone PDF exported on 9 October was annotated by the author on
+10 October. It is preserved at `output/pdf/revised_manuscript.pdf` and must
+not be overwritten by a compilation command. The current revision is read
+in the existing native editor's PDF preview. The review reports and source
+hashes dated 9 October below certify that earlier source, not this later
+author-comment revision.
+
 **Complete numerical revision; author approval still required.** The matched
 extension including three-sighted members, equally tuned conventional and
 mixed-capable families, and complete forest-size curves finished on
@@ -66,11 +88,15 @@ The manuscript is not submission-ready until all of these checks are complete:
    Recompile after review edits. Compilation alone is not scientific approval
    or an exported submission PDF.
 5. **Internal agreement complete, 9 October 2026:** both requested scientific/
-   editorial reviewers agree on the current source and response, with no
+   editorial reviewers agreed on that pass's source and response, with no
    unresolved actionable major blocker. Reviews and the final source hashes
    are in `../array_revision_fair/manuscript/full_manuscript_review.md` and
    `full_writer_final_review.md`. These AI-assisted checks are not external
    peer review, human author approval or editorial acceptance.
+   The later 10 October annotation pass has separate scientific/editorial
+   reviews and resolutions in `annotation_reference_audit_1.md`,
+   `annotation_reference_audit_2.md`, and `ANNOTATION_REVISION.md`; the letters
+   are reviewed in `annotation_letters_review.md`.
 6. **Author gate remains:** approve the scientific interpretation and
    disclosures, inspect the final page layout in the compiled previews,
    confirm public release links and portal requirements, and consent to any
@@ -87,10 +113,11 @@ CSV-only figure retrieval.
 The full evidence and retrieval scripts were committed as `d67a9061`; all
 63 bundle files and five retrieval/cohort dependencies passed a true Git-index
 export/restoration check before that commit. The full numerical figures and
-graphical summary were visually checked. The main article and response passed
-native compilation, but full-page preview inspection was not accessible to
-the automation and remains an author check. No replacement document or separate
-main-article PDF was compiled/exported; the existing editor stays open.
+graphical summary were visually checked. A standalone ten-page PDF of the
+9 October article was subsequently exported at the author's explicit request
+and all its pages were inspected. That PDF now contains the author's comments
+and is preserved. The 10 October changes are checked through the native
+compiler; its preview remains open for the author's review.
 
 ## Reproduce
 
@@ -127,10 +154,11 @@ run its inliner after embedding the fair results: it would restore old figures
 and numerical claims. The current fair inliner is
 `paper/scripts/finalize_fair_revision_source.py`.
 
-The existing manuscript source is self-contained: generated text, tables,
+The existing manuscript source is self-contained: text, tables,
 numerical pgfplots, and the bibliography are inlined for the native LaTeX editor.
-Editable generation inputs and separate PDF figures are retained. After editing
-those inputs or citations, update that same source with:
+Editable generation inputs and separate PDF figures are retained. The following
+commands are historical assembly instructions, not a way to rebuild the current
+author-edited prose. Do not run them against `main.tex`:
 
 ```bash
 .venv310/bin/python paper/scripts/finalize_array_revision_source.py --prepare-bibtex
