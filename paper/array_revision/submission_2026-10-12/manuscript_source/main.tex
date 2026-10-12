@@ -1,0 +1,935 @@
+\documentclass[final,5p,times]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref}
+\usepackage{xurl}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+\hypersetup{hidelinks}
+\urlstyle{same}
+\setlength{\emergencystretch}{2em}
+\journal{Array}
+\begin{document}
+\begin{frontmatter}
+\title{A few farther-sighted trees can improve shallow forests}
+\author[1]{Mathias Valla\corref{cor1}}
+\ead{mathias.valla@gmail.com}
+\cortext[cor1]{Corresponding author.}
+\affiliation[1]{organization={Chaire DIALog, Institut Louis Bachelier},city={Paris},country={France}}
+\begin{abstract}
+Looking several splits ahead can improve a decision tree, but the search quickly becomes expensive. Does every tree in a forest need this extra computation? We study mixed forests in which a minority of members optimize their splits over a longer horizon. Repeated paired experiments on PMLB classification tasks compare unpruned trees and forests with matching depth limits and common hyperparameters. Replacing a small fraction of greedy members improves mean accuracy in shallow forests under both feature policies studied. Some mixtures also achieve higher mean accuracy with less fitting work than much larger greedy forests. These gains diminish as the permitted final depth increases, while uniformly farther-sighted induction remains costly. In a separate experiment, training-only tuning of both conventional and mixed-capable families gives the expanded family a higher benchmark-mean accuracy, at substantially greater selection and refit costs. The findings identify selective use of farther-sighted members as a useful option for shallow ensembles and show why split-search depth, tree capacity, and model-selection cost should be evaluated together.
+\end{abstract}
+\begin{keyword}
+Decision trees \sep Bootstrap ensembles \sep Bounded split optimization \sep Computational cost \sep Statistical evaluation
+\end{keyword}
+\end{frontmatter}
+
+\section{Introduction}
+Decision trees make a sequence of decisions, yet CART chooses each split by its immediate reduction in impurity \cite{breiman1984cart}. A split that looks unhelpful on its own may reveal a useful interaction after another split. Searching several generations ahead can find such opportunities, but doing so at every node of every tree is expensive. For a forest, this raises a different question: \emph{can a few farther-sighted trees improve the ensemble without paying for farther sight throughout?}
+
+We call a tree $k$-sighted when it scores a candidate split through the best local subtree of up to $k$ split generations, including the current one. A mixed forest combines members with different horizons. We evaluate this well-studied split-search principle as a way to allocate computation within an ensemble. Two comparisons are kept separate: fixed architectures isolate the effect of replacing greedy members, while training-only tuning compares conventional and mixed-capable model families fairly.
+
+Shallow forests are a natural starting point. Limiting member size can regularize an ensemble, and smaller trees can be beneficial in noisy settings \cite{zhou2023trees,duroux2018impact}. A depth-three member has at most eight leaves, but a forest of such members can define many more prediction regions. We therefore study shallow ensembles alongside depth-six and unrestricted controls, keeping total depth and the other common settings matched between greedy and farther-sighted learners.
+
+The experiments reveal three useful patterns. First, replacing a minority of greedy members improves shallow-forest mean accuracy under both feature policies studied. Second, a small mixed forest can outperform a much larger greedy forest while using less measured fitting work. Third, allowing farther-sighted candidates in training-only model selection increases benchmark-mean accuracy, although the search for those candidates is much more costly. Increasing every member's horizon is therefore a different proposition from using farther sight selectively. The depth comparisons further show that the benefits are strongest when tree capacity is constrained.
+
+The study uses repeated paired partitions of 57 PMLB classification tasks and reports predictive differences, uncertainty, fitting work, and selection cost. Code and a guide to reproducing the results are available at \url{https://github.com/MathiasValla/non-greedy-decision-trees}.
+
+\section{Related work}
+Greedy induction and bootstrap aggregation provide the foundations for the models studied here \cite{breiman1984cart,quinlan1986induction,breiman1996bagging}. Random forests additionally randomize the features available at each split \cite{breiman2001random}.
+
+Non-greedy induction predates the present study. Norton's overlapping search commits the shallowest choice and searches again below it \cite{norton1989generating}, while Ragavan and Rendell \cite{ragavan1993lookahead} used lookahead for feature construction. Murthy and Salzberg's LOOK procedure scores a split with optimally split children, corresponding to the two-generation case here \cite{murthy1995lookahead}. Their experiments already question whether added computation reliably improves prediction. Later work revisited pathology \cite{elomaa2005lookahead}. Esmeir and Markovitch \cite{esmeir2007anytime} studied anytime induction, including bagged non-greedy learners and the tradeoff between computation per tree and committee size. Norouzi et al. \cite{norouzi2015efficient} jointly optimize oblique split and leaf parameters, a different form of non-greediness.
+
+A direct forest precedent is the stepwise lookahead forest of Donick and Lera \cite{donick2021stepwise}, which optimizes two-level blocks to recover interactions in noisy data. Our builder commits one root split and repeats the search at each child; the ensemble question is how to distribute horizons across members. Randomized splits \cite{geurts2006extremely} and random final depths \cite{horn2026randomdepth} offer other ways to vary members. The relationship between ensemble diversity and accuracy has itself been studied extensively \cite{kuncheva2003diversity}. Here we measure the effect of changing horizon allocation directly.
+
+Modern optimal-tree methods exploit mathematical programming \cite{bertsimas2017optimal,verwer2019learning,aghaei2025strong}, bounds and sparse objectives \cite{hu2019optimal,lin2020generalized}, and cached or separable subproblems in DL8.5, MurTree, and STreeD \cite{aglin2020caching,demirovic2022murtree,vanderlinden2023separable}. Reference ensembles can guide restricted search \cite{mctavish2022reference}. SPLIT and LicketySPLIT combine non-greedy choices with greedy continuation \cite{babbar2025nearoptimal}, using objectives and continuation rules different from the truncated terminal impurity considered here. Recent comparisons further show how objectives, size constraints, and tuning affect the relative performance of greedy and optimal trees \cite{vanderlinden2026optimalgreedy}. These developments place our contribution in empirical evaluation of horizon allocation, rather than in proposing another optimal-tree solver.
+
+\subsection{Tree-size regularization}
+Tree size is also a regularization choice. Zhou and Mentch \cite{zhou2023trees} report benefits from smaller random-forest members at low signal-to-noise ratios. Duroux and Scornet \cite{duroux2018impact} study subsampling and early termination theoretically for quantile-split regression forests and empirically for Breiman-style regression forests. These regression studies vary leaf limits and resampling; Duroux and Scornet's small-tree empirical alternative also removes bootstrap resampling. They motivate studying constrained member size, rather than prescribing a universal classification-tree depth. Competitive small classification trees \cite{bertsimas2017optimal} provide a related motivation. At the other end of the spectrum, consistency results for random forests study trees whose size can grow with the sample \cite{scornet2015consistency}. Our comparison of shallow, deeper, and unrestricted bootstrap Gini classifiers examines how the benefit of split optimization changes with capacity.
+
+\section{Method}
+\subsection{Horizon and final depth}
+Let $S$ be the examples reaching a node, $I(S)$ its Gini impurity, and $W(S)$ its total weight. Let $D$ be the maximum number of splits along a final root-to-leaf path and $d$ the current depth. At that node the actual search horizon is $h=\min(k,D-d)$; when $D$ is unrestricted, $h=k$. Increasing $k$ changes search, whereas increasing $D$ changes capacity.
+
+Define the optimal local terminal score recursively:
+\begin{align}
+ C_0(S)&=W(S)I(S),\\
+ C_h(S)&=\min\left\{C_0(S),\min_{s\in\mathcal S(S)}
+ \big[C_{h-1}(S_l(s))+C_{h-1}(S_r(s))\big]\right\}.
+ \label{eq:recursion}
+\end{align}
+Here $\mathcal S(S)$ contains admissible axis-aligned midpoint thresholds between distinct observed feature values, subject to the leaf, depth, and feature constraints. The selected root minimizes the second term when it is no worse than stopping, up to numerical tolerance. Feasible zero-gain splits are allowed, as in unpruned CART. Only that root is committed. The configured horizon is then restored at each actual child. This is receding-horizon induction, not a single depth-$k$ fit followed by an unchanged completion.
+
+For a fixed node, expanding the feasible horizon cannot worsen the optimal terminal training impurity. With all features and $k\geq D$ at the root, the search covers the depth-bounded terminal-impurity problem; with feature subsampling it is conditional on the seeded feature policy. This makes $k=D=3$ an instructive full-horizon case. The experiments ask how these local training improvements translate into prediction and cost.
+
+\subsection{Matched trees and mixed forests}
+The one-sighted baseline is scikit-learn CART. All learners use Gini impurity, the same permitted total depth, split and leaf minima, and feature policy. None is pruned, and feasible zero-gain splits are allowed. Every distinct admissible numerical threshold is considered; there is no candidate cap. At each node we consider either all $p$ features or an initially sampled subset of $\max(1,\lfloor\sqrt p\rfloor)$ features, examining more if that subset provides no admissible split.
+
+A mixed forest replaces designated CART members with farther-sighted trees, using the same bootstrap draw and seed for each replacement. Every ensemble position contains exactly one member. Bootstrap multiplicities are sample weights, and the sample-count constraints exclude zero-weight rows. Horizons are assigned without using class labels, in blocks of 20 so that every evaluated ensemble size has the specified composition. Predictions average class-aligned member probabilities. The all-greedy construction was checked against the library random forest over the common parameter grid.
+
+We describe a mixture by its member proportions and, for convenience, its mean horizon $\bar k=\sum_j p_j k_j$. The proportions matter: $90\%$ one-sighted plus $10\%$ two-sighted and $95\%$ one-sighted plus $5\%$ three-sighted both have $\bar k=1.1$, but involve different searches.
+
+\subsection{Search cost}
+The two child optima in Eq.~\eqref{eq:recursion} can be computed separately. If every recursive call has at most $m$ candidates and $E_h$ counts candidate evaluations, a worst-case bound is
+\begin{equation}
+ E_0=0,\qquad E_h\leq m+2m E_{h-1},\qquad
+ E_h\leq m\frac{(2m)^h-1}{2m-1}.
+\end{equation}
+The bound is exponential in local horizon. Final fitting sums such searches over the committed nodes, with actual work also depending on sample sizes and stopping. A fixed short horizon can therefore build a deep tree; increasing the final-depth limit does not itself increase $k$.
+
+\section{Experimental protocol}
+\subsection{Dataset sample and repeated partitions}
+We use a tractable 57-dataset sample of PMLB classification tasks \cite{olson2017pmlb}. All methods share PMLB's supplied numeric representation and categorical encodings. A common complete-case rule removes eleven rows from \texttt{penguins}; no imputation or scaling is applied. Dataset names, dimensions, class counts, and preprocessing records are available with the code.
+
+Each dataset receives five paired stratified $75/25$ outer train--test partitions with fixed, reproducible seeds. The seeds differ between repetitions, as do estimator and bootstrap seeds. All methods share the same partitions within a repetition.
+
+\subsection{Models and training-only selection}
+Fixed-architecture comparisons use $D\in\{3,6,\infty\}$, minimum leaf size one, and either all features or square-root feature subsampling. Single trees use $k=1,2,3$ with identical common settings and no pruning. Every forest composition is evaluated at $T\in\{20,40,60,100,200\}$. In addition to the three pure horizons, each pair $(1,2)$, $(1,3)$, and $(2,3)$ uses $5\%,10\%,25\%,$ or $50\%$ of the farther-sighted horizon. A sparse three-way composition uses $85\%,10\%,5\%$ of horizons one, two, and three. Thus sixteen explicitly specified compositions span every ensemble size; equal average horizons do not identify identical mixtures.
+
+In the separate tuned experiment, three model families receive training-only inner cross-validation. The conventional greedy family (RF) contains only CART members. Its feature setting is tuned: a random subset at each split gives a feature-subsampled random forest, while using all features gives bagged CART. The 1/2 family allows pure forests and mixtures of one- and two-sighted members. The inclusive 1/2/3 family allows the full sixteen-composition grid. Thus both expanded families can also select a conventional greedy forest.
+
+All three families share depths $\{3,6,\infty\}$, leaf minima $\{1,5\}$, the two feature policies, and ensemble sizes $\{20,40,60,100\}$. They have 48, 288, and 768 candidate configurations, respectively. The 200-member models appear only in the fixed experiment. Training-only selection keeps the outer test data separate from hyperparameter choice \cite{cawley2010selection}.
+
+Inner folds are shared across families. Shuffled stratified cross-validation uses $\min(3,c_{\min})$ folds, where $c_{\min}$ is the smallest observed outer-training class count. A singleton or single-class training partition instead uses ordinary shuffled three-fold cross-validation. Mean inner accuracy chooses the model; ties favour lower measured member-fitting work, then a fixed candidate ordering. The chosen configurations are refitted separately on the outer-training data before test evaluation. Three-sighted members are included in both fixed and tuned experiments.
+
+\subsection{Timing and outcomes}
+Accuracy is the primary outcome; balanced accuracy, the mean recall over classes present in the scoring partition, assesses sensitivity to class imbalance. Scores and costs are first averaged over repetitions within each dataset, then equally across datasets.
+
+For fixed forests, fitting work is the sum of measured fitting durations of the included members. Fixed single-tree timings likewise cover fitting alone. Both exclude construction, bootstrap preparation, and prediction. For tuned models, we report the selected model's direct refit wall time, including construction and bootstrap preparation, separately from cross-validation fitting work. The latter includes the tree fits needed to evaluate the whole candidate grid, even when a cheap model is ultimately selected. Reused fits are counted once within each family's search, and each family is charged the work it would require if run on its own. Recorded workflow-stage wall times are also supplied; they exclude checkpoint input/output, startup, downloads, and idle gaps.
+
+Experiments use five concurrent, single-threaded workers on a MacBook Air with an eight-core Apple M3 processor and 16 GB memory. Numerical figures are computed from experimental results using reproducible NumPy, SciPy, pandas, and Matplotlib workflows. OpenAI Codex (OpenAI) assisted with benchmark, analysis, and plotting code. Historical application and model versions were not recorded; the plots are data-derived and use no generative image model.
+
+\subsection{Uncertainty and multiple comparisons}
+For each contrast, paired repetition differences are averaged within datasets. A percentile bootstrap with 20,000 resamples of the dataset means gives a pointwise, unadjusted $95\%$ interval for the mean effect. Two-sided Wilcoxon signed-rank tests compare these same dataset-level differences \cite{demsar2006comparisons}; our calculation omits zero differences. Mean-effect intervals and signed-rank tests describe different aspects of the effect distribution: its average and its location under the usual symmetry assumption.
+
+One Holm adjustment \cite{holm1979sequential} covers eleven primary contrasts: eight fixed 100-member comparisons of $10\%$ two- or three-sighted replacements with matched greedy forests, at depth three or unrestricted depth and either feature setting; and three pairwise comparisons of the tuned families. We denote the adjusted values by $p_H$. Other depths, sizes, proportions, and single-tree contrasts are descriptive.
+
+Two sensitivity analyses change benchmark weighting or membership. One gives equal weight to 48 known task families, averaging related GAMETES, MONK, LED, parity, and Cy Young tasks first. The other removes 19 explicitly named synthetic/constructed tasks, leaving 38 tasks. The full membership lists are supplied with the results.
+
+\section{Results}
+% BEGIN GENERATED results_text
+% Author-comment revision, 10 October 2026; full numerical results unchanged.
+
+Table~\ref{tab:performance} summarizes representative fixed architectures
+and the three tuned families. Table~\ref{tab:comparisons} reports the eleven
+primary paired contrasts. Accuracy differences below are percentage points;
+brackets give the mean-effect intervals defined in Section 4.4.
+
+% BEGIN GENERATED table_performance
+% COMPLETE table environment: replace the old table, not only its row markers.
+% 24 fixed rows (all features, leaf minimum one) and three selected-family rows.
+% Source row IDs and timing fields are documented in full_interpretation_notes.md.
+\begin{table*}[t]
+\centering\small
+\caption{Performance averaged over 57 datasets and five paired repetitions.
+Fixed rows use all features, minimum leaf size one, and 100 forest members;
+replacement forests contain 90\% CART and 10\% of the indicated horizon.
+Accuracy and balanced accuracy are proportions. Fixed-tree costs measure
+fitting alone; fixed-forest costs sum member fits. Tuned-family costs measure
+direct refitting, including construction/bootstrap preparation and excluding
+prediction and selection. Section 4.3 defines the timing scopes.}
+\label{tab:performance}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+Model & $D$ & Accuracy & Balanced accuracy & Fit measure (s) & Realized depth\\
+\midrule
+CART tree & 3 & 0.6782 & 0.6241 & 0.0010 & 3.0 \\
+Tree $k=2$ & 3 & 0.7059 & 0.6543 & 0.0282 & 3.0 \\
+Tree $k=3$ & 3 & 0.7136 & 0.6647 & 1.6845 & 3.0 \\
+Pure $k=1$ forest & 3 & 0.7288 & 0.6721 & 0.0677 & 2.9 \\
+Pure $k=2$ forest & 3 & 0.7478 & 0.6931 & 1.6807 & 3.0 \\
+Pure $k=3$ forest & 3 & 0.7522 & 0.6959 & 80.2307 & 3.0 \\
+10\% $k=2$ replacement & 3 & 0.7393 & 0.6835 & 0.2293 & 2.9 \\
+10\% $k=3$ replacement & 3 & 0.7415 & 0.6853 & 8.0933 & 2.9 \\
+\addlinespace
+CART tree & 6 & 0.7282 & 0.6947 & 0.0011 & 5.6 \\
+Tree $k=2$ & 6 & 0.7321 & 0.6977 & 0.0569 & 5.9 \\
+Tree $k=3$ & 6 & 0.7341 & 0.7009 & 3.7724 & 5.9 \\
+Pure $k=1$ forest & 6 & 0.7665 & 0.7297 & 0.0797 & 5.4 \\
+Pure $k=2$ forest & 6 & 0.7606 & 0.7201 & 3.7387 & 5.9 \\
+Pure $k=3$ forest & 6 & 0.7556 & 0.7166 & 200.3026 & 5.9 \\
+10\% $k=2$ replacement & 6 & 0.7692 & 0.7321 & 0.4463 & 5.4 \\
+10\% $k=3$ replacement & 6 & 0.7723 & 0.7350 & 20.1196 & 5.4 \\
+\addlinespace
+CART tree & $\infty$ & 0.7451 & 0.7194 & 0.0017 & 10.1 \\
+Tree $k=2$ & $\infty$ & 0.6938 & 0.6578 & 0.1592 & 15.1 \\
+Tree $k=3$ & $\infty$ & 0.6622 & 0.6208 & 7.9657 & 17.0 \\
+Pure $k=1$ forest & $\infty$ & 0.7752 & 0.7450 & 0.1466 & 8.9 \\
+Pure $k=2$ forest & $\infty$ & 0.7069 & 0.6615 & 9.7728 & 13.2 \\
+Pure $k=3$ forest & $\infty$ & 0.6784 & 0.6302 & 387.2398 & 14.9 \\
+10\% $k=2$ replacement & $\infty$ & 0.7758 & 0.7442 & 1.1200 & 9.4 \\
+10\% $k=3$ replacement & $\infty$ & 0.7750 & 0.7430 & 38.5187 & 9.5 \\
+\midrule
+Selected RF family & selected & 0.7899 & 0.7533 & 0.0626 & 6.5 \\
+Selected 1/2 family & selected & 0.7996 & 0.7642 & 0.9518 & 5.5 \\
+Selected inclusive family & selected & 0.8056 & 0.7693 & 12.9374 & 5.4 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+% END GENERATED table_performance
+
+% BEGIN GENERATED table_comparisons
+% COMPLETE table environment: replace the old table, not only its row markers.
+% Exactly the eleven rows of full/paired_primary_comparisons.csv, in file order.
+\begin{table*}[t]
+\centering\small
+\caption{The eleven primary paired comparisons. Fixed rows
+replace ten of 100 CART members with the indicated horizon, at minimum
+leaf size one and the stated feature setting. Effects and pointwise,
+unadjusted $95\%$ mean-effect intervals are in percentage points.
+$p_H$ is the two-sided Wilcoxon signed-rank value Holm-adjusted jointly
+over these eleven contrasts.
+W/T/L counts dataset-mean wins/ties/losses for the first model. Cost ratios
+divide equal-dataset mean costs: summed member-fitting work for
+the eight fixed rows, direct selected-model refit wall time for the three
+selected-family rows. Selection work is reported separately.}
+\label{tab:comparisons}
+\begin{tabular}{@{}lrlrrr@{}}\toprule
+Comparison & $D$ & Mean difference [95\% interval] & $p_H$ & W/T/L & Cost ratio\\
+\midrule
+10\% $k=2$ vs. CART (all) & 3 & $1.06$ [$0.45$, $1.77$] & 0.00996 & 27/21/9 & 3.39 \\
+10\% $k=3$ vs. CART (all) & 3 & $1.27$ [$0.61$, $2.02$] & 0.02066 & 28/14/15 & 119.52 \\
+10\% $k=2$ vs. CART (sqrt) & 3 & $0.42$ [$0.07$, $0.78$] & 0.09539 & 27/22/8 & 4.84 \\
+10\% $k=3$ vs. CART (sqrt) & 3 & $1.04$ [$0.46$, $1.74$] & 0.00150 & 32/19/6 & 106.73 \\
+10\% $k=2$ vs. CART (all) & $\infty$ & $0.05$ [$-0.27$, $0.44$] & 1.00000 & 19/20/18 & 7.64 \\
+10\% $k=3$ vs. CART (all) & $\infty$ & $-0.02$ [$-0.49$, $0.55$] & 1.00000 & 16/20/21 & 262.81 \\
+10\% $k=2$ vs. CART (sqrt) & $\infty$ & $0.22$ [$-0.02$, $0.47$] & 0.75287 & 23/18/16 & 18.90 \\
+10\% $k=3$ vs. CART (sqrt) & $\infty$ & $0.28$ [$0.00047$, $0.59$] & 0.34732 & 25/16/16 & 367.04 \\
+\midrule
+Selected 1/2 vs. RF & selected & $0.97$ [$-0.07$, $2.30$] & 1.00000 & 29/8/20 & 15.20 \\
+Selected inclusive vs. RF & selected & $1.57$ [$0.30$, $3.28$] & 0.48838 & 28/11/18 & 206.61 \\
+Selected inclusive vs. 1/2 & selected & $0.60$ [$-0.11$, $1.63$] & 1.00000 & 18/23/16 & 13.59 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+% END GENERATED table_comparisons
+
+\subsection{All-feature single trees and pure forests}
+At $D=3$, mean accuracies for single trees with $k=1,2,3$ are
+$67.82\%,70.59\%,71.36\%$. The paired horizon-two/three gains over
+CART are $2.77$ points [$0.68$, $5.22$] and $3.54$ points [$1.45$,
+$6.01$], but medians are only $0.13$ and $0.40$ points, with
+$29/3/25$ and $31/3/23$ wins/ties/losses. Mean fit-only times are
+$0.00103$, $0.0282$, and $1.684$ s, respectively. At $D=6$, mean
+differences shrink to $0.39/0.59$ points and medians become
+$-0.48/-1.27$ points. Without a depth limit, mean differences are
+$-5.13$ [$-8.69$, $-1.84$] and $-8.29$ [$-12.45$, $-4.39$]
+points. Mean realized depths then increase from $10.1$ for CART to
+$15.1/17.0$ for horizons two/three. Figure~\ref{fig:depth} shows this
+change from gains at shallow depth to losses without a depth limit.
+
+For pure $T=100$ forests with all features, horizon-two/three mean
+differences from the matched CART forest are $1.90/2.34$ points at
+$D=3$, $-0.58/-1.09$ at $D=6$, and $-6.84/-9.68$ without a depth
+limit. Shallow mean fitting work is $0.0677$, $1.6807$, and $80.2307$
+s for the three pure horizons. With square-root feature subsampling,
+the corresponding mean differences are $2.38/2.85$, $1.27/1.96$,
+and $1.08/0.78$ points. The last two intervals are [$0.35$, $1.88$]
+and [$-0.75$, $2.44$], with medians $0.29$ and zero points.
+Thus the depth pattern differs between the two feature policies,
+with every contrast using its own matched CART control.
+
+\begin{figure*}[t]
+\centering% BEGIN GENERATED figure1
+\definecolor{fairC0}{HTML}{222222}
+\definecolor{fairC1}{HTML}{1F77B4}
+\definecolor{fairC2}{HTML}{D62728}
+\definecolor{fairC3}{HTML}{2B8C55}
+\definecolor{fairC4}{HTML}{66A61E}
+\definecolor{fairC5}{HTML}{C59A00}
+\definecolor{fairC6}{HTML}{8C6D31}
+\definecolor{fairC7}{HTML}{7B3294}
+\definecolor{fairC8}{HTML}{A64C9C}
+\definecolor{fairC9}{HTML}{DC74AB}
+\definecolor{fairC10}{HTML}{B35806}
+\definecolor{fairC11}{HTML}{008B8B}
+\definecolor{fairC12}{HTML}{17A8BD}
+\definecolor{fairC13}{HTML}{527A9C}
+\definecolor{fairC14}{HTML}{7F7F7F}
+\definecolor{fairC15}{HTML}{9D8F11}
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.1cm},
+width=0.44\textwidth,height=5.2cm,grid=major,grid style={gray!15},
+tick label style={font=\scriptsize},label style={font=\small},title style={font=\small},
+xtick={1,2,3},xlabel={Sight horizon $k$}]
+\nextgroupplot[title={(a) Paired single-tree differences},ylabel={Accuracy difference (pp)},
+legend to name=fairDepthLegend,legend columns=3,legend style={font=\small,draw=none}]
+\addplot+[mark=*,color=fairC1,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+0.940 0 0 0
+1.940 2.7690655 2.0892691 2.4517777
+2.940 3.5405952 2.092686 2.4678195
+};
+\addlegendentry{Depth 3}
+\addplot+[mark=*,color=fairC3,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+1.000 0 0 0
+2.000 0.38921788 2.2884109 2.5959166
+3.000 0.58875764 2.504071 2.9363957
+};
+\addlegendentry{Depth 6}
+\addplot+[mark=*,color=fairC2,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=low,y error plus=high] {
+x y low high
+1.060 0 0 0
+2.060 -5.1289459 3.5641001 3.2868148
+3.060 -8.2912463 4.1597501 3.902189
+};
+\addlegendentry{Unlimited depth}
+\addplot[black!40,dashed,forget plot] coordinates {(0.8,0) (3.2,0)};
+\nextgroupplot[title={(b) Single-tree fitting cost},ymode=log,ylabel={Mean fitting time (s)}]
+\addplot+[mark=*,color=fairC1] coordinates {(1,0.00102871712) (2,0.0282174026) (3,1.68448913)};
+\addplot+[mark=*,color=fairC3] coordinates {(1,0.00112826272) (2,0.0569112694) (3,3.7723653)};
+\addplot+[mark=*,color=fairC2] coordinates {(1,0.00169035613) (2,0.159224192) (3,7.96574853)};
+\end{groupplot}
+\end{tikzpicture}
+\par\smallskip\pgfplotslegendfromname{fairDepthLegend}
+% END GENERATED figure1
+\caption{Depth-matched unpruned single trees with all features. Left: mean paired accuracy differences from CART, with pointwise, unadjusted $95\%$ dataset-bootstrap intervals. Right: mean fitting duration, excluding construction and prediction. Sight horizon varies independently of permitted final depth.}
+\label{fig:depth}
+\end{figure*}
+
+\subsection{Sparse horizon replacements}
+At $T=100$, $D=3$, with all features, replacing ten CART members with
+horizon-two or horizon-three members gives mean gains of $1.06$ points
+[$0.45$, $1.77$] and $1.27$ points [$0.61$, $2.02$]. Both medians
+are zero; wins/ties/losses are $27/21/9$ and $28/14/15$.
+Their joint-Holm signed-rank values are $p_H=0.00996$ and $0.02066$.
+Balanced-accuracy gains are $1.15/1.33$ points. Mean member-fitting
+work rises from $0.0677$ s for CART to $0.2293/8.0933$ s,
+or $3.39/119.52$ times the control. The $85/10/5\%$ composition
+has a mean gain of $1.36$ points [$0.52$, $2.30$] at $4.2260$ s.
+
+With square-root features, the two shallow replacement gains are
+$0.42$ [$0.07$, $0.78$] and $1.04$ [$0.46$, $1.74$] points,
+with $p_H=0.09539$ and $0.00150$. Their medians are zero and
+$0.13$ points. Without a depth limit, the four primary replacement
+mean gains are $0.05/-0.02$ points with all features and
+$0.22/0.28$ points with square-root features. Their medians are
+zero, and adjusted values range from $0.34732$ to $1$.
+At the depth-six all-feature
+setting, the replacement mean differences are $0.27/0.58$ points,
+again with zero medians.
+
+For the two shallow all-feature anchors, equal weighting of the 48
+known dataset families reduces the means to $0.77/0.91$ points,
+with intervals [$0.25$, $1.45$] and [$0.32$, $1.63$]. On the 38
+tasks outside the named synthetic/constructed set, the means are
+$0.53/0.63$ points, with intervals [$0.06$, $1.22$] and [$0.07$,
+$1.35$].
+
+\subsection{Descriptive mean-cost curves}
+\begin{figure*}[t]
+\centering% BEGIN GENERATED figure2
+\definecolor{fairC0}{HTML}{222222}
+\definecolor{fairC1}{HTML}{1F77B4}
+\definecolor{fairC2}{HTML}{D62728}
+\definecolor{fairC3}{HTML}{2B8C55}
+\definecolor{fairC4}{HTML}{66A61E}
+\definecolor{fairC5}{HTML}{C59A00}
+\definecolor{fairC6}{HTML}{8C6D31}
+\definecolor{fairC7}{HTML}{7B3294}
+\definecolor{fairC8}{HTML}{A64C9C}
+\definecolor{fairC9}{HTML}{DC74AB}
+\definecolor{fairC10}{HTML}{B35806}
+\definecolor{fairC11}{HTML}{008B8B}
+\definecolor{fairC12}{HTML}{17A8BD}
+\definecolor{fairC13}{HTML}{527A9C}
+\definecolor{fairC14}{HTML}{7F7F7F}
+\definecolor{fairC15}{HTML}{9D8F11}
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=0.95cm},
+width=0.445\textwidth,height=5.5cm,grid=major,grid style={gray!15},
+tick label style={font=\scriptsize},label style={font=\small},title style={font=\small},
+ymin=0.71739365,ymax=0.760297207]
+\nextgroupplot[title={(a) Accuracy versus tree count},xlabel={Number of trees $T$},
+ylabel={Mean test accuracy},xtick={20,40,60,100,200},
+legend to name=fairCurveLegend,legend columns=4,legend style={font=\scriptsize,draw=none,
+/tikz/every even column/.append style={column sep=3pt}}]
+\addplot[color=fairC0,solid,line width=0.8pt] coordinates {(20,0.721545607) (40,0.723651816) (60,0.726046376) (100,0.728771678) (200,0.7302036)};
+\addlegendentry{100/0/0\% ($\bar k=1.00$)}
+\addplot[color=fairC1,solid,line width=0.8pt] coordinates {(20,0.747903819) (40,0.742645826) (60,0.746474541) (100,0.747768532) (200,0.747574262)};
+\addlegendentry{0/100/0\% ($\bar k=2.00$)}
+\addplot[color=fairC2,solid,line width=0.8pt] coordinates {(20,0.747405173) (40,0.749170056) (60,0.749182263) (100,0.752152887) (200,0.751334756)};
+\addlegendentry{0/0/100\% ($\bar k=3.00$)}
+\addplot[color=fairC3,dashed,line width=0.8pt] coordinates {(20,0.727836685) (40,0.730346837) (60,0.731547385) (100,0.732862107) (200,0.734478762)};
+\addlegendentry{95/5/0\% ($\bar k=1.05$)}
+\addplot[color=fairC4,dashed,line width=0.8pt] coordinates {(20,0.73372712) (40,0.733684112) (60,0.735872107) (100,0.739348705) (200,0.738455662)};
+\addlegendentry{90/10/0\% ($\bar k=1.10$)}
+\addplot[color=fairC5,dashed,line width=0.8pt] coordinates {(20,0.740635782) (40,0.741210166) (60,0.743275942) (100,0.745725947) (200,0.745488267)};
+\addlegendentry{75/25/0\% ($\bar k=1.25$)}
+\addplot[color=fairC6,dashed,line width=0.8pt] coordinates {(20,0.745330488) (40,0.744510459) (60,0.746347685) (100,0.746511975) (200,0.74711451)};
+\addlegendentry{50/50/0\% ($\bar k=1.50$)}
+\addplot[color=fairC7,dotted,line width=0.8pt] coordinates {(20,0.72920301) (40,0.729911507) (60,0.733761174) (100,0.735299154) (200,0.736343946)};
+\addlegendentry{95/0/5\% ($\bar k=1.10$)}
+\addplot[color=fairC8,dotted,line width=0.8pt] coordinates {(20,0.735337287) (40,0.736434512) (60,0.738485017) (100,0.74149888) (200,0.740500232)};
+\addlegendentry{90/0/10\% ($\bar k=1.20$)}
+\addplot[color=fairC9,dotted,line width=0.8pt] coordinates {(20,0.744060427) (40,0.7439027) (60,0.749229192) (100,0.75051225) (200,0.751564251)};
+\addlegendentry{75/0/25\% ($\bar k=1.50$)}
+\addplot[color=fairC10,dotted,line width=0.8pt] coordinates {(20,0.748269825) (40,0.752342111) (60,0.753202605) (100,0.75614525) (200,0.755750931)};
+\addlegendentry{50/0/50\% ($\bar k=2.00$)}
+\addplot[color=fairC11,dashdotted,line width=0.8pt] coordinates {(20,0.746804221) (40,0.743163816) (60,0.746639317) (100,0.749152299) (200,0.748870817)};
+\addlegendentry{0/95/5\% ($\bar k=2.05$)}
+\addplot[color=fairC12,dashdotted,line width=0.8pt] coordinates {(20,0.747569298) (40,0.746086328) (60,0.747994449) (100,0.749595989) (200,0.749198589)};
+\addlegendentry{0/90/10\% ($\bar k=2.10$)}
+\addplot[color=fairC13,dashdotted,line width=0.8pt] coordinates {(20,0.746483461) (40,0.74645805) (60,0.750293248) (100,0.751281199) (200,0.751260101)};
+\addlegendentry{0/75/25\% ($\bar k=2.25$)}
+\addplot[color=fairC14,dashdotted,line width=0.8pt] coordinates {(20,0.746690633) (40,0.746641789) (60,0.751333666) (100,0.753466409) (200,0.752436573)};
+\addlegendentry{0/50/50\% ($\bar k=2.50$)}
+\addplot[color=fairC15,solid,line width=0.8pt] coordinates {(20,0.736136319) (40,0.738008505) (60,0.741285904) (100,0.742355309) (200,0.744086104)};
+\addlegendentry{85/10/5\% ($\bar k=1.20$)}
+\nextgroupplot[title={(b) Accuracy versus fitting work},xmode=log,xlabel={Mean fitting work (s)}]
+\addplot[color=fairC0,solid,line width=0.8pt] coordinates {(0.0142270907,0.721545607) (0.0280359555,0.723651816) (0.0413890441,0.726046376) (0.067713161,0.728771678) (0.13382634,0.7302036)};
+\addplot[only marks,color=fairC0,mark=*,mark size=1.5pt] coordinates {(0.0142270907,0.721545607)};
+\addplot[only marks,color=fairC0,mark=square*,mark size=1.5pt] coordinates {(0.0280359555,0.723651816)};
+\addplot[only marks,color=fairC0,mark=triangle*,mark size=1.5pt] coordinates {(0.0413890441,0.726046376)};
+\addplot[only marks,color=fairC0,mark=diamond*,mark size=1.5pt] coordinates {(0.067713161,0.728771678)};
+\addplot[only marks,color=fairC0,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.13382634,0.7302036)};
+\addplot[color=fairC1,solid,line width=0.8pt] coordinates {(0.338133776,0.747903819) (0.672754496,0.742645826) (1.00855898,0.746474541) (1.68070227,0.747768532) (3.37126361,0.747574262)};
+\addplot[only marks,color=fairC1,mark=*,mark size=1.5pt] coordinates {(0.338133776,0.747903819)};
+\addplot[only marks,color=fairC1,mark=square*,mark size=1.5pt] coordinates {(0.672754496,0.742645826)};
+\addplot[only marks,color=fairC1,mark=triangle*,mark size=1.5pt] coordinates {(1.00855898,0.746474541)};
+\addplot[only marks,color=fairC1,mark=diamond*,mark size=1.5pt] coordinates {(1.68070227,0.747768532)};
+\addplot[only marks,color=fairC1,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(3.37126361,0.747574262)};
+\addplot[color=fairC2,solid,line width=0.8pt] coordinates {(16.0787606,0.747405173) (32.0231208,0.749170056) (48.0579232,0.749182263) (80.2307394,0.752152887) (160.047967,0.751334756)};
+\addplot[only marks,color=fairC2,mark=*,mark size=1.5pt] coordinates {(16.0787606,0.747405173)};
+\addplot[only marks,color=fairC2,mark=square*,mark size=1.5pt] coordinates {(32.0231208,0.749170056)};
+\addplot[only marks,color=fairC2,mark=triangle*,mark size=1.5pt] coordinates {(48.0579232,0.749182263)};
+\addplot[only marks,color=fairC2,mark=diamond*,mark size=1.5pt] coordinates {(80.2307394,0.752152887)};
+\addplot[only marks,color=fairC2,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(160.047967,0.751334756)};
+\addplot[color=fairC3,dashed,line width=0.8pt] coordinates {(0.0306203155,0.727836685) (0.0605526971,0.730346837) (0.0900091164,0.731547385) (0.148517737,0.732862107) (0.296049975,0.734478762)};
+\addplot[only marks,color=fairC3,mark=*,mark size=1.5pt] coordinates {(0.0306203155,0.727836685)};
+\addplot[only marks,color=fairC3,mark=square*,mark size=1.5pt] coordinates {(0.0605526971,0.730346837)};
+\addplot[only marks,color=fairC3,mark=triangle*,mark size=1.5pt] coordinates {(0.0900091164,0.731547385)};
+\addplot[only marks,color=fairC3,mark=diamond*,mark size=1.5pt] coordinates {(0.148517737,0.732862107)};
+\addplot[only marks,color=fairC3,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.296049975,0.734478762)};
+\addplot[color=fairC4,dashed,line width=0.8pt] coordinates {(0.0470039114,0.73372712) (0.0927971859,0.733684112) (0.138473448,0.735872107) (0.229333711,0.739348705) (0.457367181,0.738455662)};
+\addplot[only marks,color=fairC4,mark=*,mark size=1.5pt] coordinates {(0.0470039114,0.73372712)};
+\addplot[only marks,color=fairC4,mark=square*,mark size=1.5pt] coordinates {(0.0927971859,0.733684112)};
+\addplot[only marks,color=fairC4,mark=triangle*,mark size=1.5pt] coordinates {(0.138473448,0.735872107)};
+\addplot[only marks,color=fairC4,mark=diamond*,mark size=1.5pt] coordinates {(0.229333711,0.739348705)};
+\addplot[only marks,color=fairC4,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.457367181,0.738455662)};
+\addplot[color=fairC5,dashed,line width=0.8pt] coordinates {(0.0954602178,0.740635782) (0.18909406,0.741210166) (0.283582023,0.743275942) (0.470881029,0.745725947) (0.940747376,0.745488267)};
+\addplot[only marks,color=fairC5,mark=*,mark size=1.5pt] coordinates {(0.0954602178,0.740635782)};
+\addplot[only marks,color=fairC5,mark=square*,mark size=1.5pt] coordinates {(0.18909406,0.741210166)};
+\addplot[only marks,color=fairC5,mark=triangle*,mark size=1.5pt] coordinates {(0.283582023,0.743275942)};
+\addplot[only marks,color=fairC5,mark=diamond*,mark size=1.5pt] coordinates {(0.470881029,0.745725947)};
+\addplot[only marks,color=fairC5,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(0.940747376,0.745488267)};
+\addplot[color=fairC6,dashed,line width=0.8pt] coordinates {(0.176918393,0.745330488) (0.350482679,0.744510459) (0.525248146,0.746347685) (0.874283224,0.746511975) (1.75110832,0.74711451)};
+\addplot[only marks,color=fairC6,mark=*,mark size=1.5pt] coordinates {(0.176918393,0.745330488)};
+\addplot[only marks,color=fairC6,mark=square*,mark size=1.5pt] coordinates {(0.350482679,0.744510459)};
+\addplot[only marks,color=fairC6,mark=triangle*,mark size=1.5pt] coordinates {(0.525248146,0.746347685)};
+\addplot[only marks,color=fairC6,mark=diamond*,mark size=1.5pt] coordinates {(0.874283224,0.746511975)};
+\addplot[only marks,color=fairC6,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(1.75110832,0.74711451)};
+\addplot[color=fairC7,dotted,line width=0.8pt] coordinates {(0.834736148,0.72920301) (1.65236755,0.729911507) (2.4583099,0.733761174) (4.09098873,0.735299154) (8.16412016,0.736343946)};
+\addplot[only marks,color=fairC7,mark=*,mark size=1.5pt] coordinates {(0.834736148,0.72920301)};
+\addplot[only marks,color=fairC7,mark=square*,mark size=1.5pt] coordinates {(1.65236755,0.729911507)};
+\addplot[only marks,color=fairC7,mark=triangle*,mark size=1.5pt] coordinates {(2.4583099,0.733761174)};
+\addplot[only marks,color=fairC7,mark=diamond*,mark size=1.5pt] coordinates {(4.09098873,0.735299154)};
+\addplot[only marks,color=fairC7,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(8.16412016,0.736343946)};
+\addplot[color=fairC8,dotted,line width=0.8pt] coordinates {(1.6538738,0.735337287) (3.2623439,0.736434512) (4.85912989,0.738485017) (8.09331208,0.74149888) (16.0749614,0.740500232)};
+\addplot[only marks,color=fairC8,mark=*,mark size=1.5pt] coordinates {(1.6538738,0.735337287)};
+\addplot[only marks,color=fairC8,mark=square*,mark size=1.5pt] coordinates {(3.2623439,0.736434512)};
+\addplot[only marks,color=fairC8,mark=triangle*,mark size=1.5pt] coordinates {(4.85912989,0.738485017)};
+\addplot[only marks,color=fairC8,mark=diamond*,mark size=1.5pt] coordinates {(8.09331208,0.74149888)};
+\addplot[only marks,color=fairC8,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(16.0749614,0.740500232)};
+\addplot[color=fairC9,dotted,line width=0.8pt] coordinates {(4.05238885,0.744060427) (7.99827919,0.7439027) (12.0238662,0.749229192) (20.0641795,0.75051225) (39.9434322,0.751564251)};
+\addplot[only marks,color=fairC9,mark=*,mark size=1.5pt] coordinates {(4.05238885,0.744060427)};
+\addplot[only marks,color=fairC9,mark=square*,mark size=1.5pt] coordinates {(7.99827919,0.7439027)};
+\addplot[only marks,color=fairC9,mark=triangle*,mark size=1.5pt] coordinates {(12.0238662,0.749229192)};
+\addplot[only marks,color=fairC9,mark=diamond*,mark size=1.5pt] coordinates {(20.0641795,0.75051225)};
+\addplot[only marks,color=fairC9,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(39.9434322,0.751564251)};
+\addplot[color=fairC10,dotted,line width=0.8pt] coordinates {(8.05545022,0.748269825) (16.0055676,0.752342111) (24.0578125,0.753202605) (40.1054761,0.75614525) (79.8751982,0.755750931)};
+\addplot[only marks,color=fairC10,mark=*,mark size=1.5pt] coordinates {(8.05545022,0.748269825)};
+\addplot[only marks,color=fairC10,mark=square*,mark size=1.5pt] coordinates {(16.0055676,0.752342111)};
+\addplot[only marks,color=fairC10,mark=triangle*,mark size=1.5pt] coordinates {(24.0578125,0.753202605)};
+\addplot[only marks,color=fairC10,mark=diamond*,mark size=1.5pt] coordinates {(40.1054761,0.75614525)};
+\addplot[only marks,color=fairC10,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(79.8751982,0.755750931)};
+\addplot[color=fairC11,dashdotted,line width=0.8pt] coordinates {(1.14224961,0.746804221) (2.26456935,0.743163816) (3.37685976,0.746639317) (5.62317326,0.749152299) (11.2393338,0.748870817)};
+\addplot[only marks,color=fairC11,mark=*,mark size=1.5pt] coordinates {(1.14224961,0.746804221)};
+\addplot[only marks,color=fairC11,mark=square*,mark size=1.5pt] coordinates {(2.26456935,0.743163816)};
+\addplot[only marks,color=fairC11,mark=triangle*,mark size=1.5pt] coordinates {(3.37685976,0.746639317)};
+\addplot[only marks,color=fairC11,mark=diamond*,mark size=1.5pt] coordinates {(5.62317326,0.749152299)};
+\addplot[only marks,color=fairC11,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(11.2393338,0.748870817)};
+\addplot[color=fairC12,dashdotted,line width=0.8pt] coordinates {(1.94500366,0.747569298) (3.84230121,0.746086328) (5.72921542,0.747994449) (9.54468063,0.749595989) (18.9888579,0.749198589)};
+\addplot[only marks,color=fairC12,mark=*,mark size=1.5pt] coordinates {(1.94500366,0.747569298)};
+\addplot[only marks,color=fairC12,mark=square*,mark size=1.5pt] coordinates {(3.84230121,0.746086328)};
+\addplot[only marks,color=fairC12,mark=triangle*,mark size=1.5pt] coordinates {(5.72921542,0.747994449)};
+\addplot[only marks,color=fairC12,mark=diamond*,mark size=1.5pt] coordinates {(9.54468063,0.749595989)};
+\addplot[only marks,color=fairC12,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(18.9888579,0.749198589)};
+\addplot[color=fairC13,dashdotted,line width=0.8pt] coordinates {(4.29506241,0.746483461) (8.48193963,0.74645805) (12.7488432,0.750293248) (21.2740008,0.751281199) (42.3739484,0.751260101)};
+\addplot[only marks,color=fairC13,mark=*,mark size=1.5pt] coordinates {(4.29506241,0.746483461)};
+\addplot[only marks,color=fairC13,mark=square*,mark size=1.5pt] coordinates {(8.48193963,0.74645805)};
+\addplot[only marks,color=fairC13,mark=triangle*,mark size=1.5pt] coordinates {(12.7488432,0.750293248)};
+\addplot[only marks,color=fairC13,mark=diamond*,mark size=1.5pt] coordinates {(21.2740008,0.751281199)};
+\addplot[only marks,color=fairC13,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(42.3739484,0.751260101)};
+\addplot[color=fairC14,dashdotted,line width=0.8pt] coordinates {(8.2166656,0.746690633) (16.3278395,0.746641789) (24.5411234,0.751333666) (40.9118952,0.753466409) (81.4953535,0.752436573)};
+\addplot[only marks,color=fairC14,mark=*,mark size=1.5pt] coordinates {(8.2166656,0.746690633)};
+\addplot[only marks,color=fairC14,mark=square*,mark size=1.5pt] coordinates {(16.3278395,0.746641789)};
+\addplot[only marks,color=fairC14,mark=triangle*,mark size=1.5pt] coordinates {(24.5411234,0.751333666)};
+\addplot[only marks,color=fairC14,mark=diamond*,mark size=1.5pt] coordinates {(40.9118952,0.753466409)};
+\addplot[only marks,color=fairC14,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(81.4953535,0.752436573)};
+\addplot[color=fairC15,solid,line width=0.8pt] coordinates {(0.861274561,0.736136319) (1.67963983,0.738008505) (2.54369129,0.741285904) (4.22603385,0.742355309) (8.42151473,0.744086104)};
+\addplot[only marks,color=fairC15,mark=*,mark size=1.5pt] coordinates {(0.861274561,0.736136319)};
+\addplot[only marks,color=fairC15,mark=square*,mark size=1.5pt] coordinates {(1.67963983,0.738008505)};
+\addplot[only marks,color=fairC15,mark=triangle*,mark size=1.5pt] coordinates {(2.54369129,0.741285904)};
+\addplot[only marks,color=fairC15,mark=diamond*,mark size=1.5pt] coordinates {(4.22603385,0.742355309)};
+\addplot[only marks,color=fairC15,mark=triangle*,mark size=1.5pt,mark options={rotate=180}] coordinates {(8.42151473,0.744086104)};
+\addplot[black!55,dashed] coordinates {(0.7,0.71739365) (0.7,0.760297207)};
+\end{groupplot}
+\end{tikzpicture}
+\par\smallskip\scriptsize Composition: \% one-/two-/three-sighted members ($\bar k$: mean horizon).
+\par\pgfplotslegendfromname{fairCurveLegend}
+% END GENERATED figure2
+\caption{Accuracy--fitting-work curves for depth-three, all-feature forests on 57 datasets and five paired repetitions. Every composition spans 20, 40, 60, 100, and 200 members, marked respectively by circles, squares, upward triangles, diamonds, and downward triangles in the right panel. The dashed line marks 0.7 s of benchmark-mean member-fitting work. Proportions identify each mixture; $\bar k$ is its mean horizon. These descriptive curves report fixed architectures, excluding selection cost.}
+\label{fig:tradeoff}
+\end{figure*}
+% BEGIN FIGURE2_POSTPLOT_TEXT: retain directly after that environment.
+Figure~\ref{fig:tradeoff} shows why mixing is worth considering.
+A 20-member forest with five two-sighted trees and fifteen CART trees
+has $74.06\%$ mean accuracy at $0.0955$ s of fitting work. The
+200-member pure CART forest has $73.02\%$ accuracy at $0.1338$ s.
+In this example, replacing a few members is more effective than
+adding many greedy trees: mean accuracy is $1.04$ points higher
+with about $29\%$ less fitting work. The 20-member mixture with
+only two two-sighted members reaches $73.37\%$ mean accuracy at
+$0.0470$ s of fitting work, also exceeding the 200-member greedy
+forest at lower work.
+
+Mixtures occupy intermediate positions between the cheap greedy
+curve and the expensive uniformly farther-sighted curves. A
+100-member forest with $25\%$ two-sighted members reaches
+$74.57\%$ at $0.4709$ s. Smaller pure farther-sighted forests
+are competitive too: below the $0.7$ s mean-work reference, the
+highest observed mean is $74.79\%$ for 20 two-sighted members
+at $0.3381$ s. Every plotted composition containing three-sighted
+members lies above that reference. The useful choice is therefore
+between ensemble size and composition, rather than a uniform
+increase in either tree count or horizon.
+% END FIGURE2_POSTPLOT_TEXT
+
+\subsection{Training-selected families}
+% New figure environment: paths are relative to paper/array_revision/main.tex.
+\begin{figure*}[t]
+\centering
+% BEGIN GENERATED figure3
+\definecolor{fairC0}{HTML}{222222}
+\definecolor{fairC1}{HTML}{1F77B4}
+\definecolor{fairC2}{HTML}{D62728}
+\definecolor{fairC3}{HTML}{2B8C55}
+\definecolor{fairC4}{HTML}{66A61E}
+\definecolor{fairC5}{HTML}{C59A00}
+\definecolor{fairC6}{HTML}{8C6D31}
+\definecolor{fairC7}{HTML}{7B3294}
+\definecolor{fairC8}{HTML}{A64C9C}
+\definecolor{fairC9}{HTML}{DC74AB}
+\definecolor{fairC10}{HTML}{B35806}
+\definecolor{fairC11}{HTML}{008B8B}
+\definecolor{fairC12}{HTML}{17A8BD}
+\definecolor{fairC13}{HTML}{527A9C}
+\definecolor{fairC14}{HTML}{7F7F7F}
+\definecolor{fairC15}{HTML}{9D8F11}
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1,horizontal sep=1.35cm},
+width=0.42\textwidth,height=5.2cm,grid=major,grid style={gray!15},
+tick label style={font=\scriptsize},label style={font=\small},title style={font=\small}]
+\nextgroupplot[title={(a) Accuracy differences},xlabel={Accuracy difference (pp)},
+ytick={0,1,2},yticklabels={{Family 1/2 -- RF},{Family 1/2/3 -- RF},{Family 1/2/3 -- 1/2}},y dir=reverse,ymin=-0.4,ymax=2.4]
+\addplot+[only marks,mark=*,color=fairC3,error bars/.cd,x dir=both,x explicit] table[x=x,y=y,x error minus=low,x error plus=high] {
+x y low high
+0.967393297 0 1.03422225 1.33050186
+};
+\addplot+[only marks,mark=*,color=fairC2,error bars/.cd,x dir=both,x explicit] table[x=x,y=y,x error minus=low,x error plus=high] {
+x y low high
+1.56929662 1 1.27015996 1.70740143
+};
+\addplot+[only marks,mark=*,color=fairC7,error bars/.cd,x dir=both,x explicit] table[x=x,y=y,x error minus=low,x error plus=high] {
+x y low high
+0.60190332 2 0.710278693 1.03119017
+};
+\addplot[black!40,dashed] coordinates {(0,-0.4) (0,2.4)};
+\nextgroupplot[title={(b) Selection and refit costs},ymode=log,ylabel={Mean time or work (s)},
+xtick={0,1,2},xticklabels={RF,{Family 1/2},{Family 1/2/3}},
+legend to name=fairTunedLegend,legend columns=1,legend style={font=\scriptsize,draw=none}]
+\addplot+[only marks,color=fairC1,mark=square*] coordinates {(0,2.27141672) (1,112.079219) (2,2671.04949)};
+\addlegendentry{Selection: tree-fit work}
+\addplot+[only marks,color=fairC10,mark=*] coordinates {(0,0.0626177376) (1,0.951821055) (2,12.9374083)};
+\addlegendentry{Refit: direct wall time}
+\addplot+[only marks,color=fairC0,mark=diamond*] coordinates {(0,3.4049916) (1,118.0351) (2,2693.80316)};
+\addlegendentry{Sum of measured stage wall times}
+\end{groupplot}
+\end{tikzpicture}
+\par\smallskip\pgfplotslegendfromname{fairTunedLegend}
+% END GENERATED figure3
+\caption{Tuned forest families on 57 datasets and five paired repetitions. Family 1/2 allows horizons one and two; the inclusive 1/2/3 family allows three as well. Both can select pure forests. Left: mean paired accuracy differences with pointwise, unadjusted $95\%$ dataset-bootstrap intervals. Right: cross-validation tree-fitting work, direct selected-model refit wall time, and summed workflow-stage wall times, with the scopes defined in Section 4.3.}
+\label{fig:tuned}
+\end{figure*}
+
+Mean accuracy is $78.99\%$ for the RF family, $79.96\%$ for the
+one-/two-sighted family, and $80.56\%$ for the inclusive family
+(Figure~\ref{fig:tuned}). Relative to tuned RF, the 1/2 family gains
+$0.97$ points [$-0.07$, $2.30$]. The inclusive family gains $1.57$
+points [$0.30$, $3.28$], and its balanced-accuracy gain is $1.60$
+points. Inclusive versus 1/2 gives $0.60$ points [$-0.11$, $1.63$].
+The tuned contrasts' wins/ties/losses and adjusted tests are reported
+in Table~\ref{tab:comparisons}.
+
+Selection does not always choose a mixed model. Among the 285
+inclusive choices, 133 are pure forests ($61/28/44$ at horizons
+one/two/three) and 152 are mixed (146 use two horizons and six use all three).
+The one-/two-sighted family selects 168 pure forests and 117
+mixtures.
+Depth-three/six/unrestricted selection counts are $66/87/132$ for RF,
+$90/106/89$ for the one-/two-sighted family, and $104/103/78$ for
+the inclusive family. Both feature policies are selected in every family.
+
+\subsection{The cost of model selection}
+Standalone cross-validation fitting work averages $2.271$, $112.079$,
+and $2,671.049$ s for RF, one-/two-sighted, and inclusive families.
+Direct refit
+wall times, including construction/bootstrap preparation but not
+test prediction, are $0.0626$, $0.9518$, and $12.9374$ s. Their
+ratios to RF are $15.20$ and $206.61$ for the two expanded families;
+these are refit ratios, not selection-cost ratios. Mean sums of
+measured workflow stage wall times are $3.405$, $118.035$, and
+$2,693.803$ s. Selection requires much more work than fitting the
+eventual model, especially when three-sighted candidates are included.
+% END GENERATED results_text
+
+\section{Discussion}
+% BEGIN GENERATED discussion_text
+% Author-comment revision, 10 October 2026.
+
+The main practical finding is that farther sight need not be an all-or-nothing
+choice. Sparse replacements improve shallow-forest mean accuracy under both
+feature policies, and three of the four primary shallow contrasts retain
+$p_H<0.05$. Figure~\ref{fig:tradeoff} shows the complementary computation
+argument: adding a few two-sighted members can achieve more than adding many
+greedy members. The benefit of a mixed forest is the option to spend more
+search effort on only part of the ensemble.
+
+The tuned comparison strengthens the predictive finding under the original
+benchmark weighting. The inclusive
+family's mean-effect interval lies above zero even though the conventional
+baseline is tuned on the same common parameter grid. Its higher mean
+accuracy is therefore not simply an artefact of comparing tuned mixtures
+with an untuned RF. Selection often chooses an actual mixture, but also
+chooses pure forests. The tuned result concerns the value of the expanded
+family; the fixed comparisons isolate the effect of replacing specified
+greedy members with farther-sighted members.
+
+The depth controls indicate where the observed benefits are strongest. When each
+member has few splits available, selecting those splits more carefully can
+help. With more splits available, greedy induction may recover useful
+partitions later in the tree. Fixed greedy forests improve at deeper
+capacities, and tuned RF selects depth six or unrestricted depth in 219 of
+285 outer dataset--repetition selections. The unrestricted all-feature farther-sighted trees grow deeper
+yet predict less accurately, a pattern consistent with overfitting.
+Optimizing local terminal impurity does not penalize tree size; a more
+thorough search can therefore fit sample-specific structure. This is a
+plausible explanation to test with training--validation curves and explicit
+regularization. Feature-subsampled forests retain small positive mean gains
+at unrestricted depth, so the feature policy also matters.
+
+\subsection{Scope and limitations}
+The gains are heterogeneous. For tuned inclusive versus RF, the mean
+gain is positive but the median is zero and the adjusted signed-rank test
+does not reject its location null. Also, we note that a nonsignificant
+test does not show that two methods perform equally. The inclusive mean
+gain becomes $1.03$ points [$-0.27$, $2.90$] under equal weighting of
+48 known task families and $0.53$ [$-0.91$, $2.77$] on the 38 tasks
+outside the named synthetic/constructed set. The corresponding 1/2
+effects are $0.61$ [$-0.32$, $2.02$] and $0.38$ [$-0.66$, $2.09$].
+These sensitivities show how the benchmark's composition affects the
+estimated average benefit. The sample is rather small and includes related
+and constructed tasks; overlapping holdouts are averaged within tasks,
+not treated as additional independent datasets.
+
+Computation is the other important limit. Three-sighted search and full
+selection over expanded families are expensive. The common hyperparameter
+grid ensures matched choices, but the mixed families have more candidates
+to evaluate. Figure~\ref{fig:tradeoff} compares benchmark means: the
+illustrated mixtures beat particular greedy forests at lower measured
+fitting work, not necessarily the best pure forest at every budget.
+Connecting plotted points does not evaluate an intermediate model, and
+the curve excludes selection work. A per-dataset fixed-budget policy
+would need training-only selection and a check that the final fit respects
+the budget. The timings also reflect this implementation and concurrent
+hardware load, not an intrinsic cost of every non-greedy method. Larger
+independent tasks and comparisons with efficient bounded or hybrid search
+\cite{aglin2020caching,demirovic2022murtree,vanderlinden2023separable,babbar2025nearoptimal}
+would establish how far the observed tradeoffs extend.
+% END GENERATED discussion_text
+
+\section{Conclusion}
+% BEGIN GENERATED conclusion_text
+% Author-comment revision, 10 October 2026.
+Across the tested depth-three settings, sparse replacements consistently
+yielded higher observed benchmark-mean accuracy than their matched greedy
+controls. They also offer a useful
+accuracy--fitting-work compromise: a small mixture can outperform a much
+larger greedy forest while requiring less member-fitting work. Allowing
+farther-sighted candidates in training-only tuning with matched common
+hyperparameters raises
+benchmark-mean accuracy as well, although selection is substantially more
+expensive. Together, these results support allocating farther sight
+selectively rather than assuming that every member should search farther.
+Larger independent, resource-constrained comparisons with modern search
+methods are needed for a more general conclusion. This study provides a
+concrete empirical step: mixed forests can improve on larger pure greedy
+forests at lower benchmark-mean fitting work.
+% END GENERATED conclusion_text
+
+\section*{CRediT authorship contribution statement}
+Mathias Valla: Conceptualization, Methodology, Software, Investigation, Formal analysis, Writing--original draft, Writing--review and editing.
+\section*{Declaration of competing interest}
+The author declares no competing interests.
+\section*{Acknowledgments}
+Work(s) conducted within the Research Chair DIALog under the aegis of the Risk Foundation, a joint initiative by Universit{\'e} Paris-Dauphine PSL and CNP Assurances.
+\section*{Data and code availability}
+The datasets are publicly available from PMLB \cite{olson2017pmlb}. Code, repeat-level results, selected hyperparameters, paired analyses, figures, and manuscript sources are available at \url{https://github.com/MathiasValla/non-greedy-decision-trees}. The repository's \texttt{paper/REPRODUCING\_RESULTS.md} documents how to retrieve and reproduce every result in this article.
+\section*{Declaration of generative AI and AI-assisted technologies}
+OpenAI Codex (OpenAI) assisted with literature discovery, manuscript revision, and development of benchmark, analysis, and plotting code. Figures are computed from experimental results without generative image tools. Responsibility for the submitted article rests with the author.
+
+% BEGIN GENERATED bibliography
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{breiman1984cart}
+L.~Breiman, J.~H. Friedman, R.~A. Olshen, C.~J. Stone, Classification and
+  Regression Trees, Wadsworth, Belmont, CA, 1984.
+
+\bibitem{zhou2023trees}
+S.~Zhou, L.~Mentch,
+  \href{https://onlinelibrary.wiley.com/doi/10.1002/sam.11594}{Trees, forests,
+  chickens, and eggs: when and why to prune trees in a random forest},
+  Statistical Analysis and Data Mining: The ASA Data Science Journal 16~(1)
+  (2023) 45--64, first published online 25 August 2022.
+\newblock \href {https://doi.org/10.1002/sam.11594}
+  {\path{doi:10.1002/sam.11594}}.
+\newline\urlprefix\url{https://onlinelibrary.wiley.com/doi/10.1002/sam.11594}
+
+\bibitem{duroux2018impact}
+R.~Duroux, E.~Scornet, \href{https://doi.org/10.1051/ps/2018008}{Impact of
+  subsampling and tree depth on random forests}, {ESAIM}: Probability and
+  Statistics 22 (2018) 96--128.
+\newblock \href {https://doi.org/10.1051/ps/2018008}
+  {\path{doi:10.1051/ps/2018008}}.
+\newline\urlprefix\url{https://doi.org/10.1051/ps/2018008}
+
+\bibitem{quinlan1986induction}
+J.~R. Quinlan, Induction of decision trees, Machine Learning 1~(1) (1986)
+  81--106.
+\newblock \href {https://doi.org/10.1007/BF00116251}
+  {\path{doi:10.1007/BF00116251}}.
+
+\bibitem{breiman1996bagging}
+L.~Breiman, Bagging predictors, Machine Learning 24~(2) (1996) 123--140.
+\newblock \href {https://doi.org/10.1007/BF00058655}
+  {\path{doi:10.1007/BF00058655}}.
+
+\bibitem{breiman2001random}
+L.~Breiman, Random forests, Machine Learning 45~(1) (2001) 5--32.
+\newblock \href {https://doi.org/10.1023/A:1010933404324}
+  {\path{doi:10.1023/A:1010933404324}}.
+
+\bibitem{norton1989generating}
+S.~W. Norton,
+  \href{https://www.ijcai.org/Proceedings/89-1/Papers/128.pdf}{Generating
+  better decision trees}, in: Proceedings of the Eleventh International Joint
+  Conference on Artificial Intelligence, 1989, pp. 800--805.
+\newline\urlprefix\url{https://www.ijcai.org/Proceedings/89-1/Papers/128.pdf}
+
+\bibitem{ragavan1993lookahead}
+H.~Ragavan, L.~A. Rendell, Lookahead feature construction for learning hard
+  concepts, in: Machine Learning Proceedings 1993, Morgan Kaufmann, 1993, pp.
+  252--259.
+\newblock \href {https://doi.org/10.1016/B978-1-55860-307-3.50039-3}
+  {\path{doi:10.1016/B978-1-55860-307-3.50039-3}}.
+
+\bibitem{murthy1995lookahead}
+S.~K. Murthy, S.~L. Salzberg,
+  \href{https://www.ijcai.org/Proceedings/95-2/Papers/002.pdf}{Lookahead and
+  pathology in decision tree induction}, in: Proceedings of the Fourteenth
+  International Joint Conference on Artificial Intelligence, 1995, pp.
+  1025--1031.
+\newline\urlprefix\url{https://www.ijcai.org/Proceedings/95-2/Papers/002.pdf}
+
+\bibitem{elomaa2005lookahead}
+T.~Elomaa, T.~Malinen, On look-ahead and pathology in decision tree learning,
+  Journal of Experimental \& Theoretical Artificial Intelligence 17~(1--2)
+  (2005) 19--33.
+\newblock \href {https://doi.org/10.1080/09528130512331315936}
+  {\path{doi:10.1080/09528130512331315936}}.
+
+\bibitem{esmeir2007anytime}
+S.~Esmeir, S.~Markovitch,
+  \href{https://www.jmlr.org/papers/v8/esmeir07a.html}{Anytime learning of
+  decision trees}, Journal of Machine Learning Research 8 (2007) 891--933.
+\newline\urlprefix\url{https://www.jmlr.org/papers/v8/esmeir07a.html}
+
+\bibitem{norouzi2015efficient}
+M.~Norouzi, M.~D. Collins, M.~A. Johnson, D.~J. Fleet, P.~Kohli, Efficient
+  non-greedy optimization of decision trees, in: Advances in Neural Information
+  Processing Systems, Vol.~28, 2015, pp. 1729--1737.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper/2015/hash/1579779b98ce9edb98dd85606f2c119d-Abstract.html}
+
+\bibitem{donick2021stepwise}
+D.~Donick, S.~C. Lera,
+  \href{https://www.nature.com/articles/s41598-021-88571-3}{Uncovering feature
+  interdependencies in high-noise environments with stepwise lookahead decision
+  forests}, Scientific Reports 11 (2021), article 9238.
+\newblock \href {https://doi.org/10.1038/s41598-021-88571-3}
+  {\path{doi:10.1038/s41598-021-88571-3}}.
+\newline\urlprefix\url{https://www.nature.com/articles/s41598-021-88571-3}
+
+\bibitem{geurts2006extremely}
+P.~Geurts, D.~Ernst, L.~Wehenkel,
+  \href{https://doi.org/10.1007/s10994-006-6226-1}{Extremely randomized trees},
+  Machine Learning 63~(1) (2006) 3--42.
+\newblock \href {https://doi.org/10.1007/s10994-006-6226-1}
+  {\path{doi:10.1007/s10994-006-6226-1}}.
+\newline\urlprefix\url{https://doi.org/10.1007/s10994-006-6226-1}
+
+\bibitem{horn2026randomdepth}
+D.~Horn, T.~M. Krabel, T.~N.~T. Tran, A.~Groll, C.~Jentsch,
+  \href{https://doi.org/10.1007/s00180-025-01697-0}{The impact of random tree
+  depth---a novel randomization process for ensemble methods}, Computational
+  Statistics 41 (2026), article 25.
+\newblock \href {https://doi.org/10.1007/s00180-025-01697-0}
+  {\path{doi:10.1007/s00180-025-01697-0}}.
+\newline\urlprefix\url{https://doi.org/10.1007/s00180-025-01697-0}
+
+\bibitem{kuncheva2003diversity}
+L.~I. Kuncheva, C.~J. Whitaker,
+  \href{https://doi.org/10.1023/A:1022859003006}{Measures of diversity in
+  classifier ensembles and their relationship with the ensemble accuracy},
+  Machine Learning 51~(2) (2003) 181--207.
+\newblock \href {https://doi.org/10.1023/A:1022859003006}
+  {\path{doi:10.1023/A:1022859003006}}.
+\newline\urlprefix\url{https://doi.org/10.1023/A:1022859003006}
+
+\bibitem{bertsimas2017optimal}
+D.~Bertsimas, J.~Dunn, Optimal classification trees, Machine Learning 106~(7)
+  (2017) 1039--1082.
+\newblock \href {https://doi.org/10.1007/s10994-017-5633-9}
+  {\path{doi:10.1007/s10994-017-5633-9}}.
+
+\bibitem{verwer2019learning}
+S.~Verwer, Y.~Zhang, Learning optimal classification trees using a binary
+  linear program formulation, in: Proceedings of the AAAI Conference on
+  Artificial Intelligence, Vol.~33, 2019, pp. 1625--1632.
+\newblock \href {https://doi.org/10.1609/aaai.v33i01.33011624}
+  {\path{doi:10.1609/aaai.v33i01.33011624}}.
+
+\bibitem{hu2019optimal}
+X.~Hu, C.~Rudin, M.~Seltzer, Optimal sparse decision trees, in: Advances in
+  Neural Information Processing Systems, Vol.~32, 2019.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper/2019/hash/ac52c626afc10d4075708ac4c778ddfc-Abstract.html}
+
+\bibitem{lin2020generalized}
+J.~Lin, C.~Zhong, D.~Hu, C.~Rudin, M.~Seltzer,
+  \href{https://proceedings.mlr.press/v119/lin20g.html}{Generalized and
+  scalable optimal sparse decision trees}, in: Proceedings of the 37th
+  International Conference on Machine Learning, Vol. 119 of Proceedings of
+  Machine Learning Research, 2020, pp. 6150--6160.
+\newline\urlprefix\url{https://proceedings.mlr.press/v119/lin20g.html}
+
+\bibitem{aglin2020caching}
+G.~Aglin, S.~Nijssen, P.~Schaus,
+  \href{https://ojs.aaai.org/index.php/AAAI/article/view/5711}{Learning optimal
+  decision trees using caching branch-and-bound search}, in: Proceedings of the
+  AAAI Conference on Artificial Intelligence, Vol.~34, 2020, pp. 3146--3153.
+\newblock \href {https://doi.org/10.1609/aaai.v34i04.5711}
+  {\path{doi:10.1609/aaai.v34i04.5711}}.
+\newline\urlprefix\url{https://ojs.aaai.org/index.php/AAAI/article/view/5711}
+
+\bibitem{demirovic2022murtree}
+E.~Demirovi{\'c}, A.~Lukina, E.~Hebrard, J.~Chan, J.~Bailey, C.~Leckie,
+  K.~Ramamohanarao, P.~J. Stuckey,
+  \href{https://jmlr.org/papers/v23/20-520.html}{{MurTree}: Optimal decision
+  trees via dynamic programming and search}, Journal of Machine Learning
+  Research 23~(26) (2022) 1--47.
+\newline\urlprefix\url{https://jmlr.org/papers/v23/20-520.html}
+
+\bibitem{vanderlinden2023separable}
+J.~G.~M. van~der Linden, M.~M. de~Weerdt, E.~Demirovi{\'c},
+  \href{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1d5fce9627e15c84db572a66e029b1fc-Abstract-Conference.html}{Necessary
+  and sufficient conditions for optimal decision trees using dynamic
+  programming}, in: Advances in Neural Information Processing Systems, Vol.~36,
+  2023, pp. 9173--9212.
+\newblock \href {https://doi.org/10.52202/075280-0404}
+  {\path{doi:10.52202/075280-0404}}.
+\newline\urlprefix\url{https://proceedings.neurips.cc/paper_files/paper/2023/hash/1d5fce9627e15c84db572a66e029b1fc-Abstract-Conference.html}
+
+\bibitem{aghaei2025strong}
+S.~Aghaei, A.~G{\'o}mez, P.~Vayanos, Strong optimal classification trees,
+  Operations Research 73~(4) (2025) 2223--2241, first published online
+  31 July 2024.
+\newblock \href {https://doi.org/10.1287/opre.2021.0034}
+  {\path{doi:10.1287/opre.2021.0034}}.
+
+\bibitem{mctavish2022reference}
+H.~McTavish, C.~Zhong, R.~Achermann, I.~Karimalis, J.~Chen, C.~Rudin,
+  M.~Seltzer,
+  \href{https://ojs.aaai.org/index.php/AAAI/article/view/21194}{Fast sparse
+  decision tree optimization via reference ensembles}, in: Proceedings of the
+  AAAI Conference on Artificial Intelligence, Vol.~36, 2022, pp. 9604--9613.
+\newblock \href {https://doi.org/10.1609/aaai.v36i9.21194}
+  {\path{doi:10.1609/aaai.v36i9.21194}}.
+\newline\urlprefix\url{https://ojs.aaai.org/index.php/AAAI/article/view/21194}
+
+\bibitem{babbar2025nearoptimal}
+V.~Babbar, H.~McTavish, C.~Rudin, M.~Seltzer,
+  \href{https://proceedings.mlr.press/v267/babbar25a.html}{Near-optimal
+  decision trees in a {SPLIT} second}, in: Proceedings of the 42nd
+  International Conference on Machine Learning, Vol. 267 of Proceedings of
+  Machine Learning Research, PMLR, 2025, pp. 2114--2175.
+\newline\urlprefix\url{https://proceedings.mlr.press/v267/babbar25a.html}
+
+\bibitem{vanderlinden2026optimalgreedy}
+J.~G.~M. van~der Linden, D.~Vos, M.~M. de~Weerdt, S.~Verwer, E.~Demirovi{\'c},
+  \href{https://openreview.net/forum?id=DvDOAtskXl}{Optimal or greedy decision
+  trees? revisiting their objectives, tuning, and performance}, Transactions on
+  Machine Learning Research (2026).
+\newline\urlprefix\url{https://openreview.net/forum?id=DvDOAtskXl}
+
+\bibitem{scornet2015consistency}
+E.~Scornet, G.~Biau, J.-P. Vert,
+  \href{https://doi.org/10.1214/15-AOS1321}{Consistency of random forests}, The
+  Annals of Statistics 43~(4) (2015) 1716--1741.
+\newblock \href {https://doi.org/10.1214/15-AOS1321}
+  {\path{doi:10.1214/15-AOS1321}}.
+\newline\urlprefix\url{https://doi.org/10.1214/15-AOS1321}
+
+\bibitem{olson2017pmlb}
+R.~S. Olson, W.~La~Cava, P.~Orzechowski, R.~J. Urbanowicz, J.~H. Moore, {PMLB}:
+  a large benchmark suite for machine learning evaluation and comparison,
+  BioData Mining 10 (2017) 36.
+\newblock \href {https://doi.org/10.1186/s13040-017-0154-4}
+  {\path{doi:10.1186/s13040-017-0154-4}}.
+
+\bibitem{cawley2010selection}
+G.~C. Cawley, N.~L.~C. Talbot,
+  \href{https://jmlr.org/papers/v11/cawley10a.html}{On over-fitting in model
+  selection and subsequent selection bias in performance evaluation}, Journal
+  of Machine Learning Research 11 (2010) 2079--2107.
+\newline\urlprefix\url{https://jmlr.org/papers/v11/cawley10a.html}
+
+\bibitem{demsar2006comparisons}
+J.~Dem{\v s}ar, \href{https://jmlr.org/papers/v7/demsar06a.html}{Statistical
+  comparisons of classifiers over multiple data sets}, Journal of Machine
+  Learning Research 7 (2006) 1--30.
+\newline\urlprefix\url{https://jmlr.org/papers/v7/demsar06a.html}
+
+\bibitem{holm1979sequential}
+S.~Holm, \href{https://www.jstor.org/stable/4615733}{A simple sequentially
+  rejective multiple test procedure}, Scandinavian Journal of Statistics 6~(2)
+  (1979) 65--70.
+\newline\urlprefix\url{https://www.jstor.org/stable/4615733}
+
+\end{thebibliography}
+% END GENERATED bibliography
+\end{document}

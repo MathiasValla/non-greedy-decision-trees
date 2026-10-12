@@ -1,8 +1,18 @@
 # Revised Submission Assets
 
 These files describe the complete matched and training-selected evaluation,
-not the superseded PRL or first repeated protocol. The author's substantive
-review and approval are required before upload. No submission has been made.
+not the superseded PRL or first repeated protocol. The author selected the
+current manuscript for submission on 12 October 2026. Final letters and portal
+checks remain the author's responsibility. No submission has been made.
+
+The dated upload packet is `submission_2026-10-12/array_revision_submission.zip`.
+It includes compiled manuscript and response PDFs, editable Word highlights and
+cover letter, a clean LaTeX source ZIP, and the existing graphical abstract TIFF.
+All 16 final PDF pages and both single-page Word files were visually checked;
+the TeX builds have no unresolved references or overfull boxes. The five
+highlight lengths are 73, 76, 68, 79, and 71 characters, counting bullet and space.
+See `SUBMISSION_CHECKLIST.md` for file roles, policy/access limitations, and
+the remaining live-portal checks. The packet manifest records exact asset hashes.
 
 - `main.tex`: existing two-column manuscript, compiled in the native editor.
 - `response_to_reviewers.tex`: completed point-by-point response, including the
@@ -57,7 +67,9 @@ visualization assistance, while excluding general-purpose generative-image
 tools for graphical abstracts. This document does not certify portal-specific
 requirements or replace the author's confirmation of applicable journal rules.
 
-The native compiler confirms compilation but does not export a disk PDF.
-The author's annotated `output/pdf/revised_manuscript.pdf` is the review copy
-exported on 9 October, not the subsequent author-comment revision. Preserve
-it; read the current revision in the existing editor's compiled preview.
+The native compiler confirms compilation but does not export a disk PDF. The
+dated packet PDFs were separately exported from the same current sources using
+the existing full TeX installation and checked page by page. The author's
+annotated `output/pdf/revised_manuscript.pdf` is the review copy exported on
+9 October, not the final submission PDF. It remains unchanged; the new clean
+PDF is `submission_2026-10-12/output/pdf/revised_manuscript.pdf`.

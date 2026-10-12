@@ -1,55 +1,41 @@
+12 October 2026
+
+Dr Zaved Hazarika
+Scientific Handling Editor, Array
+
+Re: Revision of manuscript ARRAY-D-26-03529
+
 Dear Dr Hazarika,
 
-Please find the revised manuscript ARRAY-D-26-03529, previously titled
-"Sparse farther-sighted trees can improve forest accuracy-time tradeoffs" and
-now titled "A few farther-sighted trees can improve shallow forests".
+Please find the revised manuscript, previously titled "Sparse farther-sighted
+trees can improve forest accuracy-time tradeoffs" and now titled "A few
+farther-sighted trees can improve shallow forests". Thank you for the
+opportunity to revise it.
 
-The article has been substantially improved in both evidence and presentation.
-Its clearer storyline asks whether a few farther-sighted trees can improve a
-shallow forest without requiring every member to search farther. Sparse
-replacements improve mean accuracy under both feature policies studied. In
-Figure 2, a 20-member forest with 15 CART and five two-sighted members reaches
-74.06% mean accuracy, compared with 73.02% for 200 greedy members, with about
-29% less benchmark-mean member-fitting work. Training-only tuning of both
-conventional and expanded families also gives the inclusive family higher
-benchmark-mean accuracy (80.56% versus 78.99%). The revised article develops
-these positive findings more directly, reduces execution detail, and brings
-the main limitations together in Section 6.1.
+Reviewer 1's concerns have guided a substantially stronger evaluation:
+five paired stratified outer partitions on all 57 datasets; deeper and
+unrestricted tree settings; matched-depth, unpruned CART and farther-sighted
+controls; training-only tuning of both conventional and mixed-capable
+families; and paired statistical analysis with a joint eleven-contrast Holm
+adjustment. Three-sighted members are included throughout. The revision also
+corrects bootstrap-slot and timing issues, removes the ad hoc utility, and
+positions bounded split search as established prior work.
 
-Reviewer 1's methodological concerns have been addressed through five paired
-stratified outer partitions on all 57 datasets, deeper and unrestricted tree
-settings, matched-depth unpruned CART and farther-sighted controls, training-only
-selection for both conventional and mixed-capable families, and paired
-statistical analysis with one eleven-contrast Holm adjustment. Three-sighted
-members are included in the completed fixed and tuned evaluations. The study
-also corrects bootstrap-slot and timing issues, removes the ad hoc utility,
-and treats bounded split search as established prior work.
-
-The accompanying response retains the detailed numerical results, validation
-scope, and methodological safeguards. The Figure 2 example compares observed
-benchmark means, not exact equal-time fits or a validated per-dataset budget;
-its fitting work excludes preparation, prediction, and selection. The tuned
-inclusive mean gain is 1.57 percentage points [0.30, 3.28], alongside a zero
-median and a Holm-adjusted signed-rank p-value of 0.48838. Heterogeneous effects,
-benchmark sensitivities, and much higher selection and refit costs qualify the
-interpretation. The expanded family can select pure forests as well as
-mixtures, so its entire gain is not attributed to sparse mixing.
-
-Reviewer 2's attached report appears to concern a numerical-aware LogBERT
+Reviewer 2's report appears to concern a numerical-aware LogBERT
 telecommunications manuscript rather than this decision-tree submission. I
-respectfully request confirmation that the report was assigned correctly and
-would welcome any corrected feedback intended for this paper.
+respectfully ask you to verify its assignment and would welcome any corrected
+feedback intended for this paper.
 
-Following your suggestion, I would welcome your guidance on an editor-approved
-transfer, possibly to Pattern Recognition Letters, whose concise format suits
-this study. An earlier version was declined there; I would therefore seek the
-receiving editor's agreement to reconsider this substantially revised manuscript.
+As you suggested, I would welcome an appropriate editor-approved transfer,
+including possible reconsideration by Pattern Recognition Letters. An earlier
+version was declined there, so receiving-editor agreement would be necessary.
 I would also consider other suitable journals offering publication without a
 mandatory article processing charge (APC), including a subscription route,
 with the applicable terms confirmed before I consent to transfer.
 
-The sole-author list is unchanged. The revised sources, complete new results,
-figures, and reproducibility documentation accompany the revision.
+The sole-author list is unchanged. Code, complete results, and reproducibility
+documentation are available at
+https://github.com/MathiasValla/non-greedy-decision-trees.
 
 Yours sincerely,
 Mathias Valla

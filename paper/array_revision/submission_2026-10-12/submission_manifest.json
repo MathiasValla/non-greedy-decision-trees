@@ -1,0 +1,61 @@
+{
+  "manuscript_reference": "ARRAY-D-26-03529",
+  "title": "A few farther-sighted trees can improve shallow forests",
+  "date": "2026-10-12",
+  "protocol_fingerprint": "d8999e02a5ad8a1398996fd3c851f5a68fd17d697f37cd048e2258a418475d7b",
+  "datasets": 57,
+  "outer_tasks": 285,
+  "all_model_rows_total": 142785,
+  "highlight_character_counts_including_bullet": [
+    73,
+    76,
+    68,
+    79,
+    71
+  ],
+  "bibliography_entries": 32,
+  "annotated_review_pdf_preserved_sha256": "1f8ded758b6970b6348424ff0bbcf50c270f28006c99f78fb60add8b3dd85723",
+  "pdf_checks": {
+    "manuscript": {
+      "pages": 9,
+      "unresolved_references": false,
+      "overfull_boxes": [],
+      "build_directory": "/private/tmp/array_submission_47rqhkgd/manuscript"
+    },
+    "response": {
+      "pages": 7,
+      "unresolved_references": false,
+      "overfull_boxes": [],
+      "build_directory": "/private/tmp/array_submission_47rqhkgd/response"
+    }
+  },
+  "files_sha256": {
+    "README.md": "39a49eeb6e10fdd3568780fbb1cf417513fe3586880b313827b8ed4c5fb4bec0",
+    "article_highlights.docx": "9be594c658681d6eea5928b0e175bb0d2bd49f9545f32495b6ac98d3ca28e904",
+    "cover_letter.docx": "8755cad964a38e9c3a9682ca10da0e48bb3964f121b011eba0f9593ed4a29470",
+    "cover_letter.txt": "40ae6b92f866b7f9423508d4f48e37b83d771c80f86a9cf860e37390eba5ef37",
+    "graphical_abstract.tiff": "38914e62349b30ab92e934945d187d5c0c2d9c2b52077190e338edbdab4e6986",
+    "highlights.txt": "441007301d6bf7ee30eb2eeed140e381648676462f41793c8486f3787526a3a3",
+    "manuscript_source/README.txt": "025e903a814d3c9a0634d90e0c11cd522eb4308a8ac916336fbba76ce6d98e2a",
+    "manuscript_source/elsarticle-num.bst": "f04dfa2f78d0198ab8e4055b609dc0b91bdb730743cbbd549d84270f20d11394",
+    "manuscript_source/elsarticle.cls": "40af0200a8ad6777126f93bf7be6ab3046fa7c3ef1073307f0809703602e59da",
+    "manuscript_source/main.tex": "7a508dac35c956d92aaedeb09a873b56b9b2ade8675808b6e8eff89cf7ea1bad",
+    "manuscript_source.zip": "80395c1fc2e1f97dd41bdd26f5361906b10da9aba091a4cce8b13541d4bad67e",
+    "output/pdf/response_to_reviewers.pdf": "a6b4d1ec095dbcfaf91cb31ef8a98911f97623ac87afba32655785c211e00fc1",
+    "output/pdf/revised_manuscript.pdf": "2859968cd08506fb1786e4f840e574946614133ee1bb64db0628300be057afa8",
+    "response_to_reviewers.tex": "90d9397d8e55d744b028f70ca8aa23140915f4cdede14a22977a6d02ef2abca0"
+  },
+  "status": "Compiled and visually verified; final author portal checks remain",
+  "submission_made": false,
+  "visual_review": {
+    "manuscript_pdf_pages_checked": 9,
+    "response_pdf_pages_checked": 7,
+    "cover_letter_docx_pages_checked": 1,
+    "highlights_docx_pages_checked": 1,
+    "no_visible_layout_defects": true,
+    "all_three_figures_and_both_tables_unchanged": true,
+    "editable_letters_match_text_sources": true,
+    "editor_response_section_removed": true,
+    "cover_findings_paragraph_removed": true
+  }
+}

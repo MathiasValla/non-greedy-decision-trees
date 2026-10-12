@@ -97,7 +97,7 @@ Accuracy is the primary outcome; balanced accuracy, the mean recall over classes
 
 For fixed forests, fitting work is the sum of measured fitting durations of the included members. Fixed single-tree timings likewise cover fitting alone. Both exclude construction, bootstrap preparation, and prediction. For tuned models, we report the selected model's direct refit wall time, including construction and bootstrap preparation, separately from cross-validation fitting work. The latter includes the tree fits needed to evaluate the whole candidate grid, even when a cheap model is ultimately selected. Reused fits are counted once within each family's search, and each family is charged the work it would require if run on its own. Recorded workflow-stage wall times are also supplied; they exclude checkpoint input/output, startup, downloads, and idle gaps.
 
-Experiments use five concurrent, single-threaded workers on a MacBook Air with an eight-core Apple M3 processor and 16 GB memory. Numerical figures are computed from experimental results using reproducible NumPy, SciPy, pandas, and Matplotlib workflows. OpenAI Codex (OpenAI) assisted with plotting code, as disclosed below; no generative image model was used.
+Experiments use five concurrent, single-threaded workers on a MacBook Air with an eight-core Apple M3 processor and 16 GB memory. Numerical figures are computed from experimental results using reproducible NumPy, SciPy, pandas, and Matplotlib workflows. OpenAI Codex (OpenAI) assisted with benchmark, analysis, and plotting code. Historical application and model versions were not recorded; the plots are data-derived and use no generative image model.
 
 \subsection{Uncertainty and multiple comparisons}
 For each contrast, paired repetition differences are averaged within datasets. A percentile bootstrap with 20,000 resamples of the dataset means gives a pointwise, unadjusted $95\%$ interval for the mean effect. Two-sided Wilcoxon signed-rank tests compare these same dataset-level differences \cite{demsar2006comparisons}; our calculation omits zero differences. Mean-effect intervals and signed-rank tests describe different aspects of the effect distribution: its average and its location under the usual symmetry assumption.
@@ -687,7 +687,7 @@ Work(s) conducted within the Research Chair DIALog under the aegis of the Risk F
 \section*{Data and code availability}
 The datasets are publicly available from PMLB \cite{olson2017pmlb}. Code, repeat-level results, selected hyperparameters, paired analyses, figures, and manuscript sources are available at \url{https://github.com/MathiasValla/non-greedy-decision-trees}. The repository's \texttt{paper/REPRODUCING\_RESULTS.md} documents how to retrieve and reproduce every result in this article.
 \section*{Declaration of generative AI and AI-assisted technologies}
-OpenAI Codex (OpenAI) assisted with literature discovery, manuscript revision, and development of benchmark, analysis, and plotting code. As described in the Methods, figures are computed from experimental results without generative image tools. Responsibility for the submitted article rests with the author.
+OpenAI Codex (OpenAI) assisted with literature discovery, manuscript revision, and development of benchmark, analysis, and plotting code. Figures are computed from experimental results without generative image tools. Responsibility for the submitted article rests with the author.
 
 % BEGIN GENERATED bibliography
 \begin{thebibliography}{10}

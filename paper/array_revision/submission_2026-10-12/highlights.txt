@@ -1,0 +1,5 @@
+- A few farther-sighted members improve mean accuracy in shallow forests.
+- Small mixed forests can beat larger greedy forests with less fitting work.
+- The gains depend on final tree depth and the split-feature policy.
+- Fair tuning raises mean accuracy when farther-sighted candidates are allowed.
+- Selection and refit costs grow substantially with the search horizon.

@@ -6,6 +6,33 @@ mandatory APC, with publication terms confirmed before agreement. It also
 politely asks the editor to verify Reviewer 2's apparent manuscript mismatch.
 Nothing is submitted and no editor/reviewer is contacted by these scripts.
 
+## Submission Packet, 12 October 2026
+
+The author selected the current manuscript for submission after making final
+edits. Those edits are preserved; the brief Methods AI disclosure was restored
+with explicit permission, honestly recording the unavailable historical tool
+versions. The cover letter was shortened and the response dated. No scientific
+result, numerical figure, table, or experimental choice was changed.
+At the author's subsequent request, the entire scientific-handling-editor
+response section and the cover-letter paragraph starting ``The findings
+support...'' were removed. The packet contains these latest letter versions.
+
+The complete upload packet is
+`submission_2026-10-12/array_revision_submission.zip`. It contains the clean
+nine-page manuscript PDF, seven-page rebuttal PDF, separate editable highlights
+and cover letter, LaTeX source ZIP, and the existing graphical abstract TIFF.
+All final PDF and Word pages were rendered and visually checked. Both TeX
+sources also compile in the native editor, which remains on `main.tex`.
+`SUBMISSION_CHECKLIST.md` identifies the upload files and remaining portal
+checks; the packet's manifest records current source hashes. The annotated
+review PDF remains unchanged and is excluded from the packet.
+
+The export utility `paper/scripts/prepare_array_submission.py` copies current
+sources and checks the complete evidence hashes; it never regenerates the
+manuscript, starts model fits, or replaces the annotated PDF. Use a new
+destination directory when making a later export. This dated packet supersedes
+the earlier preview-only delivery instructions below, not the numerical evidence.
+
 ## Author-Annotated Revision, 10 October 2026
 
 The current title is **A few farther-sighted trees can improve shallow
@@ -28,7 +55,7 @@ in the existing native editor's PDF preview. The review reports and source
 hashes dated 9 October below certify that earlier source, not this later
 author-comment revision.
 
-**Complete numerical revision; author approval still required.** The matched
+**Complete numerical revision; final portal checks remain.** The matched
 extension including three-sighted members, equally tuned conventional and
 mixed-capable families, and complete forest-size curves finished on
 9 October 2026. It is separately versioned under `paper/array_revision_fair/`,
@@ -66,7 +93,8 @@ preceding numerical files.
 
 ## Fair-Revision Readiness Gate
 
-The manuscript is not submission-ready until all of these checks are complete:
+The following gates record the completed numerical revision and the remaining
+author/portal checks:
 
 1. **Complete, 7 October 2026:** all five fixed shards finished without an omitted
    dataset, repeat, structure, horizon, composition, or tree count. Independent
@@ -97,8 +125,9 @@ The manuscript is not submission-ready until all of these checks are complete:
    reviews and resolutions in `annotation_reference_audit_1.md`,
    `annotation_reference_audit_2.md`, and `ANNOTATION_REVISION.md`; the letters
    are reviewed in `annotation_letters_review.md`.
-6. **Author gate remains:** approve the scientific interpretation and
-   disclosures, inspect the final page layout in the compiled previews,
+6. **Portal gate remains:** the author selected the manuscript for submission
+   on 12 October. Read the final accompanying letters and disclosures, inspect
+   the portal's assembled PDF,
    confirm public release links and portal requirements, and consent to any
    submission or transfer. Publication without a mandatory APC is requested,
    not guaranteed. The historical Codex tool/model identifier is unrecorded;
